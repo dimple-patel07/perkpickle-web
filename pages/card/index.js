@@ -14,8 +14,12 @@ export default function Card() {
 	const [cardCategoryList, setCardCategoryList] = useState([]);
 
 	const [isSaved, setIsSaved] = useState(false);
+	const [isMore, setIsMore] = useState(false);
+	const [savedCards, setSavedCards] = useState([]);
 	const [selAvailableCards, setSelAvailableCards] = useState([]);
-	const [selCardCategoryList, setSelCardCategoryList] = useState([]);
+
+	const [selGroupCard, setSelGroupCard] = useState(null);
+	const [selCategoryCard, setSelCategoryCard] = useState(null);
 
 	const [suggestCards, setSuggestCards] = useState([]);
 	const [isOffersChecked, setIsOffersChecked] = useState(false);
@@ -34,13 +38,15 @@ export default function Card() {
 
 	// on group card changed
 	const onGroupCardChange = (selData) => {
-		setSelCardCategoryList(null);
+		setSelGroupCard(selData);
+		setSelCategoryCard(null);
 		setCardCategoryList(selData.categoryChildrenList);
+		setIsOffersChecked(false);
 	};
 
 	// on card category changed
 	const onCardCategoryChange = (selData) => {
-		setSelCardCategoryList([selData]);
+		setSelCategoryCard(selData);
 	};
 
 	useEffect(() => {
@@ -130,10 +136,7 @@ export default function Card() {
 	}
 	// get card offers
 	async function getCardOffers() {
-		let categoryWiseCards = [];
-		for (const selCardCategory of selCardCategoryList) {
-			categoryWiseCards = [...categoryWiseCards, ...(await spendBonusCategoryCard(selCardCategory.value))];
-		}
+		const categoryWiseCards = await spendBonusCategoryCard(selCategoryCard.value);
 		let foundCards = [];
 		let notFoundCards = [];
 		for (const cardCategoryData of categoryWiseCards) {
@@ -147,6 +150,8 @@ export default function Card() {
 				}
 			}
 		}
+		// sorting on descending to order to show highest discount on top in the list
+		notFoundCards = notFoundCards.sort((a, b) => (a.earnMultiplier < b.earnMultiplier ? 1 : -1));
 		setSuggestCards(notFoundCards);
 		setMatchCards(foundCards);
 		setIsOffersChecked(true);
@@ -172,19 +177,32 @@ export default function Card() {
 						options: options,
 					});
 				}
-				// const options = headerOptions({ cardKey: cardKey });
-				// const cardDetail = await cardDetailByCardKey(options);
-				// const cardImage = await getCardImage(options);
-				// cardDataList.push({ ...cardDetail[0], ...cardImage[0] });
 				setAllCards(cardGrouping);
 			});
 		});
+	}
+	// save cards
+	async function saveCards() {
+		setIsSaved(true);
+		setSelCategoryCard(null);
+		setSelGroupCard(null);
+		setIsOffersChecked(false);
+		let cardDataList = [];
+		for (const selCard of selAvailableCards) {
+			const options = headerOptions({ cardKey: selCard.value });
+			const cardDetail = await cardDetailByCardKey(options);
+			if (cardDetail?.length > 0 && cardDetail[0].baseSpendAmount && cardDetail[0].baseSpendEarnCurrency) {
+				const cardImage = await getCardImage(options);
+				cardDataList.push({ ...cardDetail[0], ...cardImage[0] });
+			}
+		}
+		setSavedCards(cardDataList);
 	}
 	return (
 		<>
 			{/* card selection */}
 			<div className="row p-5">
-				<h3>{selAvailableCards.length > 0 ? "Selected" : "Select"} Cards</h3>
+				<h3>{selAvailableCards.length > 0 ? "Selected" : "Select"} cards</h3>
 				{/* cards */}
 				{allCards.length > 0 && (
 					<div className="col-4">
@@ -192,7 +210,7 @@ export default function Card() {
 					</div>
 				)}
 				<div className="col-2 mt-1">
-					<input type="button" value="Save Cards" disabled={(selAvailableCards.length === 0 || isSaved) && !isOffersChecked} onClick={() => setIsSaved(true)} />
+					<input type="button" value="Save Cards" disabled={(selAvailableCards.length === 0 || isSaved) && !isOffersChecked} onClick={saveCards} />
 				</div>
 			</div>
 			{/* offers */}
@@ -203,13 +221,13 @@ export default function Card() {
 						{/* group */}
 						{groupCardList.length > 0 && (
 							<div className="col-2">
-								<ReactSelect name="groupList" className="basic" classNamePrefix="select" options={groupCardList} onChange={onGroupCardChange} placeholder="Select Group" />
+								<ReactSelect name="groupList" className="basic" classNamePrefix="select" options={groupCardList} onChange={onGroupCardChange} placeholder="Select Group" value={selGroupCard} />
 							</div>
 						)}
 						{/* category */}
 						{cardCategoryList.length > 0 && (
 							<div className="col-4">
-								<ReactSelect name="categoryList" className="basic" classNamePrefix="select" options={cardCategoryList} onChange={onCardCategoryChange} placeholder="Select Category" value={selCardCategoryList} />
+								<ReactSelect name="categoryList" className="basic" classNamePrefix="select" options={cardCategoryList} onChange={onCardCategoryChange} placeholder="Select Category" value={selCategoryCard} />
 							</div>
 						)}
 						<div className="col-2 mt-1">
@@ -217,31 +235,54 @@ export default function Card() {
 						</div>
 					</div>
 					{/* match cards */}
-					{isOffersChecked && (
+					{isOffersChecked && selCategoryCard && (
 						<>
 							{/* offer available */}
+
 							<div className="row p-5">
-								<h3>{matchCards.length > 0 ? "Available offers" : "No offer available"}</h3>
-								<table className="m-2">
-									<tbody>
-										{matchCards.map((card, index) => {
-											return (
-												<tr key={index}>
-													<th>{card.cardName}</th>
-													<td>{card.spendBonusDesc}</td>
-												</tr>
-											);
-										})}
-									</tbody>
-								</table>
+								{matchCards.length > 0 || savedCards.length > 0 ? (
+									<>
+										<h3>Available offers</h3>
+										<table className="m-2">
+											{matchCards.length > 0 ? (
+												<tbody>
+													{matchCards.map((card, index) => {
+														return (
+															<tr key={index}>
+																<th>{card.cardName}</th>
+																<td>{card.spendBonusDesc}</td>
+															</tr>
+														);
+													})}
+												</tbody>
+											) : (
+												<tbody>
+													{savedCards.map((card, index) => {
+														return (
+															<tr key={index}>
+																<th>{card.cardName}</th>
+																<td>
+																	{card.baseSpendAmount}-{card.baseSpendEarnCurrency}
+																</td>
+															</tr>
+														);
+													})}
+												</tbody>
+											)}
+										</table>
+									</>
+								) : (
+									<h3>No offer available</h3>
+								)}
 							</div>
+
 							{/* offer suggestion */}
 							{suggestCards.length > 0 && (
 								<div className="row p-5">
-									<h3>Offer Suggestion</h3>
+									<h3>Offer suggestion</h3>
 									<table className="m-2">
 										<tbody>
-											{suggestCards.map((card, index) => {
+											{suggestCards.slice(0, isMore ? suggestCards.length : selectionLimit).map((card, index) => {
 												return (
 													<tr key={index}>
 														<th>{card.cardName}</th>
@@ -251,6 +292,11 @@ export default function Card() {
 											})}
 										</tbody>
 									</table>
+									{suggestCards.length > 10 && (
+										<a href="javascript:void(0)" onClick={() => setIsMore(!isMore)}>
+											{isMore ? "less" : "more"}
+										</a>
+									)}
 								</div>
 							)}
 						</>
