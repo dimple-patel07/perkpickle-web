@@ -1,0 +1,76 @@
+import React, { useState } from "react";
+import { images } from "../../Images";
+import Image from "next/image";
+import Dialog from "../Dialog";
+import { FaArrowLeft } from "react-icons/fa6";
+import ResetPasswordOtpModal from "./ResetPasswordOtpModal";
+
+const ForgotPasswordOtpModal = ({ isOpen, onClose }) => {
+  const [resetPasswordOtpModalShow, setResetPasswordOtpModalShow] =
+    useState(false);
+  return (
+    <>
+      <Dialog open={isOpen} onClose={onClose}>
+        <div className="container-fluid p-0">
+          <div className="row align-items-center">
+            <div className="col-12 col-sm-12 col-md-5 col-lg-5">
+              <div className="login-left">
+                <h2>FORGOT PASSWORD</h2>
+                <p>
+                  Enter otp to Verify your <br /> email address
+                </p>
+                <Image src={images.LoginImg} className="img-fluid" />
+              </div>
+            </div>
+            <div className="col-12 col-sm-12 col-md-7 col-lg-7">
+              <div className="login-right">
+                <div className="back-arrow text-start">
+                  <FaArrowLeft />
+                </div>
+                <form>
+                  <div class="mb-3">
+                    <input
+                      type="email"
+                      class="form-control"
+                      id="exampleInputEmail1"
+                      aria-describedby="emailHelp"
+                      placeholder="Email Address"
+                      autoComplete="off"
+                    />
+                  </div>
+                  <div class="otp-field">
+                    <input type="text" maxlength="1" />
+                    <input type="text" maxlength="1" />
+                    <input class="space" type="text" maxlength="1" />
+                    <input type="text" maxlength="1" />
+                    <input type="text" maxlength="1" />
+                    <input type="text" maxlength="1" />
+                  </div>
+                  <div id="emailHelp" class="resend">
+                    Resend OTP
+                  </div>
+                  <button
+                    type="button"
+                    onClick={() => {
+                      onClose();
+                      setResetPasswordOtpModalShow(true);
+                    }}
+                    className="btn"
+                  >
+                    Reset Password
+                  </button>
+                </form>
+              </div>
+            </div>
+          </div>
+        </div>
+      </Dialog>
+      <ResetPasswordOtpModal
+        isOpen={resetPasswordOtpModalShow}
+        onClose={() => setResetPasswordOtpModalShow(false)}
+      />
+    </>
+  );
+};
+
+export default ForgotPasswordOtpModal;
