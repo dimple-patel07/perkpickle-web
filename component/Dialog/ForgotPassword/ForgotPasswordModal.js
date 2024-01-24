@@ -4,13 +4,19 @@ import Image from "next/image";
 import Dialog from "../Dialog";
 import { FaArrowLeft } from "react-icons/fa6";
 import ForgotPasswordOtpModal from "./ForgotPasswordOtpModal";
+import { useSelector } from "react-redux";
+import { handleCloseAllModal, handleOpenForgotPasswordOtpModal, modalSelector } from "../../../redux/modal/modalSlice";
+import {useAppDispatch} from "../../../redux/store"
 
-const ForgotPasswordModal = ({ isOpen, onClose }) => {
-  const [forgotPasswordOtpModalShow, setforgotPasswordOtpModalShow] =
-    useState(false);
+const ForgotPasswordModal = () => {
+  const modalState = useSelector(modalSelector)
+  const forgotPasswordModalShow = modalState?.forgotPassword
+  const dispatch = useAppDispatch()
+  
+  const closeModal = () => dispatch(handleCloseAllModal())
   return (
     <>
-      <Dialog open={isOpen} onClose={onClose}>
+      <Dialog isOpen={forgotPasswordModalShow} onClose={closeModal}>
         <div className="container-fluid p-0">
           <div className="row align-items-center">
             <div className="col-12 col-sm-12 col-md-5 col-lg-5 height">
@@ -32,7 +38,7 @@ const ForgotPasswordModal = ({ isOpen, onClose }) => {
                     <input
                       type="email"
                       class="form-control"
-                      id="exampleInputEmail1"
+                      id="FpInputEmail"
                       aria-describedby="emailHelp"
                       placeholder="Email Address"
                       autoComplete="off"
@@ -41,8 +47,8 @@ const ForgotPasswordModal = ({ isOpen, onClose }) => {
                   <button
                     type="button"
                     onClick={() => {
-                      onClose();
-                      setforgotPasswordOtpModalShow(true);
+                      closeModal()
+                     dispatch(handleOpenForgotPasswordOtpModal());
                     }}
                     className="btn"
                   >
@@ -54,10 +60,7 @@ const ForgotPasswordModal = ({ isOpen, onClose }) => {
           </div>
         </div>
       </Dialog>
-      <ForgotPasswordOtpModal
-        isOpen={forgotPasswordOtpModalShow}
-        onClose={() => setforgotPasswordOtpModalShow(false)}
-      />
+      <ForgotPasswordOtpModal/>
     </>
   );
 };

@@ -3,9 +3,13 @@ import Dialog from "../Dialog";
 import { images } from "../../Images";
 import Image from "next/image";
 import SignUpFormModal from "./SignUpFormModal";
+import { handleCloseAllModal, handleOpenSignUpModal, modalSelector } from "../../../redux/modal/modalSlice";
+import { useAppDispatch } from "../../../redux/store";
+import { useSelector } from "react-redux";
 
 const SignUpOtpModal = ({ isOpen, onClose }) => {
-  const [signUpFormModalShow, setSignUpFormModalShow] = useState(false);
+  const ModalState = useSelector(modalSelector)
+  const dispatch = useAppDispatch()
   return (
     <>
       <Dialog open={isOpen} onClose={onClose}>
@@ -27,7 +31,7 @@ const SignUpOtpModal = ({ isOpen, onClose }) => {
                     <input
                       type="email"
                       class="form-control"
-                      id="exampleInputEmail1"
+                      id="signUpOtpInputEmail"
                       aria-describedby="emailHelp"
                       placeholder="Email Address"
                       autoComplete="off"
@@ -48,7 +52,7 @@ const SignUpOtpModal = ({ isOpen, onClose }) => {
                     type="button"
                     onClick={() => {
                       onClose();
-                      setSignUpFormModalShow(true);
+                      dispatch(handleOpenSignUpModal());
                     }}
                     className="btn"
                   >
@@ -65,10 +69,7 @@ const SignUpOtpModal = ({ isOpen, onClose }) => {
           </div>
         </div>
       </Dialog>
-      <SignUpFormModal
-        isOpen={signUpFormModalShow}
-        onClose={() => setSignUpFormModalShow(false)}
-      />
+      <SignUpFormModal />
     </>
   );
 };

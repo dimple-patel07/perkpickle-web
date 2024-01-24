@@ -5,17 +5,7 @@ import { FaTrash } from "react-icons/fa";
 import { FaPlus } from "react-icons/fa6";
 import Select from "react-select";  
 import { IoSearch } from "react-icons/io5";
-const Savecard = () => {
-
-  const colourOptions = [
-    { value: 'ABC', label: 'ABC' },
-    { value: 'Fargo Active Cash', label: 'Fargo Active Cash' },
-    { value: 'ReFreedom Unlimitedd', label: 'Freedom Unlimited' },
-    { value: 'Capital One ', label: 'Capital One ' },
-    { value: 'Chase Sapphire', label: 'Chase Sapphire' },
-    { value: 'Forest', label: 'Forest' },
-    { value: 'YelloDiscover it® Balancew', label: 'Discover it® Balance' },
-  ];
+const Savecard = ({cardData}) => { 
 
   return (
     <>
@@ -107,7 +97,7 @@ const Savecard = () => {
                 <Select
                   isMulti
                   name="colors"
-                  options={colourOptions}
+                  options={cardData}
                   className="basic-multi-select"
                   classNamePrefix="select"
                   placeholder={<><IoSearch />&nbsp; Search Card Here</>}

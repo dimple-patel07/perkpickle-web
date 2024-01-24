@@ -3,12 +3,20 @@ import Dialog from "../Dialog";
 import Image from "next/image";
 import { images } from "../../Images";
 import ChooseCardModal from "./ChooseCardModal";
+import { useSelector } from "react-redux";
+import { modalSelector } from "../../../redux/modal/modalSlice";
+import { useAppDispatch } from "../../../redux/store";
 
-const SignUpFormModal = ({ isOpen, onClose }) => {
+const SignUpFormModal = () => {
   const [chooseCardModalShow, setChooseCardModalShow] = useState(false);
+  const ModalState = useSelector(modalSelector)
+  const signUpFormModalShow = ModalState?.SignUpForm
+  const dispatch = useAppDispatch()
+  
+  const closeModal = () => dispatch(handleCloseAllModal())
   return (
     <>
-      <Dialog open={isOpen} onClose={onClose}>
+      <Dialog open={signUpFormModalShow} onClose={closeModal}>
         <div className="container-fluid p-0">
           <div className="row align-items-center">
             <div className="col-12 col-sm-12 col-md-6 col-lg-5 height">
@@ -74,7 +82,7 @@ const SignUpFormModal = ({ isOpen, onClose }) => {
                       <button
                         type="button"
                         onClick={() => {
-                          onClose();
+                          closeModal();
                           setChooseCardModalShow(true);
                         }}
                         className="btn order-1 mt-3 mb-0"

@@ -3,9 +3,14 @@ import Dialog from "../Dialog";
 import { images } from "../../Images";
 import Image from "next/image";
 import SignUpOtpModal from "./SignUpOtpModal";
+import { handleCloseAllModal, handleOpenLoginModal, handleOpenSignUpOtpModal, modalSelector } from "../../../redux/modal/modalSlice";
+import { useAppDispatch } from "../../../redux/store";
+import { useSelector } from "react-redux";
 
 const SignUpModal = ({ isOpen, onClose }) => {
-  const [signUpOtpModalShow, setSignUpOtpModalShow] = useState(false);
+  const ModalState = useSelector(modalSelector)
+  const signUpOtpModalShow = ModalState?.signUpOtp
+  const dispatch = useAppDispatch()
   return (
     <>
       <Dialog open={isOpen} onClose={onClose}>
@@ -27,16 +32,16 @@ const SignUpModal = ({ isOpen, onClose }) => {
                     <input
                       type="email"
                       class="form-control"
-                      id="exampleInputEmail1"
+                      id="signupInputEmail"
                       aria-describedby="emailHelp"
                       placeholder="Email Address"
                       autoComplete="off"
                     />
                   </div>
-                  <button type="button" onClick={() => { onClose(); setSignUpOtpModalShow(true);}} className="btn cls-btn" > Send OTP </button>
+                  <button type="button" onClick={() => { onClose(); dispatch(handleOpenSignUpOtpModal())}} className="btn cls-btn" >Send OTP</button>
                   <div className="account">
                     <p>
-                      Already have an account? <button type="button" className="btn signup">Signin</button>
+                      Already have an account?<button type="button" className="btn signup" onClick={() => {onClose();  dispatch(handleOpenLoginModal()) } }>Signin</button>
                     </p>
                   </div>
                 </form>
@@ -47,7 +52,7 @@ const SignUpModal = ({ isOpen, onClose }) => {
       </Dialog>
       <SignUpOtpModal
         isOpen={signUpOtpModalShow}
-        onClose={() => setSignUpOtpModalShow(false)}
+        onClose={() => dispatch(handleCloseAllModal())}
       />
     </>
   );

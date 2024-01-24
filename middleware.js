@@ -3,12 +3,10 @@ import { NextResponse } from "next/server";
 export async function middleware(request) {
   const path = request.nextUrl.pathname;
   // const token = request.cookies.get('user')
-  const token = false;
-
+  const token = process.env.SET_LOGIN;
   const AppNavigators = ["/"];
 
   const AuthNavigators = ["/login"];
-  console.log("-----------------",path);
   if (token) {
     if (AppNavigators.includes(path) && path !== "/") {
       return NextResponse.redirect(new URL(path, request.url));

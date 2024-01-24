@@ -3,7 +3,7 @@ import { images } from '../Images'
 import Image from 'next/image'
 
 const BannerSection = () => {
-  const token = false
+  const token = process.env.SET_LOGIN
   return (
 <>
    <section className='banner-section'>

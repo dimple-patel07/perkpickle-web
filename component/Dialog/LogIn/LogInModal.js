@@ -4,13 +4,19 @@ import { images } from "../../Images";
 import Image from "next/image";
 import SignUpModal from "../SignUp/SignUpModal";
 import ForgotPasswordModal from "../ForgotPassword/ForgotPasswordModal";
+import { useSelector } from "react-redux";
+import { handleCloseAllModal, handleOpenForgotPasswordModal, handleOpenSignUpModal, modalSelector } from "../../../redux/modal/modalSlice";
+import { useAppDispatch } from "../../../redux/store";
 
-const LoginModal = ({ isOpen, onClose }) => {
-  const [signUpModalShow, setSignUpModalShow] = useState(false);
-  const [forgotPasswordModalShow, setForgotPasswordModalShow] = useState(false);
+const LoginModal = () => {
+  const ModalState = useSelector(modalSelector)
+  const signUpModalShow = ModalState?.SignUp
+  const loginModal = ModalState?.login
+  const dispatch = useAppDispatch()
+  const closeModal = () => dispatch(handleCloseAllModal())
   return (
     <>
-      <Dialog open={isOpen} onClose={onClose}>
+      <Dialog open={loginModal} onClose={closeModal}>
         <div className="container-fluid ps-0 pe-0 pe-sm-0">
           <div className="row align-items-center">
             <div className="col-12 col-sm-12 col-md-6 col-lg-5">
@@ -29,7 +35,7 @@ const LoginModal = ({ isOpen, onClose }) => {
                     <input
                       type="email"
                       class="form-control"
-                      id="exampleInputEmail1"
+                      id="loginInputEmail1"
                       aria-describedby="emailHelp"
                       placeholder="Email Address"
                       autoComplete="off"
@@ -38,7 +44,7 @@ const LoginModal = ({ isOpen, onClose }) => {
                   <div class="mb-3">
                     <input type="password" class="form-control" id="exampleInputPassword1" placeholder="Password" autoComplete="off"/>
                   </div>
-                  <button type="button" onClick={() => { onClose(); setForgotPasswordModalShow(true);}} id="emailHelp" class="forgot-password">
+                  <button type="button" onClick={() => { closeModal(); dispatch(handleOpenForgotPasswordModal())}} id="emailHelp" class="forgot-password">
                     Forgot Password?
                   </button>
                   <button type="button" className="cls-btn btn">
@@ -47,7 +53,7 @@ const LoginModal = ({ isOpen, onClose }) => {
                   <div className="account">
                     <p>Don’t have an account? </p>
 
-                    <button className="signup" type="button" onClick={() => { onClose(); setSignUpModalShow(true); }}> Sign Up </button>
+                    <button className="signup" type="button" onClick={() => { closeModal(); dispatch(handleOpenSignUpModal()); }}> Sign Up </button>
                   </div>
                 </form>
               </div>
@@ -57,12 +63,9 @@ const LoginModal = ({ isOpen, onClose }) => {
       </Dialog>
       <SignUpModal
         isOpen={signUpModalShow}
-        onClose={() => setSignUpModalShow(false)}
+        onClose={() => dispatch(handleCloseAllModal())}
       />
-      <ForgotPasswordModal
-        isOpen={forgotPasswordModalShow}
-        onClose={() => setForgotPasswordModalShow(false)}
-      />
+      <ForgotPasswordModal/>
     </>
   );
 };

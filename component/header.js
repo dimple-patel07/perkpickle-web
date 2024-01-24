@@ -9,11 +9,15 @@ import Link from "next/link";
 import ModalPopup from "./ModalPopup";
 import LoginModal from "./Dialog/LogIn/LogInModal";
 import SignUpModal from "./Dialog/SignUp/SignUpModal";
+import { useSelector } from "react-redux";
+import { handleCloseAllModal, handleCloseLoginModal, handleOpenLoginModal, handleOpenSignUpModal, modalSelector } from "../redux/modal/modalSlice";
+import { useAppDispatch } from "../redux/store";
 
 const Header = () => {
-  const token = false;
-  const [modalShow, setModalShow] = useState(false);
-  const [signInModalShow, setSignInModalShow] = useState(false);
+  const token = process.env.SET_LOGIN;
+  const ModalState = useSelector(modalSelector)
+  const signUpModal = ModalState?.SignUp
+  const dispatch = useAppDispatch()
   return (
     <>
       <header className="shadow">
@@ -54,11 +58,11 @@ const Header = () => {
               {!token && (
                 <>
                   <div className="header-btn">
-                    <button onClick={() => setModalShow(true)} className="btn">
+                    <button onClick={() => dispatch(handleOpenLoginModal())} className="btn">
                       Login
                     </button>
                     <button
-                      onClick={() => setSignInModalShow(true)}
+                      onClick={() => dispatch(handleOpenSignUpModal())}
                       className="btn"
                     >
                       Sign Up
@@ -67,13 +71,10 @@ const Header = () => {
                 </>
               )}
               {/* <ModalPopup show={modalShow} onHide={() => setModalShow(false)} /> */}
-              <LoginModal
-                isOpen={modalShow}
-                onClose={() => setModalShow(false)}
-              />
+              <LoginModal />
               <SignUpModal
-                isOpen={signInModalShow}
-                onClose={() => setSignInModalShow(false)}
+                isOpen={signUpModal}
+                onClose={() => dispatch(handleCloseAllModal())}
               />
             </Navbar.Collapse>
           </Container>

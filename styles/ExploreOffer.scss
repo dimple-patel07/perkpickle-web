@@ -57,6 +57,13 @@
     //         }
     //     }
     // }
+    .select__control.css-13cymwt-control{
+        background-color: transparent;
+        border: none;
+    }
+    .css-t3ipsp-control{
+        background-color:transparent;
+    }
 
     .explore-offer-dropdown{
         padding: 30px;
@@ -69,6 +76,14 @@
             background: rgba(33, 27, 54, 0.1) !important;
             border: none;
             border-radius: 8px;
+            padding-right: 0;
+            .select__control{
+                height: 50px;
+                .css-t3ipsp-control{
+                    box-shadow: none !important;
+                    border: none !important;
+                }
+            }
         }
         button{
             background-color: $bg-primary !important;
