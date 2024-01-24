@@ -1,80 +1,85 @@
-import Head from "next/head";
-import styles from "../styles/Home.module.css";
+import { Inter } from "next/font/google";
+import BannerSection from "../component/LandingPage/BannerSection";
+import Savecard from "../component/LandingPage/Savecard";
+import ExploreOffer from "../component/LandingPage/ExploreOffer";
+import BestOffer from "../component/LandingPage/BestOffer";
+import BannerBottom from "../component/LandingPage/BannerBottom";
+import AvailableOffer from "../component/LandingPage/AvailableOffer";
+import { useEffect, useState } from "react";
+import { getData } from "../services/apiCall";
+import { config } from "../utils/config";
+import axios from "axios";
+
 export default function Home() {
-	return (
-		<div className={styles.container}>
-			<Head>
-				<title>Perk Pickle</title>
-				<link rel="icon" href="/favicon.ico" />
-			</Head>
+  const [cardData, setcardData] = useState();
+  const [spendBonusCategoryList, setspendBonusCategoryList] = useState();
 
-			<main>
-				<h1 className={styles.title}>Welcome to Perk Pickle</h1>
 
-				<p className={styles.description}>Explore your offers</p>
+  const getCards = async () => {
+    const data = await axios.get(`${config.apiURL}/getAllCards`);
+    const cardList = data?.data;
+    const cardIssuerList = Array.from(
+      new Set(cardList.map((card) => card.cardIssuer))
+    );
 
-				<div className={styles.grid}>
-					<a href="https://rewardsccapi.blob.core.windows.net/ccr1212/1229172325.png" className={styles.card}>
-						<h3>SAFE Cash Rewards Visa Signature</h3>
-						<p>SAFE Cash Rewards Visa Signature®</p>
-					</a>
-				</div>
-			</main>
+    const cardGrouping = cardIssuerList.reduce((acc, cardIssuer) => {
+      const associatedCards = cardList.filter(
+        (card) => card.cardIssuer === cardIssuer
+      );
+      const options = associatedCards.map((card) => ({
+        label: card.cardName,
+        value: card.cardKey,
+      }));
 
-			<footer>
-				{/* add perkpickle logo */}
-				<a href="https://rewardsccapi.blob.core.windows.net/ccr1212/1229172325.png" target="_blank" rel="noopener noreferrer">
-					Powered by <img src="/perkpickel.svg" alt="Perk Pickel" className={styles.logo} />
-				</a>
-			</footer>
+      acc.push({
+        label: cardIssuer,
+        value: cardIssuer,
+        options: options,
+      });
 
-			<style jsx>{`
-				main {
-					padding: 5rem 0;
-					flex: 1;
-					display: flex;
-					flex-direction: column;
-					justify-content: center;
-					align-items: center;
-				}
-				footer {
-					width: 100%;
-					height: 100px;
-					border-top: 1px solid #eaeaea;
-					display: flex;
-					justify-content: center;
-					align-items: center;
-				}
-				footer img {
-					margin-left: 0.5rem;
-				}
-				footer a {
-					display: flex;
-					justify-content: center;
-					align-items: center;
-					text-decoration: none;
-					color: inherit;
-				}
-				code {
-					background: #fafafa;
-					border-radius: 5px;
-					padding: 0.75rem;
-					font-size: 1.1rem;
-					font-family: Menlo, Monaco, Lucida Console, Liberation Mono, DejaVu Sans Mono, Bitstream Vera Sans Mono, Courier New, monospace;
-				}
-			`}</style>
+      return acc;
+    }, []);
+    setcardData(cardGrouping)
+  };
 
-			<style jsx global>{`
-				html,
-				body {
-					padding: 0;
-					margin: 0;
-					font-family: -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen, Ubuntu, Cantarell, Fira Sans, Droid Sans, Helvetica Neue, sans-serif;
-				}
-				* {
-					box-sizing: border-box;
-				}
-			`}</style>
-		</div>
-	);
+  const getSpendBonusCategoryList = async () => {
+    const data = await axios.get(`${config.apiURL}/spendBonusCategoryList`);
+    const categoryGroupList = data?.data;
+    const result = categoryGroupList
+  .map(({ spendBonusCategoryGroup, spendBonusSubcategoryGroup }) => {
+    const groupChildrenList = spendBonusSubcategoryGroup
+      .filter(subGroupData => subGroupData.spendBonusCategory?.length > 0)
+      .map(({ spendBonusSubcategoryGroup, spendBonusCategory }) => ({
+        label: spendBonusSubcategoryGroup,
+        value: spendBonusSubcategoryGroup,
+        categoryChildrenList: spendBonusCategory.map(categoryData => ({
+          label: categoryData.spendBonusCategoryName,
+          value: categoryData.spendBonusCategoryId,
+        })),
+      }));
+
+    return groupChildrenList.length > 0 && {
+      label: spendBonusCategoryGroup,
+      value: spendBonusCategoryGroup,
+      options: groupChildrenList,
+    };
+  })
+  .filter(Boolean);
+  setspendBonusCategoryList(result)
+  };
+
+  useEffect(() => {
+    getCards();
+    getSpendBonusCategoryList()
+  }, []);
+  return (
+    <>
+      <BannerSection />
+      <BannerBottom />
+      <Savecard cardData={cardData}/>
+      <ExploreOffer spendBonusCategoryList={spendBonusCategoryList}/>
+      <AvailableOffer />
+      <BestOffer />
+    </>
+  );
 }

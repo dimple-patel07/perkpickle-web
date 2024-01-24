@@ -1,0 +1,147 @@
+@import "../styles/variable/variable.scss";
+
+.savecard-section {
+    
+    .savecard-inn {
+        padding: 30px;
+        background: $white;
+        border-radius: 15px;
+        box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
+        // .card-in{
+        //     cursor: pointer;
+        //     .remove-icon{
+        //         position: absolute;
+        //         top: 50%;
+        //         display: flex;
+        //         justify-content: center;
+        //         left: 50%;
+        //         right: 0;
+        //         align-items: center;
+        //         transform: translate(-50%, -50%);
+        //         color: #D77050;
+        //         width: 55px;
+        //         height: 55px;
+        //         background: $white;
+        //         border-radius: 50%;
+        //         font-size: 30px;
+        //         opacity: 0;
+        //         visibility: hidden;
+        //         transition: all .2s ease-in-out;
+        //     }
+        //     &:hover{
+        //         .remove-icon{
+        //             opacity: 1;
+        //             visibility: visible;
+        //         }
+        //     }
+        // }
+        // .add-card-inn{
+        //     display: flex;
+        //     justify-content: center;
+        //     align-items: center;
+        // }
+        // p{
+        //     margin: 0;
+        // }
+        // .addcard-box{
+        //     border: 2px dashed $bg-primary;
+        //     padding: 10px 20px;
+        //     width: 150px;
+        //     svg{
+        //         fill: $bg-primary;
+        //         font-size: 50px;
+        //     }
+        //     p{
+        //         font-size: 17px;
+        //         color: $bg-primary;
+        //         font-weight: 500;
+        //     }
+        // }
+        button {
+            background-color: $bg-primary;
+            width: 100%;
+            height: 60px;
+            color: $white;
+        }
+    }
+    .select__control.css-13cymwt-control {
+        height: 60px;
+        background: rgba(33, 27, 54, 0.1) !important;
+        border: none;
+        border-radius: 8px;
+    }
+    .select__value-container.select__value-container--is-multi.select__value-container--has-value.css-3w2yfm-ValueContainer {
+        height: 50px;
+    }
+    .css-1jqq78o-placeholder {
+        font-size: 17px;
+        svg{
+            font-size: 20px;
+        }
+    }
+    .save-card-show{
+        padding-top: 25px;
+        .best-offer-main {
+            border: 1px solid #55a360;
+            background-color:$white;
+            border-radius: 30px;
+        }
+         .best-card-box {
+            padding: 5px;
+            display: flex;
+            align-items: center;
+        }
+        .card-box{
+            background-color: transparent;
+        }
+         .card-content {
+            padding-left: 12px;
+        }
+         .card-content h4 {
+            font-size: 18px;
+            font-weight: 500;
+            margin: 0;
+        }
+        .card-box img{
+            width: 50px;
+            height: 50px;
+        }
+        .card-content ul li span {
+            width: 150px;
+            display: inline-block;
+            color: rgba(9, 31, 44, 0.5);
+            font-size: 15px;
+            font-weight: 500;
+        }
+    }
+}
+
+
+@media (max-width: 991px) {
+    .savecard-section {
+        .savecard-inn {
+            .addcard-box {
+                svg {
+                    font-size: 35px;
+                }
+            }
+            button{
+                width: 50%;
+                margin-top: 15px;
+            }
+        }
+        .save-card-show{
+            .card-content{
+                h4{
+                    font-size: 15px;
+                }
+            }
+            .card-box{
+                img{
+                    width: 40px;
+                    height: 40px;
+                }
+            }
+        }
+    }
+}

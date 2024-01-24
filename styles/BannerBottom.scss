@@ -1,0 +1,62 @@
+@import "../styles/variable/variable.scss";
+// Banner-bottom Start
+.banner-bottom {
+    background-color: $bg-secondary;
+    padding: 60px 0;
+    position: relative;
+    .banner-bottom-text {
+        color: $white;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        h2 {
+            font-size: 40px;
+            font-weight: 500;
+        }
+    }
+    button {
+        width: 210px;
+        height: 65px;
+        background-color: #55a360 !important;
+        color: $white;
+        font-size: 26px;
+    }
+    &::after {
+        content: "";
+        position: absolute;
+        top: -80px;
+        width: 0;
+        height: 0;
+        right: 300px;
+        border: 40px solid $bg-secondary;
+        border-right-color: transparent;
+        border-top-color: transparent;
+        border-left-color: transparent;
+    }
+}
+@media (max-width:991px) {
+    .banner-bottom{
+        .banner-bottom-text {
+            flex-direction: column;
+            text-align: center;
+            h2 {
+                font-size: 30px;
+            }
+            button {
+                width: 180px;
+                height: 50px;
+                font-size: 22px;
+                margin-top: 10px;
+            }
+        }
+        
+    }
+    .banner-bottom{
+        &::after {
+        left: 50%;
+        right: auto;
+        transform: translate(-50%, 0%);
+        top: -78px;
+    }
+    }
+}
