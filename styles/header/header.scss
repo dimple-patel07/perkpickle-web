@@ -1,0 +1,34 @@
+@import "../variable/variable.scss";
+
+
+header{
+    background-color: $white;
+    position: fixed;
+    top: 0;
+    width: 100%;
+    z-index: 999;
+    .profile {
+        border: 6px solid green;
+        border-radius: 50%;
+        img{
+            width: 100%;
+        }
+    }
+    .dropdown-toggle.nav-link {
+        color: $bg-primary !important;
+        font-size: 21px;
+        font-weight: 600;
+    }
+    .header-btn{
+        display: flex;
+        gap: 20px;
+        button{
+            background-color: $bg-primary !important;
+            width: 98px;
+            height: 48px;
+            color: $white !important;
+            font-size: 15px;
+        }
+        
+    }
+}

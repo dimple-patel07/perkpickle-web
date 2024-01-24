@@ -33,19 +33,10 @@ const SignUpModal = ({ isOpen, onClose }) => {
                       autoComplete="off"
                     />
                   </div>
-                  <button
-                    type="button"
-                    onClick={() => {
-                      onClose();
-                      setSignUpOtpModalShow(true);
-                    }}
-                    className="btn"
-                  >
-                    Send OTP
-                  </button>
+                  <button type="button" onClick={() => { onClose(); setSignUpOtpModalShow(true);}} className="btn cls-btn" > Send OTP </button>
                   <div className="account">
                     <p>
-                      Already have an account? <span>Signin</span>
+                      Already have an account? <button type="button" className="btn signup">Signin</button>
                     </p>
                   </div>
                 </form>

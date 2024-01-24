@@ -8,7 +8,7 @@ const poppins = Poppins({ subsets: ["latin"], weight: ["700", "400", "500"] });
 
 export default function App({ Component, pageProps }) {
   // const token = request.cookies.get('user')
-  const token = true;
+  const token = false;
   return (
     <div className={poppins.className}>
       <Header />

@@ -1,0 +1,284 @@
+@import "../styles/variable/variable.scss";
+
+.login-modal {
+    .modal-dialog {
+        max-width: 1200px !important;
+    }
+    .modal-content {
+        border-radius: 50px;
+    }
+
+    .modal-header {
+        border: none;
+        padding: 0;
+        button {
+            position: absolute;
+            right: 0;
+            top: -12px;
+            background-color: $white;
+            border-radius: 50%;
+            opacity: 1;
+            z-index: 999;
+        }
+    }
+    .modal-inn {
+        .login-left {
+            background-color: $bg-primary;
+            padding: 80px 40px;
+            border-radius: 50px 0 0 50px;
+
+            h2 {
+                color: $white;
+                font-weight: 700;
+                font-size: 35px;
+            }
+            p {
+                color: $white;
+                font-size: 21px;
+                font-weight: 500;
+                margin: 0;
+            }
+        }
+        .login-right {
+            .back-arrow {
+                font-size: 32px;
+                margin-bottom: 30px;
+                color: $bg-primary;
+            }
+            form {
+                text-align: center;
+                width: 600px;
+                margin: 0 auto;
+                .form-control {
+                    height: 65px;
+                    border: none;
+                    background-color: $bg-dark;
+                    &:focus {
+                        box-shadow: none;
+                    }
+                }
+
+                & ::placeholder {
+                    color: rgba(0, 0, 0, 0.2);
+                }
+                .forgot-password {
+                    color: $bg-primary;
+                    cursor: pointer;
+                    font-weight: 400;
+                    display: block;
+                    margin-left: auto;
+                    background-color: transparent;
+                    border: none;
+                }
+                .cls-btn {
+                    border: none;
+                    background-color: $bg-secondary;
+                    width: 160px;
+                    height: 60px;
+                    color: $white;
+                    font-size: 16px;
+                    font-weight: 400;
+                    margin: 40px 0;
+                }
+                .signup{
+                    background: transparent;
+                    border: none;
+                    color: $bg-primary;
+                    font-weight: 700;
+                    font-size: 17px;
+                }
+                .account {
+                    display: flex;
+                    justify-content: center;
+                    gap: 3px;
+                    p {
+                        color: $bg-secondary;
+                        font-size: 17px;
+                        font-weight: 700;
+                        margin: 0;
+                        span {
+                            color: $bg-primary;
+                        }
+                    }
+                }
+                .otp-field {
+                    display: flex;
+                    justify-content: space-between;
+                    input {
+                        width: 64px;
+                        height: 64px;
+                        border: none;
+                        text-align: center;
+                        background-color: $bg-dark;
+                        font-size: 37px;
+                        font-weight: 700;
+                    }
+                }
+                .resend {
+                    color: $bg-secondary;
+                    text-align: right;
+                    margin-top: 15px;
+                    font-weight: 700;
+                }
+            }
+            .modal-card-img {
+                text-align: center;
+                padding: 10px;
+                img {
+                    width: 96px;
+                    height: 96px;
+                }
+            }
+            .card-box {
+                text-align: center;
+                border-radius: 12px;
+                background-color: $bg-dark;
+                position: relative;
+                .checked {
+                    position: absolute;
+                    bottom: 5px;
+                    right: 10px;
+                    color: $bg-primary;
+                    font-size: 20px;
+                }
+            }
+            .choose-card-btn{
+                display: flex;
+                justify-content: space-between;
+                .prev {
+                    border: 1px solid #5d2ff1;
+                    font-size: 19px;
+                    font-weight: 500;
+                    width: 146px;
+                    height: 64px;
+                }
+                .continue {
+                    background-color: $bg-secondary;
+                    color: $white;
+                    font-size: 19px;
+                    font-weight: 500;
+                    width: 146px;
+                    height: 64px;
+                }
+            }
+        }
+    }
+}
+
+
+@media (max-width:1200px){
+    .login-modal{
+        .modal-dialog{
+            max-width: 1000px !important;
+            margin: 0 auto;
+        }
+        .modal-inn{
+            .login-right{
+                form{
+                    width: 500px;
+                }
+            }
+        }
+    }
+}
+@media (max-width: 991px) {
+    .login-modal {
+        .modal-header {
+            button {
+                right: 20px;
+                top: -32px;
+            }
+        }
+        .modal-inn {
+            .login-right {
+                form {
+                    width: 450px;
+                }
+            }
+        }
+    }
+}
+
+@media (max-width: 767px) {
+    .login-modal {
+        .modal-header {
+            button {
+                right: -10px;
+                top: 0;
+            }
+        }
+        .modal-dialog {
+            width: 500px;
+            margin: 0 auto;
+        }
+        .modal-inn {
+            text-align: center;
+            .login-left {
+                padding: 20px 0;
+                border-radius: 50px 50px 0px 0px;
+                h2 {
+                    font-size: 30px;
+                }
+                p {
+                    font-size: 18px;
+                }
+                img {
+                    width: 50%;
+                }
+            }
+            .login-right {
+                margin-top: 20px;
+                form {
+                    button {
+                        margin: 15px 0;
+                    }
+                }
+                .back-arrow{
+                    margin-left: 20px;
+                }
+                .account {
+                    padding-bottom: 10px;
+                }
+                .choose-card-btn{
+                    justify-content: space-around;
+                    margin-bottom: 20px;
+                    .prev{
+                        width: 126px;
+                        height: 50px;
+                        font-size: 17px;
+                    }
+                    .continue{
+                        width: 126px;
+                        height: 50px;
+                        font-size: 17px;
+                    }
+                }
+                .modal-card-img{
+                    img{
+                        width: 70px;
+                        height: 70px;
+                    }
+                }
+            }
+        }
+    }
+}
+
+@media(max-width:575px){
+    .login-modal{
+        .modal-dialog{
+            width: 400px;
+        }
+        .modal-inn{
+            .login-right{
+                .modal-card-img{
+                    img{
+                        width: 65px;
+                        height: 65px;
+                    }
+                }
+            }
+        }
+    }
+
+}

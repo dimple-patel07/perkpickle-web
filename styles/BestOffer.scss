@@ -1,0 +1,125 @@
+@import "../styles/variable/variable.scss";
+
+.best-offer-section {
+    .best-offer-inn {
+        padding-top: 50px;
+        .best-offer-main {
+            border: 1px solid #55a360;
+            background-color: $white;
+            border-radius: 30px;
+
+            .best-card-box {
+                padding: 20px 26px;
+                display: flex;
+                align-items: center;
+            }
+            .card-content {
+                padding-left: 30px;
+                h4 {
+                    font-size: 22px;
+                    font-weight: 500;
+                }
+                ul {
+                    li {
+                        span {
+                            width: 150px;
+                            display: inline-block;
+                            color: rgba(9, 31, 44, 0.5);
+                            font-size: 15px;
+                            font-weight: 500;
+                        }
+                        strong {
+                            color: $bg-secondary;
+                            font-size: 15px;
+                            font-weight: 700;
+                            i {
+                                font-style: normal;
+                                color: rgba(9, 31, 44, 0.5);
+                                font-weight: 500;
+                                font-size: 15px;
+                            }
+                        }
+                    }
+                }
+            }
+            .card-footer {
+                .card-footer-text {
+                    display: flex;
+                    gap: 20px;
+                    align-items: center;
+                    p{
+                        font-size: 18px;
+                        font-weight: 500;
+                        color: $white;
+                        margin: 0;
+                    }
+                    span{
+                        font-size: 18px;
+                        font-weight: 700;
+                        color: $bg-secondary;
+                        background: #F4F8FF;
+                        border-radius: 10px;
+                        display: flex;
+                        justify-content: center;
+                        align-items: center;
+                        padding: 10px;
+                    }
+                }
+                button{
+                    background-color:$white;
+                    color: #55a360;
+                    font-size: 17px;
+                    width: 136px;
+                    font-weight: 500;
+                    height: 47px;
+                }
+                background-color: $bg-primary;
+                display: flex;
+                justify-content: space-between;
+                padding: 20px 26px;
+                border-radius: 0 0 25px 25px;
+                align-items: center;
+            }
+        }
+    }
+}
+
+
+@media(max-width:575px){
+    .best-offer-section{
+            .best-offer-inn{
+                .best-offer-main{
+                    .best-card-box{
+                        justify-content: center;
+                        .card-content{
+                            ul{
+                                li{
+                                    span{
+                                        width: 100%;
+                                    }
+                                    div{
+                                        display: flex;
+                                        flex-direction: column;
+                                    }
+                                }
+                            }
+                        }
+                    }
+                    .card-footer{
+                        flex-direction: column;
+                        .card-footer-text{
+                            span{
+                                margin: 10px 0;
+                                display: block;
+                            }
+                        }
+                        button{
+                            font-size: 15px;
+                            width: 120px;
+                            height: 40px;
+                        }
+                    }
+                }
+            }       
+    }
+}

@@ -1,0 +1,105 @@
+@import "../styles/variable/variable.scss";
+
+// Banner Section Css Start
+.banner-section {
+    background-color: $bg-primary;
+    padding: 180px 0 150px 0;
+    .banner-text {
+        color: $white;
+        text-align: right;
+        padding-right: 60px;
+        h1 {
+            font-size: 56px;
+            font-weight: 600;
+        }
+        p {
+            font-size: 20px;
+            padding: 35px 0;
+            font-weight: 500;
+        }
+        button {
+            background-color: $white;
+            border-radius: 20px;
+            font-size: 30px;
+            font-weight: 500;
+            color: #55a360;
+            min-width:300px;
+            height: 80px;
+            border: none;
+        }
+    }
+}
+.login{
+    // .banner-main{
+    //     position: absolute;
+    //     top: 50%;
+    //     left: 50%;
+    //     transform: translate(-50% , -50%);
+
+    // }
+   .banner-text{
+    button{
+        min-width: 350px;
+        height: 75px;
+    }
+   }
+}
+
+// Media Query
+
+@media (max-width:991px){
+    .banner-section{
+        .banner-text{
+            padding-right: 0;
+            text-align: center;
+            padding-top: 30px;
+        }
+    }
+}
+
+@media (max-width: 768px) {
+    .banner-section {
+        padding: 90px 0 50px 0;
+        .banner-main{
+            text-align: center;
+            img{
+                width: 80%;
+            }
+
+            .banner-text {
+                text-align: center;
+                padding: 0;
+                h1 {
+                    font-size: 35px;
+                }
+                p {
+                    font-size: 16px;
+                    padding: 15px 0;
+                }
+                button {
+                    font-size: 20px;
+                    min-width: 180px;
+                    height: 50px;
+                    margin-bottom: 50px;
+                }
+            }
+        }
+    }
+
+    .banner-bottom {
+        .banner-bottom-text {
+            flex-direction: column;
+            text-align: center;
+            h2 {
+                font-size: 25px;
+            }
+            button {
+                width: 180px;
+                height: 50px;
+                font-size: 20px;
+                margin-top: 10px;
+            }
+        }
+    }
+}
+

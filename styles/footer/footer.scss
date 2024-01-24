@@ -1,0 +1,142 @@
+@import "../../styles/variable/variable.scss";
+
+footer {
+    background-color: $bg-secondary;
+    padding: 70px 0;
+    .footer-logo {
+        p {
+            font-size: 25px;
+            font-weight: 400;
+            color: #f4f8ff;
+            max-width: 50%;
+            padding-top: 20px;
+        }
+    }
+    .footer-text {
+        strong {
+            font-size: 35px;
+            font-weight: 700;
+            color: #f4f8ff;
+        }
+        .footer-form {
+            display: flex;
+            align-items: center;
+            padding-top: 20px;
+            gap: 20px;
+            input {
+                background: rgba(244, 248, 255, 0.1);
+                height: 60px;
+                border: none;
+                color: $white;
+            }
+            ::placeholder {
+                color: rgba(244, 248, 255, 0.4);
+                font-size: 20px;
+            }
+            button {
+                background-color: $white;
+                width: 146px;
+                height: 60px;
+                font-size: 25px;
+                font-weight: 700;
+                color: $bg-secondary;
+            }
+        }
+    }
+    .footer-nav {
+        .footer-menu {
+            display: flex;
+
+            li {
+                color: #f4f8ff;
+                font-size: 25px;
+                font-weight: 400;
+                &::after {
+                    content: "|";
+                    padding: 0 15px;
+                }
+                &:last-child {
+                    &::after {
+                        content: "";
+                        display: none;
+                    }
+                }
+            }
+        }
+        .social-icons {
+            ul {
+                display: flex;
+                gap: 15px;
+                li {
+                    background: $white;
+                    padding: 5px;
+                    border-radius: 50%;
+                    width: 50px;
+                    height: 50px;
+                    display: flex;
+                    justify-content: center;
+                    align-items: center;
+                    font-size: 32px;
+                    color: $bg-secondary;
+                }
+            }
+        }
+    }
+}
+
+@media (max-width: 991px) {
+    footer {
+        .footer-logo {
+            text-align: center;
+            p {
+                max-width: 100%;
+            }
+        }
+        .footer-text {
+            text-align: center;
+            strong {
+                font-size: 30px;
+            }
+        }
+        .footer-form {
+            justify-content: center;
+            margin-bottom: 25px;
+        }
+        .footer-nav {
+            .footer-menu {
+                justify-content: center;
+                li {
+                    font-size: 20px;
+                }
+            }
+            .social-icons {
+                ul {
+                    justify-content: center;
+                    li {
+                        width: 30px;
+                        height: 30px;
+                        font-size: 18px;
+                    }
+                }
+            }
+        }
+    }
+}
+
+@media (max-width: 575px) {
+    footer {
+        .footer-text {
+            .footer-form {
+                input {
+                    height: 50px;
+                    width: 250px;                }
+                button {
+                   
+                    width: 120px;
+                    height: 50px;
+                    font-size: 20px;
+                }
+            }
+        }
+    }
+}

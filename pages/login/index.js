@@ -1,6 +1,7 @@
 import Image from "next/image";
 import { images } from "../../component/Images";
 import styles from "./login.module.css";
+import Footer from "../../component/footer";
 export default function Login() {
   return (
     <>
@@ -28,6 +29,7 @@ export default function Login() {
          </div>
        </div>
     </section>
+    <Footer />
 
     {/* Login Banner End */}
     </>

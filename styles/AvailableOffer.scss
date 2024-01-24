@@ -1,0 +1,10 @@
+@import "../styles/variable/variable.scss";
+
+.available-offer{
+    ul{
+        li{
+            display: flex;
+            justify-content: space-between;
+        }
+    }
+}

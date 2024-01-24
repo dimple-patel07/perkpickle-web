@@ -36,39 +36,18 @@ const LoginModal = ({ isOpen, onClose }) => {
                     />
                   </div>
                   <div class="mb-3">
-                    <input
-                      type="password"
-                      class="form-control"
-                      id="exampleInputPassword1"
-                      placeholder="Password"
-                      autoComplete="off"
-                    />
+                    <input type="password" class="form-control" id="exampleInputPassword1" placeholder="Password" autoComplete="off"/>
                   </div>
-                  <button
-                    type="button"
-                    onClick={() => {
-                      onClose();
-                      setForgotPasswordModalShow(true);
-                    }}
-                    id="emailHelp"
-                    class="forgot-password"
-                  >
+                  <button type="button" onClick={() => { onClose(); setForgotPasswordModalShow(true);}} id="emailHelp" class="forgot-password">
                     Forgot Password?
                   </button>
-                  <button type="button" className="btn">
+                  <button type="button" className="cls-btn btn">
                     Sign In
                   </button>
                   <div className="account">
                     <p>Don’t have an account? </p>
-                    <button
-                      type="button"
-                      onClick={() => {
-                        onClose();
-                        setSignUpModalShow(true);
-                      }}
-                    >
-                      Sign Up
-                    </button>
+
+                    <button className="signup" type="button" onClick={() => { onClose(); setSignUpModalShow(true); }}> Sign Up </button>
                   </div>
                 </form>
               </div>

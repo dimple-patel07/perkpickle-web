@@ -3,7 +3,7 @@ import { NextResponse } from "next/server";
 export async function middleware(request) {
   const path = request.nextUrl.pathname;
   // const token = request.cookies.get('user')
-  const token = true;
+  const token = false;
 
   const AppNavigators = ["/"];
 
