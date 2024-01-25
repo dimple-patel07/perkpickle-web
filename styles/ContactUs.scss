@@ -1,0 +1,66 @@
+@import "../styles/variable/variable.scss";
+
+.contact-us-section {
+    position: relative;
+    padding: 80px 0;
+    .contact-text {
+        margin-top: 50px;
+        h4{
+            font-size: 34px;
+            font-weight: 700;
+            color: $bg-secondary;
+        }
+        p{
+            font-size: 20px;
+            font-weight: 400;
+            margin: 30px 0;
+            color: #091F2C;
+        }
+    }
+    .contact-text-box {
+        background-color: #ffff;
+        border: 1px solid $bg-primary;
+        border-radius: 25px;
+        padding: 15px 25px;
+        .contact-text-inn {
+            display: flex;
+            align-items: center;
+            strong{
+                font-weight: 400;
+                color: $bg-primary;
+                font-size: 16px;
+            }
+            p {
+                margin: 0;
+                font-size: 18px;
+                color: $bg-secondary;
+                font-weight: 600;
+            }
+        }
+        .contact-description{
+            padding-left: 60px;
+        }
+    }
+    .contact-form{
+        background-color: #fff;
+        padding: 50px;
+        border-radius: 32px;
+        button{
+            background-color: $bg-secondary;
+            color: $white;
+            padding: 10px;
+        }
+    }
+    &::after {
+        content: "";
+        position: absolute;
+        top: -80px;
+        width: 0;
+        height: 0;
+        right: 300px;
+        border: 40px solid $main-bg;
+        border-right-color: transparent;
+        border-top-color: transparent;
+        border-left-color: transparent;
+    }
+}

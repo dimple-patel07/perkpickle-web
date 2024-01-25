@@ -25,41 +25,41 @@ const modalSlice = createSlice({
   reducers: {
     handleOpenLoginModal: (state) => ({
       ...state,
-      login: true,
+      login: state,
     }),
     handleOpenSignUpModal: (state) => ({
       ...state,
-      SignUp: true,
+      SignUp: state,
     }),
     handleOpenForgotPasswordModal: (state) => ({
       ...state,
-      forgotPassword: true,
+      forgotPassword: state,
     }),
     handleOpenForgotPasswordOtpModal: (state) => ({
       ...state,
-      forgotPasswordOtp: true,
+      forgotPasswordOtp: state,
     }),
     handleOpenSignUpOtpModal: (state) => ({
       ...state,
-      signUpOtp: true,
+      signUpOtp: state,
     }),
     handleOpenSignUpFormModal: (state) => ({
       ...state,
-      signUpOtp: true,
+      SignUpForm: state,
     }),
     handleOpenResetPasswordModal: (state) => ({
       ...state,
-      resetPassword: true,
+      resetPassword: state,
     }),
     handleCloseAllModal: (state) => ({
       ...state,
       login: false,
-  SignUp: false,
-  forgotPassword: false,
-  signUpOtp: false,
-  SignUpForm: false,
-  forgotPasswordOtp: false,
-  resetPassword: false,
+      SignUp: false,
+      forgotPassword: false,
+      signUpOtp: false,
+      SignUpForm: false,
+      forgotPasswordOtp: false,
+      resetPassword: false,
     }),
   },
 });
@@ -67,13 +67,14 @@ const modalSlice = createSlice({
 export const modalSelector = (state) => state?.Modal;
 
 export const {
-  handleOpenLoginModal,
   handleCloseAllModal,
+  handleOpenLoginModal,
   handleOpenSignUpModal,
-  handleOpenForgotPasswordModal,
   handleOpenSignUpOtpModal,
+  handleOpenSignUpFormModal,
+  handleOpenForgotPasswordModal,
   handleOpenForgotPasswordOtpModal,
-  handleOpenResetPasswordModal
+  handleOpenResetPasswordModal,
 } = modalSlice.actions;
 
 export default modalSlice.reducer;

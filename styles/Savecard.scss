@@ -1,12 +1,13 @@
 @import "../styles/variable/variable.scss";
 
 .savecard-section {
-    
+
     .savecard-inn {
         padding: 30px;
         background: $white;
         border-radius: 15px;
         box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
+
         // .card-in{
         //     cursor: pointer;
         //     .remove-icon{
@@ -64,48 +65,83 @@
             color: $white;
         }
     }
-    .select__control.css-13cymwt-control {
+
+    input {
+        background-color: transparent !important;
+        height: auto;
+    }
+
+    .css-1u9des2-indicatorSeparator {
+        width: 0 !important;
+    }
+
+    .select__control {
         height: 60px;
-        background: rgba(33, 27, 54, 0.1) !important;
         border: none;
         border-radius: 8px;
+        box-shadow: none;
+
+        .select__value-container {
+            border-radius: 8px;
+            background: rgba(33, 27, 54, 0.1) !important;
+            border: none;
+            height: 60px;
+        }
+
+        .select__indicators {
+            position: absolute;
+            left: auto;
+            right: 0;
+            top: 20%;
+        }
+        .select__multi-value {
+            background: #fff;
+            margin-right: 15px;
+        }
     }
-    .select__value-container.select__value-container--is-multi.select__value-container--has-value.css-3w2yfm-ValueContainer {
-        height: 50px;
-    }
+
     .css-1jqq78o-placeholder {
         font-size: 17px;
-        svg{
-            font-size: 20px;
+
+        svg {
+            font-size: 22px;
         }
     }
-    .save-card-show{
+
+    .save-card-show {
         padding-top: 25px;
+
         .best-offer-main {
             border: 1px solid #55a360;
-            background-color:$white;
+            background-color: $white;
             border-radius: 30px;
         }
-         .best-card-box {
+
+        .best-card-box {
             padding: 5px;
             display: flex;
             align-items: center;
         }
-        .card-box{
+
+        .card-box {
             background-color: transparent;
         }
-         .card-content {
+
+        .card-content {
             padding-left: 12px;
         }
-         .card-content h4 {
+
+        .card-content h4 {
             font-size: 18px;
             font-weight: 500;
             margin: 0;
         }
-        .card-box img{
+
+        .card-box img {
             width: 50px;
             height: 50px;
         }
+
         .card-content ul li span {
             width: 150px;
             display: inline-block;
@@ -113,6 +149,17 @@
             font-size: 15px;
             font-weight: 500;
         }
+    }
+}
+
+.select_control.select_control--is-focused.select_control--menu-is-open.css-t3ipsp-control {
+    background-color: red !important;
+    border: none;
+}
+
+.select__input-container.css-qbdosj-Input {
+    input {
+        height: auto;
     }
 }
 
@@ -125,19 +172,22 @@
                     font-size: 35px;
                 }
             }
-            button{
+
+            button {
                 width: 50%;
                 margin-top: 15px;
             }
         }
-        .save-card-show{
-            .card-content{
-                h4{
+
+        .save-card-show {
+            .card-content {
+                h4 {
                     font-size: 15px;
                 }
             }
-            .card-box{
-                img{
+
+            .card-box {
+                img {
                     width: 40px;
                     height: 40px;
                 }

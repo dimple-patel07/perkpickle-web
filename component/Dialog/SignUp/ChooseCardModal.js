@@ -16,7 +16,7 @@ const ChooseCardModal = ({ isOpen, onClose }) => {
                 <p>
                   JOIN WITH US TO UNLOCK <br /> MORE OFFERS
                 </p>
-                <Image src={images.LoginImg} className="img-fluid" />
+                <Image src={images.ModalBannerImg} className="img-fluid" />
               </div>
             </div>
             <div className="col-12 col-sm-12 col-md-6 col-lg-7">

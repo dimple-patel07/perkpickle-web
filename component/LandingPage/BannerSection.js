@@ -1,9 +1,10 @@
 import React from 'react'
 import { images } from '../Images'
 import Image from 'next/image'
+import { getCookie } from 'cookies-next';
 
 const BannerSection = () => {
-  const token = process.env.SET_LOGIN
+  const token = getCookie("user");
   return (
 <>
    <section className='banner-section'>

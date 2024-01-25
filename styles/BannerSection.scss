@@ -2,45 +2,48 @@
 
 // Banner Section Css Start
 .banner-section {
+    position: relative;
+    margin-top: 90px;
     background-color: $bg-primary;
-    padding: 180px 0 150px 0;
-    .banner-text {
-        color: $white;
-        text-align: right;
-        padding-right: 60px;
-        h1 {
-            font-size: 56px;
-            font-weight: 600;
+    .banner-main{
+        padding: 80px 0;
+        .banner-text {
+            color: $white;
+            text-align: right;
+            padding-right: 60px;
+            h1 {
+                font-size: 56px;
+                font-weight: 600;
+            }
+            p {
+                font-size: 20px;
+                padding: 35px 0;
+                font-weight: 500;
+            }
+            button {
+                background-color: $white;
+                border-radius: 20px;
+                font-size: 30px;
+                font-weight: 500;
+                color: #55a360;
+                min-width:300px;
+                height: 80px;
+                border: none;
+            }
         }
-        p {
-            font-size: 20px;
-            padding: 35px 0;
-            font-weight: 500;
-        }
-        button {
-            background-color: $white;
-            border-radius: 20px;
-            font-size: 30px;
-            font-weight: 500;
-            color: #55a360;
-            min-width:300px;
-            height: 80px;
-            border: none;
-        }
+    img{
+        width: 554px;
+        height: 554px;
+        object-fit: contain;
     }
+    }
+
 }
 .login{
-    // .banner-main{
-    //     position: absolute;
-    //     top: 50%;
-    //     left: 50%;
-    //     transform: translate(-50% , -50%);
-
-    // }
    .banner-text{
     button{
-        min-width: 350px;
-        height: 75px;
+        min-width: 350px !important;
+        height: 75px !important;
     }
    }
 }
@@ -59,11 +62,13 @@
 
 @media (max-width: 768px) {
     .banner-section {
-        padding: 90px 0 50px 0;
+        padding-top: 0;
         .banner-main{
             text-align: center;
+            padding:  0 0 10px 0;
             img{
                 width: 80%;
+                height: 100%;
             }
 
             .banner-text {
@@ -102,4 +107,3 @@
         }
     }
 }
-

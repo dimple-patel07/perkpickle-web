@@ -1,7 +1,8 @@
+import { getCookie } from "cookies-next";
 import { getLocalAccessToken } from "./token"
 
 const onRequest = (config) => {
-  const token = getLocalAccessToken()
+  const token = getCookie("user");
   if (config.headers) {
     if (token) {
       config.headers.Authorization = `${token}`;

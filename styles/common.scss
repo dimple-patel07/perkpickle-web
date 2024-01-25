@@ -38,8 +38,65 @@ ul{
         height: 96px;
     }
 }
-    
+.eye-icon {
+    position: absolute;
+    top: 50%;
+    right: 20px;
+    transform: translateY(-50%);
+    font-size: 20px;
+}
+.error{
+    color: red;
+    text-align: start;
+    margin: 0;
+}
+input{
+    height: 65px;
+    background-color: $bg-dark;
+
+}
+
+textarea{
+    height: 100px;
+    background-color: $bg-dark;
+}    
+
+// Screen Banner Form
+.screenbanner-form{
+    position: relative;
+    padding: 80px 0;
+    button{
+        background-color: $bg-secondary !important;
+        color: $white !important;
+        height: 50px;
+    }
+    &::after {
+        content: "";
+        position: absolute;
+        top: -80px;
+        width: 0;
+        height: 0;
+        right: 300px;
+        border: 40px solid $main-bg;
+        border-right-color: transparent;
+        border-top-color: transparent;
+        border-left-color: transparent;
+    }
+}
+
+// Media Query
+
+@media(max-width:991px){
+    input{
+        height: 50px;
+    }
+    textarea {
+        height: 80px;
+    }
+}
+
 @media (max-width:767px){
+  
     .mb{
         margin-bottom: 60px;
     }

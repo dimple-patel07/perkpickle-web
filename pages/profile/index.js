@@ -1,7 +1,12 @@
 import React from "react";
+import ScreenBanner from "../../component/ScreenBanner"; 
 
 const Profile = () => {
-  return <div>Profile Profile</div>;
+  return (
+    <>
+          <ScreenBanner />
+  </>
+  )
 };
 
 export default Profile;
