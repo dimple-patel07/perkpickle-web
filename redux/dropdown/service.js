@@ -7,7 +7,6 @@ export const getAllCardService = async () => {
     const response = await axiosInstance.get(
       `${config.apiURL}/getAllCards`
     );
-    console.log(response)
     // const response = await axiosInstance.get(
     //   `${config.apiURL}/getAllCards`,
     //   loginRequest

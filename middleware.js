@@ -2,8 +2,8 @@ import { NextResponse } from "next/server";
 
 export async function middleware(request) {
   const path = request.nextUrl.pathname;
-  // const token = request.cookies.get('user')
-  const token = process.env.SET_LOGIN;
+  const token = request.cookies.get("user");
+  // const token = false;
   const AppNavigators = ["/"];
 
   const AuthNavigators = ["/login"];

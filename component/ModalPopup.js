@@ -34,8 +34,8 @@ function ModalPopup(props) {
                 <FaArrowLeft />
                 </div>
                     <form>
-                    <div class="mb-3">
-                        <input type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Email Address" autoComplete="off" />
+                    <div className="mb-3">
+                        <input type="email" className="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Email Address" autoComplete="off" />
                     </div>  
                                  <button className='btn'>Send OTP</button>
                                 </form>
@@ -61,10 +61,10 @@ function ModalPopup(props) {
                                 <FaArrowLeft />
                                 </div>
                                 <form>
-                                <div class="mb-3">
-                                    <input type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Email Address" autoComplete="off" />
+                                <div className="mb-3">
+                                    <input type="email" className="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Email Address" autoComplete="off" />
                                 </div>
-                                <div class="otp-field">
+                                <div className="otp-field">
                                     <input type="text" maxlength="1" placeholder='0'/>
                                     <input type="text" maxlength="1" placeholder='0' />
                                     <input type="text" maxlength="1" placeholder='0'/>
@@ -72,7 +72,7 @@ function ModalPopup(props) {
                                     <input type="text" maxlength="1" placeholder='0' />
                                     <input type="text" maxlength="1" placeholder='0' />
                                     </div>
-                                <div id="emailHelp" class="resend">Resend OTP</div>
+                                <div id="emailHelp" className="resend">Resend OTP</div>
                                  <button className='btn'>Reset Password</button>
                                 </form>
                                 </div>
@@ -96,11 +96,11 @@ function ModalPopup(props) {
                                 <FaArrowLeft />
                                 </div>
                                 <form>
-                                <div class="mb-3">
-                                    <input type="Number" class="form-control"  placeholder="New Password" autoComplete="off" />
+                                <div className="mb-3">
+                                    <input type="Number" className="form-control"  placeholder="New Password" autoComplete="off" />
                                 </div>
-                                <div class="mb-3">
-                                    <input type="Number" class="form-control"  placeholder="Confirm Password" autoComplete="off" />
+                                <div className="mb-3">
+                                    <input type="Number" className="form-control"  placeholder="Confirm Password" autoComplete="off" />
                                 </div>
                                  <button className='btn'>Change Password</button>
                                 </form>

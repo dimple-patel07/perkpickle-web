@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 import { images } from "./Images";
 import Image from "next/image";
 import Container from "react-bootstrap/Container";
@@ -6,25 +6,30 @@ import Nav from "react-bootstrap/Nav";
 import Navbar from "react-bootstrap/Navbar";
 import NavDropdown from "react-bootstrap/NavDropdown";
 import Link from "next/link";
-import ModalPopup from "./ModalPopup";
-import LoginModal from "./Dialog/LogIn/LogInModal";
-import SignUpModal from "./Dialog/SignUp/SignUpModal";
-import { useSelector } from "react-redux";
-import { handleCloseAllModal, handleCloseLoginModal, handleOpenLoginModal, handleOpenSignUpModal, modalSelector } from "../redux/modal/modalSlice";
+import Dropdown from "react-bootstrap/Dropdown";
+import { RxHamburgerMenu } from "react-icons/rx";
+import { IoMdLogIn } from "react-icons/io";
+import { FaRegUserCircle } from "react-icons/fa";
 import { useAppDispatch } from "../redux/store";
+import {
+  handleOpenLoginModal,
+  handleOpenSignUpModal,
+} from "../redux/modal/modalSlice";
+import { deleteCookie, getCookie, setCookie } from "cookies-next";
 
 const Header = () => {
-  const token = process.env.SET_LOGIN;
-  const ModalState = useSelector(modalSelector)
-  const signUpModal = ModalState?.SignUp
-  const dispatch = useAppDispatch()
+  const token = getCookie("user");
+  const dispatch = useAppDispatch();
+
   return (
     <>
-      <header className="shadow">
+      <header>
         <Navbar>
           <Container>
             <Link href="/">
-              <Image src={images.logo} />
+              <div className="logo">
+                <Image src={images.logo} />
+              </div>
             </Link>
             <Navbar.Toggle aria-controls="basic-navbar-nav" />
             <Navbar.Collapse
@@ -33,52 +38,96 @@ const Header = () => {
             >
               {token && (
                 <Nav className="align-items-center">
-                  <Nav.Link href="#home">
-                    <div className="profile">
-                      <Image src={images.profile} />
-                    </div>
-                  </Nav.Link>
-                  <NavDropdown title="Hello John" id="basic-nav-dropdown">
-                    <NavDropdown.Item href="#action/3.1">
-                      Action
-                    </NavDropdown.Item>
-                    <NavDropdown.Item href="#action/3.2">
-                      Another action
-                    </NavDropdown.Item>
-                    <NavDropdown.Item href="#action/3.3">
-                      Something
-                    </NavDropdown.Item>
-                    <NavDropdown.Divider />
-                    <NavDropdown.Item href="#action/3.4">
-                      Separated link
-                    </NavDropdown.Item>
+                  <NavDropdown
+                    title={
+                      <div className="profile">
+                        <Image src={images.profile} />
+                        <span> Hello John</span>
+                      </div>
+                    }
+                    id="basic-nav-dropdown"
+                  >
+                    <ul>
+                      <li>
+                        <Link href="/profile">
+                          Profile
+                        </Link>
+                      </li>
+                      <li>
+                        <Link href="/">
+                          Change Password
+                        </Link>
+                      </li>
+                      <li>
+                        <Link href="/contact-us">
+                          Contact Us
+                        </Link>
+                      </li>
+                      <li onClick={() => deleteCookie("user")}>
+                        <Link href="/">
+                          Logout
+                        </Link>
+                      </li>
+                    </ul>
                   </NavDropdown>
                 </Nav>
               )}
               {!token && (
-                <>
-                  <div className="header-btn">
-                    <button onClick={() => dispatch(handleOpenLoginModal())} className="btn">
-                      Login
-                    </button>
-                    <button
-                      onClick={() => dispatch(handleOpenSignUpModal())}
-                      className="btn"
-                    >
-                      Sign Up
-                    </button>
-                  </div>
-                </>
+                <div className="header-btn">
+                  <button
+                    onClick={() => dispatch(handleOpenLoginModal(true))}
+                    className="btn"
+                  >
+                    <span>Login</span>
+                    <i>
+                      <IoMdLogIn />
+                    </i>
+                  </button>
+                  <button
+                    onClick={() => dispatch(handleOpenSignUpModal(true))}
+                    className="btn"
+                  >
+                    <span>Sign Up</span>
+                    <i>
+                      <FaRegUserCircle />
+                    </i>
+                  </button>
+                </div>
               )}
-              {/* <ModalPopup show={modalShow} onHide={() => setModalShow(false)} /> */}
-              <LoginModal />
-              <SignUpModal
-                isOpen={signUpModal}
-                onClose={() => dispatch(handleCloseAllModal())}
-              />
             </Navbar.Collapse>
+
+            {/* Toggle Menu Login Header */}
+            <div className="login-toggle">
+              {!token && (
+                <Dropdown>
+                  <Dropdown.Toggle variant="success" id="dropdown-basic">
+                    <RxHamburgerMenu />
+                  </Dropdown.Toggle>
+                  <Dropdown.Menu>
+                    <ul>
+                      <li>
+                        <Link href="/about-us">
+                          About Us
+                        </Link>
+                      </li>
+                      <li>
+                        <Link href="/privacy-policy">
+                          Privacy Policy
+                        </Link>
+                      </li>
+                      <li>
+                        <Link href="/contact-us">
+                          Contact Us
+                        </Link>
+                      </li>
+                    </ul>
+                  </Dropdown.Menu>
+                </Dropdown>
+              )}
+            </div>
           </Container>
         </Navbar>
+        <div></div>
       </header>
     </>
   );

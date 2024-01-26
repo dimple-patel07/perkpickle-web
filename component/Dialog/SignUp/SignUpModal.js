@@ -3,88 +3,129 @@ import Dialog from "../Dialog";
 import { images } from "../../Images";
 import Image from "next/image";
 import SignUpOtpModal from "./SignUpOtpModal";
-import { handleCloseAllModal, handleOpenLoginModal, handleOpenSignUpOtpModal, modalSelector } from "../../../redux/modal/modalSlice";
+import {
+  handleCloseAllModal,
+  handleOpenLoginModal,
+  handleOpenSignUpModal,
+  handleOpenSignUpOtpModal,
+  modalSelector,
+} from "../../../redux/modal/modalSlice";
 import { useAppDispatch } from "../../../redux/store";
 import { useSelector } from "react-redux";
 
 import axios from "axios";
 import { config } from "../../../utils/config";
+import { ErrorMessage } from "@hookform/error-message";
+import { useForm } from "react-hook-form";
+import { handleStoreSignUpEmail } from "../../../redux/emailStore/emailStoreSlice";
+import { handleShowWarnModal } from "../../../redux/warnModel/warnModelSlice";
 
-const SignUpModal = ({ isOpen, onClose }) => {
-	const ModalState = useSelector(modalSelector);
-	const signUpOtpModalShow = ModalState?.signUpOtp;
-	const dispatch = useAppDispatch();
-	const [email, setEmail] = useState("");
+const SignUpModal = () => {
+  const ModalState = useSelector(modalSelector);
+  const signUpModalShow = ModalState?.SignUp;
+  const dispatch = useAppDispatch();
+  const closeModel = () => dispatch(handleCloseAllModal(false));
+  const EMAIL_REGEX = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
 
-	// check email
-	const createUser = async () => {
-		try {
-			const response = await axios.post(`${config.apiURL}/createUser`, { email });
-			if (response?.data?.otp) {
-				console.log("enter your otp : ", response.data.otp);
-				onClose();
-				dispatch(handleOpenSignUpOtpModal());
-			}
-		} catch (errorObj) {
-			console.error(errorObj?.response?.data?.error); // error
-		}
-	};
-	// on email changed
-	const onEmailChange = (e) => {
-		setEmail(e.target.value);
-	};
+  const {
+    register,
+    formState: { errors },
+    handleSubmit,
+  } = useForm();
 
-	return (
-		<>
-			<Dialog open={isOpen} onClose={onClose}>
-				<div className="container-fluid p-0">
-					<div className="row align-items-center">
-						<div className="col-12 col-sm-12 col-md-12 col-lg-5 height">
-							<div className="login-left">
-								<h2>Sign Up</h2>
-								<p>
-									JOIN WITH US TO UNLOCK <br /> MORE OFFERS
-								</p>
-								<Image src={images.LoginImg} className="img-fluid" />
-							</div>
-						</div>
-						<div className="col-12 col-sm-12 col-md-12 col-lg-7 position-relative height">
-							<div className="login-right">
-								<form>
-									<div class="mb-3">
-										<input type="email" class="form-control" aria-describedby="emailHelp" placeholder="Email Address" autoComplete="off" name="email" onChange={onEmailChange} />
-									</div>
-									<button
-										type="button"
-										onClick={() => {
-											createUser();
-										}}
-										className="btn cls-btn">
-										Send OTP
-									</button>
-									<div className="account">
-										<p>
-											Already have an account?
-											<button
-												type="button"
-												className="btn signup"
-												onClick={() => {
-													onClose();
-													dispatch(handleOpenLoginModal());
-												}}>
-												Signin
-											</button>
-										</p>
-									</div>
-								</form>
-							</div>
-						</div>
-					</div>
-				</div>
-			</Dialog>
-			<SignUpOtpModal isOpen={signUpOtpModalShow} onClose={() => dispatch(handleCloseAllModal())} />
-		</>
-	);
+  const handleFormSubmit = async (data) => {
+    const signUpEmail = {
+      email: data.emailAddress,
+    };
+    try {
+      const response = await axios.post(
+        `${config.apiURL}/createUser`,
+        signUpEmail
+      );
+      if (response?.data?.otp) {
+        console.log("enter your otp : ", response.data.otp);
+        dispatch(handleStoreSignUpEmail(data.emailAddress));
+        closeModel();
+        dispatch(handleOpenSignUpOtpModal(true));
+      }
+    } catch (errorObj) {
+      dispatch(
+        handleShowWarnModal({
+          isShow: true,
+          modelType: "error",
+          modelMessage: errorObj?.response?.data?.error,
+        })
+      );
+    }
+  };
+
+  return (
+    <>
+      <Dialog
+        open={signUpModalShow}
+        onClose={() => dispatch(handleCloseAllModal())}
+      >
+        <div className="container-fluid p-0">
+          <div className="row align-items-center">
+            <div className="col-12 col-sm-12 col-md-5 col-lg-5 height">
+              <div className="login-left">
+                <h2>Sign Up</h2>
+                <p>
+                  JOIN WITH US TO UNLOCK <br /> MORE OFFERS
+                </p>
+                <Image src={images.ModalBannerImg} className="img-fluid" />
+              </div>
+            </div>
+            <div className="col-12 col-sm-12 col-md-7 col-lg-7 position-relative height">
+              <div className="login-right">
+                <form onSubmit={handleSubmit(handleFormSubmit)}>
+                  <div className="mb-3">
+                    <input
+                      type="text"
+                      className="form-control"
+                      placeholder="Email Address"
+                      {...register("emailAddress", {
+                        required: "Please Enter Email Address",
+                        pattern: {
+                          value: EMAIL_REGEX,
+                          message: "Invalid Email Address",
+                        },
+                      })}
+                      maxLength={250}
+                    />
+                    <ErrorMessage
+                      className="error"
+                      errors={errors}
+                      name="emailAddress"
+                      as="p"
+                    />
+                  </div>
+                  <button type="submit" className="btn cls-btn">
+                    Send OTP
+                  </button>
+                  <div className="account">
+                    <p>
+                      Already have an account?
+                      <button
+                        type="button"
+                        className="btn signup"
+                        onClick={() => {
+                          dispatch(handleCloseAllModal());
+                          dispatch(handleOpenLoginModal(true));
+                        }}
+                      >
+                        &nbsp;Signin
+                      </button>
+                    </p>
+                  </div>
+                </form>
+              </div>
+            </div>
+          </div>
+        </div>
+      </Dialog>
+    </>
+  );
 };
 
 export default SignUpModal;

@@ -10,7 +10,6 @@ export const getAllCardAction = createAsyncThunk(
       //   loginRequest
       // );
       const response = await getAllCardService();
-      console.log(response,"response++")
       // if (response?.data?.status === 200) {        
       //   return response?.data;
       // }

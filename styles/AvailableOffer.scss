@@ -5,6 +5,13 @@
         li{
             display: flex;
             justify-content: space-between;
+            p{
+                flex: 50%;
+            }
+            span{
+                flex: 50%;
+                text-align: right;
+            }
         }
     }
 }

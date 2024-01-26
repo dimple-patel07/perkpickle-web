@@ -10,4 +10,5 @@ export const images = {
   star: require("../assets/images/Star 1.png"),
   FooterLogo: require("../assets/images/Footer-logo.png"),
   LoginImg: require("../assets/images/LoginBanner.png"),
+  ModalBannerImg: require("../assets/images/ModalBannerImg.png"),
 };
