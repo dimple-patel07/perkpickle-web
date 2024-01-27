@@ -3,7 +3,6 @@ import { images } from "../../Images";
 import Image from "next/image";
 import Dialog from "../Dialog";
 import { FaArrowLeft } from "react-icons/fa6";
-import ResetPasswordOtpModal from "./ResetPasswordOtpModal";
 import { useSelector } from "react-redux";
 import {
   handleCloseAllModal,
@@ -15,8 +14,6 @@ import { useAppDispatch } from "../../../redux/store";
 
 import axios from "axios";
 import { config } from "../../../utils/config";
-import { useForm } from "react-hook-form";
-import { ErrorMessage } from "@hookform/error-message";
 import { emailStoreSelectore } from "../../../redux/emailStore/emailStoreSlice";
 import { handleShowWarnModal } from "../../../redux/warnModel/warnModelSlice";
 
@@ -64,16 +61,11 @@ const ForgotPasswordOtpModal = () => {
     }
   };
 
-  const [userData, setUserData] = useState({
-    email: "",
-    otp: "",
-  });
-
-  // check otp / verify user
 
   const otpNumber = parseInt(otp.join(""), 10);
   const numberString = Math.abs(otpNumber).toString().length;
 
+  // check otp / verify user
   const verifyUser = async () => {
     try {
       const response = await axios.post(`${config.apiURL}/verifyUser`, {
@@ -101,7 +93,13 @@ const ForgotPasswordOtpModal = () => {
         email: emailStore?.forgotPasswordEmail,
       });
       if (response?.data?.otp) {
-        console.log("otp sent successfully", response?.data?.otp);
+        dispatch(
+          handleShowWarnModal({
+            isShow: true,
+            modelType: "success",
+            modelMessage: 'otp sent successfully',
+          })
+        );
       }
     } catch (errorObj) {
       dispatch(
@@ -118,6 +116,7 @@ const ForgotPasswordOtpModal = () => {
     <>
       <Dialog
         open={forgotPasswordOtpModalShow}
+        onShow={()=>setOtp(["", "", "", "", "", ""])}
         onClose={() => dispatch(handleCloseAllModal())}
       >
         <div className="container-fluid p-0">

@@ -41,14 +41,15 @@ const ResetPasswordOtpModal = () => {
     control,
     watch,
     setError,
+    reset
   } = useForm();
 
-  const watchNewPassword = watch("newpassword", "");
-  const watchConfirmPassword = watch("confirmpassword", "");
+  const watchNewPassword = watch("newPassword", "");
+  const watchConfirmPassword = watch("confirmPassword", "");
 
   const validatePasswordMatch = () => {
     if (watchNewPassword !== watchConfirmPassword) {
-      setError("confirmpassword", {
+      setError("confirmPassword", {
         type: "manual",
         message: "Passwords do not match",
       });
@@ -61,7 +62,7 @@ const ResetPasswordOtpModal = () => {
       const encodedKey = window.btoa(
         JSON.stringify({
           email: emailStore?.forgotPasswordEmail,
-          newPassword: data?.confirmpassword,
+          newPassword: data?.confirmPassword,
         })
       );
       const response = await axios.post(`${config.apiURL}/resetPassword`, {
@@ -92,6 +93,7 @@ const ResetPasswordOtpModal = () => {
     <div>
       <Dialog
         open={resetPasswordModal}
+        onShow={()=> reset()}
         onClose={() => dispatch(handleCloseAllModal())}
       >
         <div className="container-fluid p-0">
@@ -117,12 +119,15 @@ const ResetPasswordOtpModal = () => {
                   <FaArrowLeft />
                 </div>
                 <form onSubmit={handleSubmit(handleFormSubmit)}>
+                  <div>
+                    Password should be at least 8 characters, with a symbol or letter
+                  </div>
                   <div class="position-relative">
                     <input
                       type={showPassword ? "text" : "password"}
                       className="form-control"
                       placeholder="New Password"
-                      {...register("newpassword", {
+                      {...register("newPassword", {
                         required: "Please Enter New Password",
                         pattern: {
                           value: PASSWORD_REGEX,
@@ -141,7 +146,7 @@ const ResetPasswordOtpModal = () => {
                   <ErrorMessage
                     className="error mb-3"
                     errors={errors}
-                    name="newpassword"
+                    name="newPassword"
                     as="p"
                   />
                   {/* new password */}
@@ -150,7 +155,7 @@ const ResetPasswordOtpModal = () => {
                       type={showConfirmPassword ? "text" : "password"}
                       className="form-control"
                       placeholder="Confirm Password"
-                      {...register("confirmpassword", {
+                      {...register("confirmPassword", {
                         required: "Please Enter Confirm Password",
                         pattern: {
                           value: PASSWORD_REGEX,
@@ -172,7 +177,7 @@ const ResetPasswordOtpModal = () => {
                   <ErrorMessage
                     className="error"
                     errors={errors}
-                    name="confirmpassword"
+                    name="confirmPassword"
                     as="p"
                   />
                   <button type="submit" className="btn cls-btn">

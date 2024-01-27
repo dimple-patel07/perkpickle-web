@@ -2,7 +2,7 @@ import React from "react";
 import { Modal } from "react-bootstrap";
 
 const Dialog = (props) => {
-  const { open, onClose, children } = props;
+  const { open, onClose, children, onShow } = props;
 
   return (
     <Modal
@@ -12,7 +12,10 @@ const Dialog = (props) => {
       className="login-modal"
       show={open}
       onHide={onClose}
+      onShow={onShow}
+      backdrop="static"
     >
+      {/* animation=false */}
       <Modal.Header closeButton></Modal.Header>
       <Modal.Body className="p-0">
         <div className="modal-inn">{children}</div>
@@ -25,6 +28,7 @@ Dialog.defaultProps = {
   title: "",
   open: false,
   onClose: () => {},
+  onShow: () => {},
   children: undefined,
   extraClass: "",
 };

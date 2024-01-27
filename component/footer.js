@@ -15,7 +15,8 @@ const Footer = () => {
               <p>lorem ipsum dummy text lorem ipsum dummy lorem ipsum dummy</p>
             </div>
           </div>
-          <div className="col-12 col-sm-12 col-md-12 col-lg-6">
+          {/* <strong>Subscribe to Our NewsLetter</strong> for now commented */}
+          {/* <div className="col-12 col-sm-12 col-md-12 col-lg-6">
             <div className="footer-text">
               <strong>Subscribe to Our NewsLetter</strong>
               <div className="footer-form">
@@ -34,7 +35,7 @@ const Footer = () => {
                 </div>
               </div>
             </div>
-          </div>
+          </div> */}
         </div>
         <div className="footer-nav">
           <div className="row">

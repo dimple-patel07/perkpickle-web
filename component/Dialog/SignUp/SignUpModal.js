@@ -31,6 +31,7 @@ const SignUpModal = () => {
     register,
     formState: { errors },
     handleSubmit,
+    reset
   } = useForm();
 
   const handleFormSubmit = async (data) => {
@@ -58,11 +59,11 @@ const SignUpModal = () => {
       );
     }
   };
-
   return (
     <>
       <Dialog
         open={signUpModalShow}
+        onShow={()=>reset()}
         onClose={() => dispatch(handleCloseAllModal())}
       >
         <div className="container-fluid p-0">

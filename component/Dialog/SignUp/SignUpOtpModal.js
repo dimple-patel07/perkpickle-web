@@ -74,7 +74,15 @@ const SignUpOtpModal = () => {
         email: emailStore?.signUpEmail,
       });
       if (response?.data?.otp) {
-        console.log("otp sent successfully", response?.data?.otp);
+        setOtp(["", "", "", "", "", ""]);
+        dispatch(
+          handleShowWarnModal({
+            isShow: true,
+            modelType: "success",
+            modelMessage: 'otp sent successfully',
+          })
+        );
+        // console.log("otp sent successfully", response?.data?.otp);
       }
     } catch (errorObj) {
       dispatch(
@@ -112,6 +120,7 @@ const SignUpOtpModal = () => {
     <>
       <Dialog
         open={signUpOtpShow}
+        onShow={()=>setOtp(["", "", "", "", "", ""])}
         onClose={() => dispatch(handleCloseAllModal())}
       >
         <div className="container-fluid p-0">
@@ -168,15 +177,20 @@ const SignUpOtpModal = () => {
                   >
                     Continue
                   </button>
-                  <div
-                    className="account"
-                    onClick={() => {
-                      dispatch(handleCloseAllModal());
-                      dispatch(handleOpenLoginModal(true));
-                    }}
-                  >
+
+                  <div className="account">
                     <p>
-                      Already have an account? <span>Signin</span>
+                      Already have an account?
+                      <button
+                        type="button"
+                        className="btn signup"
+                        onClick={() => {
+                          dispatch(handleCloseAllModal());
+                          dispatch(handleOpenLoginModal(true));
+                        }}
+                      >
+                        &nbsp;Signin
+                      </button>
                     </p>
                   </div>
                 </form>

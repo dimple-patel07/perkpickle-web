@@ -64,11 +64,12 @@ const ForgotPasswordModal = () => {
       );
     }
   };
-
+  
   return (
     <>
       <Dialog
         open={forgotPasswordModalShow}
+        onShow={()=>reset()}
         onClose={() => dispatch(handleCloseAllModal())}
       >
         <div className="container-fluid p-0">

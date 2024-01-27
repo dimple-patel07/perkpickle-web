@@ -69,7 +69,7 @@ const LoginModal = () => {
     }
   };
   return (
-    <Dialog open={loginModal} onClose={() => dispatch(handleCloseAllModal())}>
+    <Dialog open={loginModal} onShow={()=>reset()} onClose={() => dispatch(handleCloseAllModal())}>
       <div className="container-fluid ps-0 pe-0 pe-sm-0">
         <div className="row align-items-center">
           <div className="col-12 col-sm-12 col-md-6 col-lg-5">
