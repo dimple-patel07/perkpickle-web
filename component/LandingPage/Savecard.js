@@ -11,7 +11,7 @@ import axios from "axios";
 import { config } from "../../utils/config";
 const Savecard = ({cardData}) => { 
   const dispatch = useAppDispatch();
-	const selectionLimit = 1; // card selection limit
+	const selectionLimit = 10; // card selection limit
   const [selAvailableCards, setSelAvailableCards] = useState([]);
   const [selSavedCards, setSelSavedCards] = useState([]);
 
@@ -52,9 +52,6 @@ const Savecard = ({cardData}) => {
 			setSelAvailableCards(selDataList);
 		}
 	};
-  const loadImageSrc=({src})=>{
-    return src;
-  }
   return (
     <>
       <section className="savecard-section mb">
@@ -107,23 +104,21 @@ const Savecard = ({cardData}) => {
               <div className="row gy-4">
               {
               selSavedCards.map((card, index) => {
-                return <div key={index}>
-                  <div className="col-12 col-sm-6 col-md-6 col-lg-4">
-                    <div className="best-offer-main">
-                      <div className="best-card-box">
-                        <div className="card-box">
-                          <Image loader={() => loadImageSrc(card.cardImageUrl)} src={card.cardImageUrl}  alt="N/A" fill={true}/>
-                        </div>
-                        <div className="card-content">
-                          <h4>{card.cardName}</h4>
-                        </div>
-                        <div className="card-box remove-icon">
-                          <FaTrash />
-                        </div>
+                return <div className="col-12 col-sm-6 col-md-6 col-lg-4" key={index}>
+                <div className="best-offer-main">
+                  <div className="best-card-box">
+                    <div className="card-box" style={{width: '100px', height: '100px', position: 'relative'}}> 
+                      <Image src={card.cardImageUrl}  alt="N/A" fill/>
                     </div>
+                    <div className="card-content">
+                      <h4>{card.cardName}</h4>
                     </div>
-                  </div> 
+                    <div className="card-box remove-icon">
+                      <FaTrash />
+                    </div>
                 </div>
+                </div>
+              </div> 
               })}              
               </div> :<></>
               }
