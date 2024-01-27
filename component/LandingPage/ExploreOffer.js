@@ -13,7 +13,6 @@ const ExploreOffer = ({ spendBonusCategoryList }) => {
   const handleName = (e) => {
     setselectedName(e.target.value);
   };
-  console.log(spendBonusCategoryList, "spendBonusCategoryList");
   return (
     <section className="explore-offer-section mb">
       <div className="container">
