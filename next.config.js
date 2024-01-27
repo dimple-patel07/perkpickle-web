@@ -1,6 +1,6 @@
 module.exports = {
     env: {
-        REACT_APP_API_URL: "http://localhost:3300"
+        REACT_APP_API_URL: process.env.REACT_APP_API_URL
     },
     images: {
         domains: ['rewardsccapi.blob.core.windows.net'],

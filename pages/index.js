@@ -16,6 +16,7 @@ export default function Home() {
 
 
   const getCards = async () => {
+    console.log('env----------------------',process.env)
     const data = await axios.get(`${config.apiURL}/getAllCards`);
     const cardList = data?.data;
     const cardIssuerList = Array.from(
