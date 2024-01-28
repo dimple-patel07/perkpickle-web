@@ -15,7 +15,6 @@ export default function Home() {
 	const [spendBonusCategoryList, setspendBonusCategoryList] = useState();
 
 	const getCards = async () => {
-		console.log("env----------------------", process.env);
 		const data = await axios.get(`${config.apiURL}/getAllCards`);
 		const cardList = data?.data;
 		const cardIssuerList = Array.from(new Set(cardList.map((card) => card.cardIssuer)));
@@ -23,8 +22,8 @@ export default function Home() {
 		const cardGrouping = cardIssuerList.reduce((acc, cardIssuer) => {
 			const associatedCards = cardList.filter((card) => card.cardIssuer === cardIssuer);
 			const options = associatedCards.map((card) => ({
-				label: card.cardName,
-				value: card.cardKey,
+				label: card.card_name,
+				value: card.card_key,
 			}));
 
 			acc.push({
@@ -48,6 +47,7 @@ export default function Home() {
 					.map(({ spendBonusSubcategoryGroup, spendBonusCategory }) => ({
 						label: spendBonusSubcategoryGroup,
 						value: spendBonusSubcategoryGroup,
+
 						categoryChildrenList: spendBonusCategory.map((categoryData) => ({
 							label: categoryData.spendBonusCategoryName,
 							value: categoryData.spendBonusCategoryId,
@@ -73,7 +73,7 @@ export default function Home() {
 	return (
 		<>
 			<BannerSection />
-			<BannerBottom />
+			{/* <BannerBottom /> */}
 			<Savecard cardData={cardData} />
 			<ExploreOffer spendBonusCategoryList={spendBonusCategoryList} />
 			<AvailableOffer />

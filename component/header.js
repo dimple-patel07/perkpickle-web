@@ -77,7 +77,7 @@ const Header = () => {
 
 						{/* Toggle Menu Login Header */}
 						<div className="login-toggle">
-							{!token && (
+							{token && (
 								<Dropdown>
 									<Dropdown.Toggle variant="success" id="dropdown-basic">
 										<RxHamburgerMenu />

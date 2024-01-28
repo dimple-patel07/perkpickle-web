@@ -40,11 +40,17 @@ const ForgotPasswordModal = () => {
 		};
 		try {
 			const response = await axios.post(`${config.apiURL}/forgotPassword`, emailAddress);
-			if (response?.data?.otp) {
-				console.log(response?.data?.otp);
-				dispatch(handleStoreForgotPasswordEmail(data.emailAddress));
+			if (response?.data?.email) {
+				dispatch(handleStoreForgotPasswordEmail(response.data.email));
 				closeModal();
 				dispatch(handleOpenForgotPasswordOtpModal(true));
+				dispatch(
+					handleShowWarnModal({
+						isShow: true,
+						modelType: "success",
+						modelMessage: "otp sent on the email",
+					})
+				);
 			}
 		} catch (errorObj) {
 			dispatch(

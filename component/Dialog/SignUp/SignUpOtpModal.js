@@ -67,10 +67,9 @@ const SignUpOtpModal = () => {
 					handleShowWarnModal({
 						isShow: true,
 						modelType: "success",
-						modelMessage: "otp sent successfully",
+						modelMessage: response.data.message,
 					})
 				);
-				// console.log("otp sent successfully", response?.data?.otp);
 			}
 		} catch (errorObj) {
 			dispatch(
