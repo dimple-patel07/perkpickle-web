@@ -16,6 +16,7 @@ import { deleteCookie, getCookie, setCookie } from "cookies-next";
 
 const Header = () => {
 	const token = getCookie("user");
+	const userName = getCookie("userName");
 	const dispatch = useAppDispatch();
 
 	return (
@@ -36,7 +37,7 @@ const Header = () => {
 										title={
 											<div className="profile">
 												<Image src={images.profile} />
-												<span> Hello John</span>
+												<span>{userName}</span>
 											</div>
 										}
 										id="basic-nav-dropdown">

@@ -4,10 +4,10 @@ import Image from "next/image";
 import { images } from "../../Images";
 import ChooseCardModal from "./ChooseCardModal";
 import { useSelector } from "react-redux";
-import { handleCloseAllModal, modalSelector } from "../../../redux/modal/modalSlice";
+import { handleCloseAllModal, handleOpenLoginModal, modalSelector } from "../../../redux/modal/modalSlice";
 import { useAppDispatch } from "../../../redux/store";
 import axios from "axios";
-import { PASSWORD_REGEX, config } from "../../../utils/config";
+import { PASSWORD_REGEX, config, encryptStr } from "../../../utils/config";
 import { emailStoreSelectore } from "../../../redux/emailStore/emailStoreSlice";
 import { useForm } from "react-hook-form";
 import { ErrorMessage } from "@hookform/error-message";
@@ -50,11 +50,11 @@ const SignUpFormModal = () => {
 
 	const handleFormSubmit = async (data) => {
 		const userData = {
-			email: emailStore?.signUpEmail,
-			first_name: data?.first_name,
-			last_name: data?.last_name,
-			password: data?.password,
-			zip_code: data?.zip_code,
+			email: emailStore.signUpEmail,
+			first_name: data.first_name,
+			last_name: data.last_name,
+			secret_key: encryptStr(data.password),
+			zip_code: data.zip_code,
 			address: data?.address,
 			phone_number: data?.phone_number,
 		};
@@ -103,12 +103,12 @@ const SignUpFormModal = () => {
 								<form onSubmit={handleSubmit(handleFormSubmit)}>
 									<div className="row">
 										<div className="col-6 col-sm-6 col-md-6 col-lg-6">
-											<input type="text" className="form-control" placeholder="First name" maxLength={250} />
+											<input type="text" className="form-control" placeholder="First Name" required minLength={3} maxLength={30} />
 											<ErrorMessage className="error" errors={errors} name="first_name" as="p" />
 										</div>
 										{/* last name */}
 										<div className="col-6 col-sm-6 col-md-6 col-lg-6">
-											<input type="text" className="form-control" placeholder="Last name" maxLength={250} />
+											<input type="text" className="form-control" placeholder="Last Name" required minLength={3} maxLength={30} />
 											<ErrorMessage className="error" errors={errors} name="last_name" as="p" />
 										</div>
 										{/* password */}
@@ -124,7 +124,8 @@ const SignUpFormModal = () => {
 														message: "Password should be at least 8 characters, with a symbol or letter",
 													},
 												})}
-												maxLength={250}
+												maxLength={30}
+												required
 											/>
 											<span className={`eye-icon ${showPassword ? "show" : "hide"}`} onClick={handleTogglePassword}>
 												{showPassword ? <IoEyeOff /> : <TiEye />}
@@ -134,13 +135,18 @@ const SignUpFormModal = () => {
 										{/* zip code */}
 										<div className="col-12 my-3">
 											<input
-												type="text"
+												type="number"
 												className="form-control"
-												placeholder="zip Code"
+												placeholder="Zip Code"
 												{...register("zip_code", {
-													required: "Please Enter zip Code",
+													required: "Please Enter Zip Code",
+													// pattern: {
+													// 	value: "^[0-9]{5,5}$",
+													// 	message: "Enter US Zip Code Only",
+													// },
 												})}
-												maxLength={250}
+												max={99999}
+												required
 											/>
 											<ErrorMessage className="error" errors={errors} name="zip_code" as="p" />
 										</div>
@@ -158,7 +164,16 @@ const SignUpFormModal = () => {
 												Continue
 											</button>
 											<p>
-												Already have an account? <span>Signin</span>
+												Already have an account?
+												<button
+													type="button"
+													className="btn signup"
+													onClick={() => {
+														dispatch(handleCloseAllModal());
+														dispatch(handleOpenLoginModal(true));
+													}}>
+													&nbsp;Signin
+												</button>
 											</p>
 										</div>
 									</div>

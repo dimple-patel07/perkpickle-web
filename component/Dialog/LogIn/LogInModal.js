@@ -8,7 +8,7 @@ import { useSelector } from "react-redux";
 import { handleCloseAllModal, handleOpenForgotPasswordModal, handleOpenSignUpModal, modalSelector } from "../../../redux/modal/modalSlice";
 import { useAppDispatch } from "../../../redux/store";
 import axios from "axios";
-import { PASSWORD_REGEX, config } from "../../../utils/config";
+import { PASSWORD_REGEX, config, encryptStr } from "../../../utils/config";
 import { setCookie } from "cookies-next";
 import { useRouter } from "next/router";
 import { IoEyeOff } from "react-icons/io5";
@@ -18,8 +18,8 @@ import { handleShowWarnModal } from "../../../redux/warnModel/warnModelSlice";
 const LoginModal = () => {
 	const ModalState = useSelector(modalSelector);
 	const router = useRouter();
-	const loginModal = ModalState?.login;
 	const dispatch = useAppDispatch();
+	const loginModal = ModalState?.login;
 	const EMAIL_REGEX = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
 	const [showPassword, setShowPassword] = useState(false);
 
@@ -44,12 +44,13 @@ const LoginModal = () => {
 			password: data?.password,
 		};
 		try {
-			const encryptedKey = window.btoa(JSON.stringify(loginCred));
+			const encryptedKey = encryptStr(JSON.stringify(loginCred));
 			const response = await axios.post(`${config.apiURL}/login`, {
 				key: encryptedKey,
 			});
 			if (response?.data?.token) {
 				setCookie("user", response?.data?.token);
+				setCookie("userName", response?.data?.userName);
 				router.replace("/");
 				dispatch(handleCloseAllModal());
 			}

@@ -8,7 +8,7 @@ import { handleCloseAllModal, handleOpenForgotPasswordOtpModal, modalSelector } 
 import { useSelector } from "react-redux";
 
 import axios from "axios";
-import { PASSWORD_REGEX, config } from "../../../utils/config";
+import { PASSWORD_REGEX, config, encryptStr } from "../../../utils/config";
 import { useForm, Controller } from "react-hook-form";
 import { ErrorMessage } from "@hookform/error-message";
 import { emailStoreSelectore } from "../../../redux/emailStore/emailStoreSlice";
@@ -53,12 +53,13 @@ const ResetPasswordOtpModal = () => {
 	const handleFormSubmit = async (data) => {
 		console.log(data);
 		try {
-			const encodedKey = window.btoa(
+			const encodedKey = encryptStr(
 				JSON.stringify({
 					email: emailStore?.forgotPasswordEmail,
 					newPassword: data?.confirmPassword,
 				})
 			);
+
 			const response = await axios.post(`${config.apiURL}/resetPassword`, {
 				key: encodedKey,
 			});
@@ -68,7 +69,7 @@ const ResetPasswordOtpModal = () => {
 					handleShowWarnModal({
 						isShow: true,
 						modelType: "success",
-						modelMessage: "Password has been updated!",
+						modelMessage: response.data.message,
 					})
 				);
 			}

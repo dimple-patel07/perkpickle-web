@@ -1,41 +1,82 @@
-import React, { useState } from "react";
-import { images } from "../Images";
+import React, { useEffect, useState } from "react";
 import Image from "next/image";
 import { FaTrash } from "react-icons/fa";
-import { FaPlus } from "react-icons/fa6";
 import Select from "react-select";
 import { IoSearch } from "react-icons/io5";
 import { useAppDispatch } from "../../redux/store";
 import { handleShowWarnModal } from "../../redux/warnModel/warnModelSlice";
 import axios from "axios";
-import { config } from "../../utils/config";
-const Savecard = ({ cardData }) => {
+import { config, decryptStr, getLoggedEmail } from "../../utils/config";
+import { getCookie } from "cookies-next";
+const Savecard = ({ cardDataList }) => {
 	const dispatch = useAppDispatch();
 	const selectionLimit = 10; // card selection limit
 	const [selAvailableCards, setSelAvailableCards] = useState([]);
 	const [selSavedCards, setSelSavedCards] = useState([]);
+	const [userData, setUserData] = useState();
 
-	// get card image
-	async function getCardImage(params) {
-		const response = await axios.post(`${config.apiURL}/getCardImage`, params); // expecting success response
-		return response?.data;
-	}
-	const onSave = async () => {
-		let cardDataList = [];
-		for (const selCard of selAvailableCards) {
+	useEffect(() => {
+		if (cardDataList?.length > 0) {
+			getUserByEmail();
+		}
+	}, [cardDataList]);
+	// get user by email
+	const getUserByEmail = async () => {
+		try {
+			const params = { email: getLoggedEmail() };
+			const response = await axios.post(`${config.apiURL}/getUserByEmail`, params);
+			if (response?.data?.email) {
+				// expecting success response
+				setUserData(response.data);
+				// set saved cards
+				const userCards = response.data;
+				if (userCards.card_keys && cardDataList[0].options?.length > 0) {
+					const cardKeys = userCards.card_keys.split(",");
+					let savedSelectionList = [];
+					for (const cardKey of cardKeys) {
+						const found = cardDataList[0].options.find((data) => data.value === cardKey);
+						if (found) {
+							savedSelectionList.push(found);
+						}
+					}
+					if (savedSelectionList.length > 0) {
+						setSelAvailableCards(savedSelectionList);
+						onSave(false, savedSelectionList);
+					}
+				}
+			}
+		} catch (errorObj) {
+			dispatch(
+				handleShowWarnModal({
+					isShow: true,
+					modelType: "error",
+					modelMessage: errorObj?.response?.data?.error,
+				})
+			);
+		}
+	};
+	// on save cards
+	const onSave = async (isUpdateUserCall = true, savedSelectionList) => {
+		if (isUpdateUserCall) {
+			savedSelectionList = selAvailableCards;
+		}
+		let result = [];
+		for (const selCard of savedSelectionList) {
 			const params = { cardKey: selCard.value };
 			const response = await axios.post(`${config.apiURL}/cardDetailByCardKey`, params);
-			// const options = headerOptions({ cardKey: selCard.value });
-			// const cardDetail = await cardDetailByCardKey(options);
 			if (response?.data) {
 				const cardDetail = response.data;
 				if (cardDetail?.length > 0 && cardDetail[0].baseSpendAmount && cardDetail[0].baseSpendEarnCurrency) {
-					const cardImage = await getCardImage(params);
-					cardDataList.push({ ...cardDetail[0], ...cardImage[0] });
+					result.push({ ...cardDetail[0], ...selCard });
 				}
 			}
 		}
-		setSelSavedCards(cardDataList);
+		// setSelAvailableCards([]);
+		setSelSavedCards(result);
+		if (result.length > 0 && isUpdateUserCall) {
+			const cardKeys = result.map((card) => card.value);
+			await updateUserCards(cardKeys.join(","));
+		}
 	};
 	// on available card selection
 	const onAvailableCardSelection = (selDataList) => {
@@ -51,6 +92,46 @@ const Savecard = ({ cardData }) => {
 			setSelAvailableCards(selDataList);
 		}
 	};
+	// remove specific card
+	const removeUserCard = async (card) => {
+		// await updateUserCards(card.value);
+		dispatch(
+			handleShowWarnModal({
+				isShow: true,
+				modelType: "DeleteOopsModal",
+			})
+		);
+	};
+	// cardKeys = cardKey(s) - either one or multiple keys will be update
+	const updateUserCards = async (cardKeys) => {
+		try {
+			const params = { email: getLoggedEmail(), cardKeys: cardKeys };
+			const response = await axios.post(`${config.apiURL}/updateUserCards`, params);
+			if (response?.data?.email) {
+				console.log("card saved successfully");
+			} else {
+				console.log("else=====");
+				setSelAvailableCards([]);
+				dispatch(
+					handleShowWarnModal({
+						isShow: true,
+						modelType: "error",
+						modelMessage: `saved cards failed`,
+					})
+				);
+			}
+		} catch (error) {
+			console.error("error---");
+			setSelAvailableCards([]);
+			dispatch(
+				handleShowWarnModal({
+					isShow: true,
+					modelType: "error",
+					modelMessage: `saved cards error`,
+				})
+			);
+		}
+	};
 	return (
 		<>
 			<section className="savecard-section mb">
@@ -62,30 +143,12 @@ const Savecard = ({ cardData }) => {
 						</p>
 					</div>
 					<div className="savecard-inn">
-						{/* <div className="row justify-content-center justify-content-sm-center justify-content-lg-start">
-              <div className="col-6 col-sm-3 col-md-3 col-lg-2">
-                <div className="card-in position-relative text-center">
-                  <Image src={images.Cardtwo} className="img-fluid" />
-                  <div className="remove-icon">
-                    <FaTrash />
-                  </div>
-                </div>
-              </div>
-              <div className="col-6 col-sm-3 col-md-3 col-lg-2 add-card-inn">
-                <div className="text-center">
-                    <div className="addcard-box">
-                    <FaPlus />
-                      <p>Add Card</p>
-                    </div>
-                </div>
-              </div>
-            </div> */}
 						<div className="row">
 							<div className="col-12 col-sm-12 col-md-12 col-lg-10">
 								<Select
 									isMulti
 									name="colors"
-									options={cardData}
+									options={cardDataList}
 									className="basic-multi-select"
 									classNamePrefix="select"
 									onChange={onAvailableCardSelection}
@@ -107,27 +170,30 @@ const Savecard = ({ cardData }) => {
 						{/* Save Card Show */}
 						<div className="save-card-show">
 							{selSavedCards.length > 0 ? (
-								<div className="row gy-4">
-									{selSavedCards.map((card, index) => {
-										return (
-											<div className="col-12 col-sm-6 col-md-6 col-lg-4" key={index}>
-												<div className="best-offer-main">
-													<div className="best-card-box">
-														<div className="card-box" style={{ width: "100px", height: "100px", position: "relative" }}>
-															<Image src={card.cardImageUrl} alt="N/A" fill />
-														</div>
-														<div className="card-content">
-															<h4>{card.cardName}</h4>
-														</div>
-														<div className="card-box remove-icon">
-															<FaTrash />
+								<>
+									<div className="row gy-4">
+										{/* <div class="spinner-border" role="status"></div> */}
+										{selSavedCards.map((card, index) => {
+											return (
+												<div className="col-12 col-sm-6 col-md-6 col-lg-4" key={index}>
+													<div className="best-offer-main">
+														<div className="best-card-box">
+															<div className="card-box" style={{ width: "100px", height: "100px", position: "relative" }}>
+																<Image src={card.card_image_url} alt="N/A" fill />
+															</div>
+															<div className="card-content">
+																<h4>{card.cardName}</h4>
+															</div>
+															<div className="card-box remove-icon" onClick={() => removeUserCard(card)}>
+																<FaTrash />
+															</div>
 														</div>
 													</div>
 												</div>
-											</div>
-										);
-									})}
-								</div>
+											);
+										})}
+									</div>
+								</>
 							) : (
 								<></>
 							)}

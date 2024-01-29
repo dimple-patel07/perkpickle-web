@@ -11,7 +11,7 @@ import { config } from "../utils/config";
 import axios from "axios";
 
 export default function Home() {
-	const [cardData, setcardData] = useState();
+	const [cardDataList, setCardDataList] = useState();
 	const [spendBonusCategoryList, setspendBonusCategoryList] = useState();
 
 	const getCards = async () => {
@@ -24,6 +24,7 @@ export default function Home() {
 			const options = associatedCards.map((card) => ({
 				label: card.card_name,
 				value: card.card_key,
+				card_image_url: card.card_image_url, // will be use in SaveCard.js
 			}));
 
 			acc.push({
@@ -34,7 +35,7 @@ export default function Home() {
 
 			return acc;
 		}, []);
-		setcardData(cardGrouping);
+		setCardDataList(cardGrouping);
 	};
 
 	const getSpendBonusCategoryList = async () => {
@@ -74,7 +75,7 @@ export default function Home() {
 		<>
 			<BannerSection />
 			{/* <BannerBottom /> */}
-			<Savecard cardData={cardData} />
+			<Savecard cardDataList={cardDataList} />
 			<ExploreOffer spendBonusCategoryList={spendBonusCategoryList} />
 			<AvailableOffer />
 			<BestOffer />
