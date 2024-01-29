@@ -9,6 +9,7 @@ import axios from "axios";
 import { config } from "../../../utils/config";
 import { emailStoreSelectore } from "../../../redux/emailStore/emailStoreSlice";
 import { handleShowWarnModal } from "../../../redux/warnModel/warnModelSlice";
+import { handleStartLoading, handleStopLoading } from "../../../redux/loader/loaderSlice";
 const SignUpOtpModal = () => {
 	const ModalState = useSelector(modalSelector);
 	const emailStore = useSelector(emailStoreSelectore);
@@ -58,10 +59,12 @@ const SignUpOtpModal = () => {
 
 	const resendOtp = async () => {
 		try {
+			dispatch(handleStartLoading());
 			const response = await axios.post(`${config.apiURL}/resendOtp`, {
 				email: emailStore?.signUpEmail,
 			});
 			if (response?.data?.email) {
+				dispatch(handleStopLoading());
 				setOtp(["", "", "", "", "", ""]);
 				dispatch(
 					handleShowWarnModal({
@@ -72,6 +75,7 @@ const SignUpOtpModal = () => {
 				);
 			}
 		} catch (errorObj) {
+			dispatch(handleStopLoading());
 			dispatch(
 				handleShowWarnModal({
 					isShow: true,
@@ -84,15 +88,18 @@ const SignUpOtpModal = () => {
 
 	const verifyUser = async () => {
 		try {
+			dispatch(handleStartLoading());
 			const response = await axios.post(`${config.apiURL}/verifyUser`, {
 				email: emailStore?.signUpEmail,
 				otp: otpNumber,
 			});
 			if (response?.data?.email) {
+				dispatch(handleStopLoading());
 				dispatch(handleCloseAllModal());
 				dispatch(handleOpenSignUpFormModal(true));
 			}
 		} catch (errorObj) {
+			dispatch(handleStopLoading());
 			dispatch(
 				handleShowWarnModal({
 					isShow: true,
@@ -114,14 +121,14 @@ const SignUpOtpModal = () => {
 								<p>
 									JOIN WITH US TO UNLOCK <br /> MORE OFFERS
 								</p>
-								<Image src={images.ModalBannerImg} className="img-fluid" />
+								<Image src={images.ModalBannerImg} className="img-fluid" alt="banner-img"/>
 							</div>
 						</div>
 						<div className="col-12 col-sm-12 col-md-12 col-lg-7 position-relative height">
 							<div className="login-right">
 								<form>
 									<div className="mb-3">
-										<input type="email" className="form-control" aria-describedby="emailHelp" placeholder="Email Address" autoComplete="off" name="email" disabled value={emailStore?.signUpEmail} onChange={onInputChanged} />
+										<input type="email" className="form-control" aria-describedby="emailHelp" placeholder="Email Address*" autoComplete="off" name="email" disabled value={emailStore?.signUpEmail} onChange={onInputChanged} />
 									</div>
 									<div className="otp-field">
 										{otp.map((digit, index) => (

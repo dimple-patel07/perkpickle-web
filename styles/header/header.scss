@@ -7,10 +7,12 @@ header {
     width: 100%;
     z-index: 999;
     height: 92px;
-    box-shadow: rgba(50, 50, 93, 0.25) 0px 2px 5px -1px, rgba(0, 0, 0, 0.3) 0px 1px 3px -1px;
+    box-shadow:
+        rgba(50, 50, 93, 0.25) 0px 2px 5px -1px,
+        rgba(0, 0, 0, 0.3) 0px 1px 3px -1px;
     display: flex;
     align-items: center;
-    .navbar-expand{
+    .navbar-expand {
         width: 100%;
     }
     .dropdown-toggle.nav-link {
@@ -19,20 +21,21 @@ header {
         font-weight: 600;
         display: flex;
         align-items: center;
-        .profile{
-            img{
-                border: 6px solid $bg-primary;
+        .profile {
+            svg {
+                border: 2px solid $bg-primary;
                 border-radius: 50%;
-                width: 60px;
-                height: 60px;
+                width: 40px;
+                height: 40px;
                 margin-right: 12px;
+                padding: 5px;
             }
         }
     }
     .dropdown-menu {
         box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
         background-color: $bg-secondary;
-        top: 95px !important;
+        top: 90px !important;
         left: -20px !important;
         border-radius: 25px;
         padding: 0;
@@ -42,19 +45,18 @@ header {
             width: 240px;
             li {
                 padding: 0 5px;
-                &:first-child{
+                &:first-child {
                     border-radius: 23px 23px 0 0;
                 }
                 &:last-child {
                     border-radius: 0 0 23px 23px;
                     .dropdown-item {
                         border: none;
-
                     }
                 }
-                &:hover{
+                &:hover {
                     background-color: $white;
-                    a{
+                    a {
                         color: $bg-primary;
                     }
                 }
@@ -64,10 +66,10 @@ header {
                     padding: 15px;
                     font-size: 18px;
                     font-weight: 400;
-                    transition: all .5s;
-                    -webkit-transition: all .5s;
-                    -moz-transition: all .5s;
-                    -ms-transition: all .5s;
+                    transition: all 0.5s;
+                    -webkit-transition: all 0.5s;
+                    -moz-transition: all 0.5s;
+                    -ms-transition: all 0.5s;
                     width: 100%;
                     text-decoration: none;
                     display: block;
@@ -76,7 +78,6 @@ header {
                     }
                 }
             }
-
         }
         &:before {
             content: "";
@@ -100,14 +101,14 @@ header {
             height: 48px;
             color: $white !important;
             font-size: 15px;
-            i{
+            i {
                 display: none;
             }
         }
     }
-    .login-toggle{
-        .dropdown{
-            .dropdown-toggle::after{
+    .login-toggle {
+        .dropdown {
+            .dropdown-toggle::after {
                 display: none;
             }
         }
@@ -119,26 +120,53 @@ header {
             margin-left: 20px;
         }
         .dropdown-menu {
-            top: 80px !important;
+            top: 86px !important;
             left: auto !important;
             right: 0;
-            &::before{   
-            top: -12px;
-            left: auto;
-            right: 25px;
+            &::before {
+                top: -12px;
+                left: auto;
+                right: 25px;
             }
         }
-        svg{    
+        svg {
             font-size: 25px;
         }
     }
 }
 
+@media (max-width: 767px) {
+    header {
+        .dropdown-menu {
+            top: 90px;
+            left: -120px !important;
+            &:before {
+                top: -12px;
+                left: 140px;
+            }
+        }
+        .login-toggle {
+            #dropdown-basic {
+                margin-left: 10px;
+            }
+        }
+        .dropdown-toggle.nav-link {
+            .profile {
+                svg {
+                    margin-right: 0;
+                }
+                .profile-name {
+                    display: none;
+                }
+            }
+        }
+    }
+}
 
-@media (max-width:575px){
-    header{
-        .logo{
-            img{
+@media (max-width: 575px) {
+    header {
+        .logo {
+            img {
                 width: 140px;
                 height: auto;
             }
@@ -147,24 +175,24 @@ header {
             top: 95px !important;
             left: -50px !important;
         }
-        .header-btn{
+        .header-btn {
             gap: 10px;
-            button{
+            button {
                 width: 40px;
                 height: 40px;
                 font-size: 20px;
                 display: flex;
                 align-items: center;
                 justify-content: center;
-                span{
+                span {
                     display: none;
                 }
-                i{
+                i {
                     display: block;
                 }
             }
         }
-        .login-toggle{
+        .login-toggle {
             #dropdown-basic {
                 height: 40px;
                 width: 47px;

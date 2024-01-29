@@ -27,6 +27,7 @@ export default function Login() {
                   <div>
                     <button
                       type="button"
+                      className="btn register"
                       onClick={() => dispatch(handleOpenSignUpModal(true))}
                     >
                       Register With Us
@@ -35,7 +36,7 @@ export default function Login() {
                 </div>
               </div>
               <div className="col-12 col-sm-12 col-md-12 col-lg-6">
-                <Image src={images.bannerImg} className="img-fluid" />
+                <Image src={images.bannerImg} className="img-fluid" alt="bannerImg"/>
               </div>
             </div>
           </div>

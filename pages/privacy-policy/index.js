@@ -1,11 +1,8 @@
-import React from 'react'
+import React from "react"; 
+import BannerSection from "../../component/LandingPage/BannerSection";
 
 const PrivacyPolicy = () => {
-  return (
-    <div>
-      privacy policy
-    </div>
-  )
-}
+  return <BannerSection />;
+};
 
-export default PrivacyPolicy
+export default PrivacyPolicy;

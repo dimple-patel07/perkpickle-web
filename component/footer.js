@@ -11,7 +11,7 @@ const Footer = () => {
         <div className="row">
           <div className="col-12 col-sm-12 col-md-12 col-lg-6">
             <div className="footer-logo">
-              <Image src={images.FooterLogo} />
+              <Image src={images.FooterLogo} alt="logo"/>
               <p>lorem ipsum dummy text lorem ipsum dummy lorem ipsum dummy</p>
             </div>
           </div>

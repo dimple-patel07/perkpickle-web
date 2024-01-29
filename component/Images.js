@@ -11,4 +11,8 @@ export const images = {
   FooterLogo: require("../assets/images/Footer-logo.png"),
   LoginImg: require("../assets/images/LoginBanner.png"),
   ModalBannerImg: require("../assets/images/ModalBannerImg.png"),
+  profileBannerImg: require("../assets/images/Profile-banner.png"),
+  ContactBannerImg: require("../assets/images/Contact-banner.png"),
+  ContactIcon: require("../assets/images/Contact-icon.png"),
+  LocationIcon: require("../assets/images/Location.png"),
 };
