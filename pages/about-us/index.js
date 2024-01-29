@@ -1,11 +1,8 @@
-import React from 'react'
+import React from "react";
+import BannerSection from "../../component/LandingPage/BannerSection";
 
 const AbourUs = () => {
-  return (
-    <div>
-      about us 
-    </div>
-  )
-}
+  return <BannerSection />
+};
 
-export default AbourUs
+export default AbourUs;

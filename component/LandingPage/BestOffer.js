@@ -16,7 +16,7 @@ const BestOffer = () => {
                   <div className='best-offer-main'>     
                 <div className="best-card-box">
                           <div className="card-box">
-                          <Image src={images.Cardtwo} className="img-fluid" />
+                          <Image src={images.Cardtwo} className="img-fluid" alt="card-img"/>
                           </div>
                           <div className='card-content'>
                               <h4>Well Fargo Active Cash Card</h4>
@@ -58,7 +58,7 @@ const BestOffer = () => {
                 <div className='best-offer-main'>     
                 <div className="best-card-box">
                           <div className="card-box">
-                          <Image src={images.Cardthree} className="img-fluid" />
+                          <Image src={images.Cardthree} className="img-fluid" alt="card-img"/>
                           </div>
                           <div className='card-content'>
                               <h4>Chase Freedom Unlimited*</h4>
@@ -100,7 +100,7 @@ const BestOffer = () => {
                 <div className='best-offer-main'>     
                 <div className="best-card-box">
                           <div className="card-box">
-                          <Image src={images.Cardfive} className="img-fluid" />
+                          <Image src={images.Cardfive} className="img-fluid" alt="card-img"/>
                           </div>
                           <div className='card-content'>
                               <h4>Capital one SavorOne Card</h4>
@@ -142,7 +142,7 @@ const BestOffer = () => {
                 <div className='best-offer-main'>     
                 <div className="best-card-box">
                           <div className="card-box">
-                          <Image src={images.Cardone} className="img-fluid" />
+                          <Image src={images.Cardone} className="img-fluid" alt="card-img"/>
                           </div>
                           <div className='card-content'>
                               <h4>Well Fargo Active Cash Card</h4>

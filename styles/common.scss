@@ -1,5 +1,5 @@
 @import "../styles/variable/variable.scss";
-*{
+* {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
@@ -9,27 +9,27 @@ body {
     background: $main-bg;
     box-sizing: border-box;
 }
-li{
-    list-style: none    ;
+li {
+    list-style: none;
 }
-ul{
+ul {
     padding: 0;
 }
-.title{
+.title {
     font-size: 45px;
     color: $bg-primary;
     font-weight: 700;
     text-align: center;
 }
-.subtitle{
+.subtitle {
     font-size: 25px;
     font-weight: 400;
     color: $bg-secondary;
 }
-.mb{
+.mb {
     margin-bottom: 90px;
 }
-.card-box{
+.card-box {
     background: $main-bg;
     border-radius: 30px;
     padding: 10px;
@@ -45,27 +45,30 @@ ul{
     transform: translateY(-50%);
     font-size: 20px;
 }
-.error{
+.error {
     color: red;
     text-align: start;
     margin: 0;
 }
-input{
+input {
     height: 65px;
     background-color: $bg-dark;
-
+}
+.form-control:focus {
+    box-shadow: none;
+    border: none;
 }
 
-textarea{
+textarea {
     height: 100px;
     background-color: $bg-dark;
 }
 
 // Screen Banner Form
-.screenbanner-form{
+.screenbanner-form {
     position: relative;
     padding: 80px 0;
-    button{
+    button {
         background-color: $bg-secondary !important;
         color: $white !important;
         height: 50px;
@@ -83,11 +86,17 @@ textarea{
         border-left-color: transparent;
     }
 }
+.error-input {
+    color: var(--bs-body-color);
+    background-color: var(--bs-body-bg);
+    outline: 0;
+    box-shadow: 0 0 0 0.25rem rgb(255 24 24 / 25%);
+}
 
 // Media Query
 
-@media(max-width:991px){
-    input{
+@media (max-width: 991px) {
+    input {
         height: 50px;
     }
     textarea {
@@ -95,24 +104,37 @@ textarea{
     }
 }
 
-@media (max-width:767px){
-
-    .mb{
+@media (max-width: 767px) {
+    .mb {
         margin-bottom: 60px;
     }
-    .title{
+    .title {
         font-size: 30px;
     }
-    .subtitle{
+    .subtitle {
         font-size: 17px;
     }
-    .card-box{
+    .card-box {
         background: $main-bg;
         border-radius: 30px;
         padding: 10px;
         img {
             width: 70px;
             height: 70px;
+        }
+    }
+    .screenbanner-form{
+        &::after {
+            left: 50%;
+            transform: translate(-50%, 0);
+        }
+    }
+}
+@media (max-width: 575px) {
+    .card-box {
+        img {
+            width: 50px;
+            height: 50px;
         }
     }
 }

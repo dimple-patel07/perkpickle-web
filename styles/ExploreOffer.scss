@@ -1,62 +1,7 @@
-@import "../styles/variable/variable.scss";
+    @import "../styles/variable/variable.scss";
 
 .explore-offer-section {
     background: rgba(244, 248, 255, 1);
-
-    // .explore-offer-inn {
-    //     padding-top: 50px;
-    //     input {
-    //         background-color: rgba(33, 27, 54, 0.1);
-    //         height: 70px;
-    //     }
-    //     button {
-    //         font-size: 22px;
-    //         font-weight: 500;
-    //         background-color: $bg-primary;
-    //         color: $white;
-    //         height: 70px;
-    //         width: 200px;
-    //     }
-    // }
-    // .card-type-section {
-    //     padding-top: 70px;
-    //     .card-type-box {
-    //         display: flex;
-    //         align-items: center;
-    //         justify-content: space-between;
-    //         border: 1px solid $bg-primary;
-    //         border-radius: 30px;
-    //         padding: 0 26px;
-    //         height: 165px;
-    //         background-color: $white;
-    //         .visa-card {
-    //             background: $main-bg;
-    //             border-radius: 30px;
-    //             padding: 10px;
-    //             img {
-    //                 width: 96px;
-    //                 height: 96px;
-    //             }
-    //         }
-    //         p {
-    //             font-size: 32px;
-    //             font-weight: 500;
-    //             margin: 0;
-    //         }
-    //         .percent {
-    //             position: absolute;
-    //             top: 50%;
-    //             left: 50%;
-    //             display: flex;
-    //             justify-content: center;
-    //             align-items: center;
-    //             transform: translate(-50%, -50%);
-    //             color: $white;
-    //             font-size: 25px;
-    //             font-weight: 700;
-    //         }
-    //     }
-    // }
 
     .select__control.css-13cymwt-control{
         background-color: transparent;
@@ -64,6 +9,10 @@
     }
     .css-t3ipsp-control{
         background-color:transparent;
+    }
+    input{
+        height: 0;
+        background-color: transparent !important;
     }
 
     .explore-offer-dropdown{
@@ -81,10 +30,8 @@
             box-shadow: none;
             .select__control{
                 height: 50px;
-                .css-t3ipsp-control{
-                    box-shadow: none !important;
-                    border: none !important;
-                }
+                border: none !important;
+                box-shadow: none !important;
             }
         }
         button{

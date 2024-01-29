@@ -123,3 +123,16 @@
             }       
     }
 }
+
+@media(max-width:375px){
+    .best-offer-section{
+        .best-offer-inn{
+            .best-offer-main{
+                .card-content h4 {
+                   font-size: 17px;
+                   font-weight: 500;
+               }
+            }
+        } 
+    } 
+}

@@ -16,7 +16,11 @@ const ChooseCardModal = ({ isOpen, onClose }) => {
                 <p>
                   JOIN WITH US TO UNLOCK <br /> MORE OFFERS
                 </p>
-                <Image src={images.ModalBannerImg} className="img-fluid" />
+                <Image
+                  src={images.ModalBannerImg}
+                  className="img-fluid"
+                  alt="banner-img"
+                />
               </div>
             </div>
             <div className="col-12 col-sm-12 col-md-6 col-lg-7">
@@ -24,7 +28,7 @@ const ChooseCardModal = ({ isOpen, onClose }) => {
                 <div className="row">
                   <div className="col-3 col-sm-3 col-md-3 col-lg-3">
                     <div className="card-box">
-                      <Image src={images.Cardone} />
+                      <Image src={images.Cardone} alt="card-img" />
                       <div className="checked">
                         <FaCheckCircle />
                       </div>
@@ -32,12 +36,12 @@ const ChooseCardModal = ({ isOpen, onClose }) => {
                   </div>
                   <div className="col-3 col-sm-3 col-md-3 col-lg-3">
                     <div className="modal-card-img">
-                      <Image src={images.Cardthree} />
+                      <Image src={images.Cardthree} alt="card-img" />
                     </div>
                   </div>
                   <div className="col-3 col-sm-3 col-md-3 col-lg-3">
                     <div className="card-box">
-                      <Image src={images.Cardfive} />
+                      <Image src={images.Cardfive} alt="card-img" />
                       <div className="checked">
                         <FaCheckCircle />
                       </div>
@@ -45,37 +49,37 @@ const ChooseCardModal = ({ isOpen, onClose }) => {
                   </div>
                   <div className="col-3 col-sm-3 col-md-3 col-lg-3">
                     <div className="modal-card-img">
-                      <Image src={images.Cardtwo} />
+                      <Image src={images.Cardtwo} alt="card-img" />
                     </div>
                   </div>
                   <div className="col-3 col-sm-3 col-md-3 col-lg-3">
                     <div className="modal-card-img">
-                      <Image src={images.Cardtwo} />
+                      <Image src={images.Cardtwo} alt="card-img" />
                     </div>
                   </div>
                   <div className="col-3 col-sm-3 col-md-3 col-lg-3">
                     <div className="modal-card-img">
-                      <Image src={images.Cardfive} />
+                      <Image src={images.Cardfive} alt="card-img" />
                     </div>
                   </div>
                   <div className="col-3 col-sm-3 col-md-3 col-lg-3">
                     <div className="modal-card-img">
-                      <Image src={images.Cardthree} />
+                      <Image src={images.Cardthree} alt="card-img" />
                     </div>
                   </div>
                   <div className="col-3 col-sm-3 col-md-3 col-lg-3">
                     <div className="modal-card-img">
-                      <Image src={images.Cardone} />
+                      <Image src={images.Cardone} alt="card-img" />
                     </div>
                   </div>
                   <div className="col-3 col-sm-3 col-md-3 col-lg-3">
                     <div className="modal-card-img">
-                      <Image src={images.Cardone} />
+                      <Image src={images.Cardone} alt="card-img" />
                     </div>
                   </div>
                   <div className="col-3 col-sm-3 col-md-3 col-lg-3">
                     <div className="modal-card-img">
-                      <Image src={images.Cardthree} />
+                      <Image src={images.Cardthree} alt="card-img" />
                     </div>
                   </div>
                   <div className="col-12 col-sm-12 col-md-11 col-lg-11  m-auto">

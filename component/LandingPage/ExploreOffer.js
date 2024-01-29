@@ -7,6 +7,7 @@ import Select from "react-select";
 const ExploreOffer = ({ spendBonusCategoryList }) => {
   const [selectedOffer, setselectedOffer] = useState("Select any fruit");
   const [selectedName, setselectedName] = useState("Select any fruit");
+  const [selectedCatagories, setSelectedCatagories] = useState();
   const handleOffer = (e) => {
     setselectedOffer(e.target.value);
   };
@@ -42,19 +43,20 @@ const ExploreOffer = ({ spendBonusCategoryList }) => {
                 name="checkoffer"
                 options={spendBonusCategoryList}
                 className="form-select"
+                onChange={(val) => setSelectedCatagories(val?.categoryChildrenList)}
                 classNamePrefix="select"
                 placeholder={"Select Group"}
               />
             </div>
             <div className="col-12 col-sm-6 col-md-6 col-lg-7">
-              <Form.Select value={selectedName} onChange={handleName}>
-                <option>Check Category</option>
-                <option value="One">One</option>
-                <option value="Two">Two</option>
-                <option value="Three">Three</option>
-                <option value="Four">Four</option>
-                <option value="Five">Five</option>
-              </Form.Select>
+            <Select
+                name="checkoffer"
+                options={selectedCatagories || []}
+                className="form-select"
+                onChange={(val) => console.log(val)}
+                classNamePrefix="select"
+                placeholder={"Check Category"}
+              /> 
             </div>
             <div className="col-12 col-sm-12 col-md-12 col-lg-2  text-center">
               <button type="button" className="btn">
