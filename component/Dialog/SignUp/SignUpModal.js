@@ -3,7 +3,7 @@ import Dialog from "../Dialog";
 import { images } from "../../Images";
 import Image from "next/image";
 import SignUpOtpModal from "./SignUpOtpModal";
-import { handleCloseAllModal, handleOpenLoginModal, handleOpenSignUpModal, handleOpenSignUpOtpModal, modalSelector } from "../../../redux/modal/modalSlice";
+import { handleCloseAllModal, handleOpenLoginModal, handleOpenSignUpFormModal, handleOpenSignUpModal, handleOpenSignUpOtpModal, modalSelector } from "../../../redux/modal/modalSlice";
 import { useAppDispatch } from "../../../redux/store";
 import { useSelector } from "react-redux";
 
@@ -38,20 +38,50 @@ const SignUpModal = () => {
 			email: data.emailAddress,
 		};
 		try {
+			// expecting success response in try block
 			dispatch(handleStartLoading());
 			const response = await axios.post(`${config.apiURL}/createUser`, signUpEmail);
-			if (response?.data?.email) {
-				dispatch(handleStopLoading());
-				dispatch(handleStoreSignUpEmail(data.emailAddress));
-				closeModel();
-				dispatch(handleOpenSignUpOtpModal(true));
-				dispatch(
-					handleShowWarnModal({
-						isShow: true,
-						modelType: "success",
-						modelMessage: response.data.message,
-					})
-				);
+			if (response && response.data) {
+				if (response.data.email) {
+					// new email - account created & sent otp
+					dispatch(handleStopLoading());
+					dispatch(handleStoreSignUpEmail(data.emailAddress));
+					closeModel();
+					dispatch(handleOpenSignUpOtpModal(true));
+					dispatch(
+						handleShowWarnModal({
+							isShow: true,
+							modelType: "success",
+							modelMessage: response.data.message,
+						})
+					);
+				} else if (response.data.is_signup_completed === false && response.data.is_verified) {
+					// email exist & verified but signup process pending
+					dispatch(handleStopLoading());
+					dispatch(handleStoreSignUpEmail(data.emailAddress));
+					closeModel();
+					dispatch(handleOpenSignUpFormModal(true));
+					dispatch(
+						handleShowWarnModal({
+							isShow: true,
+							modelType: "success",
+							modelMessage: response.data.message,
+						})
+					);
+				} else if (response.data.is_signup_completed === false) {
+					// email exist but not verified & signup process pending
+					dispatch(handleStopLoading());
+					dispatch(handleStoreSignUpEmail(data.emailAddress));
+					closeModel();
+					dispatch(handleOpenSignUpOtpModal(true));
+					dispatch(
+						handleShowWarnModal({
+							isShow: true,
+							modelType: "success",
+							modelMessage: response.data.message,
+						})
+					);
+				}
 			}
 		} catch (errorObj) {
 			dispatch(handleStopLoading());

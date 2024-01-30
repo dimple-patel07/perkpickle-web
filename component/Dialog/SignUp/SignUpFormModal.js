@@ -59,6 +59,7 @@ const SignUpFormModal = () => {
 			zip_code: data.zip_code,
 			address: data?.address,
 			phone_number: data?.phone_number,
+			is_signup_completed: true, // only update once on signup form completion
 		};
 
 		try {
