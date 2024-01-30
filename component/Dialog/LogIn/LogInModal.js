@@ -29,68 +29,91 @@ import {
   handleStopLoading,
 } from "../../../redux/loader/loaderSlice";
 
+import { Form } from "react-bootstrap";
+import { FaEye, FaEyeSlash } from "react-icons/fa";
+import { useFormik } from "formik";
+import * as yup from "yup";
+import TextInput from "../../TextInput";
+
 const LoginModal = () => {
   const ModalState = useSelector(modalSelector);
   const router = useRouter();
   const dispatch = useAppDispatch();
   const loginModal = ModalState?.login;
+ 
+  const [passwordToggle, setPasswordToggle] = useState(false);
 
-  const [showPassword, setShowPassword] = useState(false);
-
-  const handleTogglePassword = () => {
-    setShowPassword((prevShowPassword) => !prevShowPassword);
+  const initialFormData = {
+    email: "",
+    password: "",
   };
 
+  const loginEmailValidation = () =>
+    yup.object().shape({
+      email: yup
+        .string()
+        .required("Please Enter Email")
+        .email("Please Enter Valid Email"),
+      password: yup
+        .string()
+        .required("Please Enter Password")
+        .matches(PASSWORD_REGEX, "Please Enter Valid Password"),
+    });
+
   const {
-    register,
-    formState: { errors },
+    handleChange,
     handleSubmit,
-    reset,
-    trigger,
-    getFieldState,
-  } = useForm();
+    handleBlur,
+    values,
+    touched,
+    errors,
+    resetForm,
+  } = useFormik({
+    initialValues: initialFormData,
+    validationSchema: loginEmailValidation,
+    onSubmit: async (val) => {
+      const loginCred = {
+        email: val?.email,
+        password: val?.password,
+      };
+      try {
+        dispatch(handleStartLoading());
+        const encryptedKey = encryptStr(JSON.stringify(loginCred));
+        const response = await axios.post(`${config.apiURL}/login`, {
+          key: encryptedKey,
+        });
+        dispatch(handleStopLoading());
+        if (response?.data?.token) {
+          setCookie("user", response?.data?.token);
+          setCookie("userName", response?.data?.userName);
+          router.replace("/");
+          dispatch(handleCloseAllModal());
+        }
+      } catch (errorObj) {
+        dispatch(handleStopLoading());
+        dispatch(
+          handleShowWarnModal({
+            isShow: true,
+            modelType: "error",
+            modelMessage: errorObj?.response?.data?.error,
+          })
+        );
+      }
+    },
+  });
 
   useEffect(() => {
-    reset();
+    resetForm();
   }, []);
 
-  const handleBlur = async (fieldName) => await trigger(fieldName);
-  const handleOnChange = async (fieldName) => await trigger(fieldName);
-
-  const handleFormSubmit = async (data) => {
-    const loginCred = {
-      email: data?.emailAddress,
-      password: data?.password,
-    };
-    try {
-      dispatch(handleStartLoading());
-      const encryptedKey = encryptStr(JSON.stringify(loginCred));
-      const response = await axios.post(`${config.apiURL}/login`, {
-        key: encryptedKey,
-      });
-      dispatch(handleStopLoading());
-      if (response?.data?.token) {
-        setCookie("user", response?.data?.token);
-        setCookie("userName", response?.data?.userName);
-        router.replace("/");
-        dispatch(handleCloseAllModal());
-      }
-    } catch (errorObj) {
-      dispatch(handleStopLoading());
-      dispatch(
-        handleShowWarnModal({
-          isShow: true,
-          modelType: "error",
-          modelMessage: errorObj?.response?.data?.error,
-        })
-      );
-    }
+  const togglePassword = () => {
+    setPasswordToggle(!passwordToggle);
   };
 
   return (
     <Dialog
       open={loginModal}
-      onShow={() => reset()}
+      onShow={() => resetForm()}
       onClose={() => dispatch(handleCloseAllModal())}
     >
       <div className="container-fluid ps-0 pe-0 pe-sm-0">
@@ -101,82 +124,69 @@ const LoginModal = () => {
               <p>
                 JOIN WITH US TO UNLOCK <br /> MORE OFFERS
               </p>
-              <Image src={images.ModalBannerImg} className="img-fluid" alt="banner-img"/>
+              <Image
+                src={images.ModalBannerImg}
+                className="img-fluid"
+                alt="banner-img"
+              />
             </div>
           </div>
           <div className="col-12 col-sm-12 col-md-6 col-lg-7">
             <div className="login-right">
-              <form onSubmit={handleSubmit(handleFormSubmit)}>
-                <div className="mb-3">
-                  <input
-                    type="text"
-                    className={`form-control ${
-                      errors.emailAddress ? "error-input" : ""
-                    }`}
-                    placeholder="Email Address*"
-                    {...register("emailAddress", {
-                      required: "Please Enter Email Address",
-                      onChange: () => handleOnChange("emailAddress"),
-                      pattern: {
-                        value: EMAIL_REGEX,
-                        message: "Invalid Email Address",
-                      },
-                    })}
-                    onBlur={() => handleBlur("emailAddress")}
-                    maxLength={250}
-                  />
-                  <ErrorMessage
-                    className="error"
-                    errors={errors}
-                    name="emailAddress"
-                    as="p"
-                  />
-                </div>
-                <div className="position-relative">
-                  <input
-                    type={showPassword ? "text" : "password"}
-                    className={`form-control ${
-                      errors.password ? "error-input" : ""
-                    }`}
-                    placeholder="Password*"
-                    {...register("password", {
-                      onChange: () => handleOnChange("password"),
-                      required: "Please Enter Password",
-                      //   pattern: {
-                      //     value: PASSWORD_REGEX,
-                      //     message: "Password not valid",
-                      //   },
-                    })}
-                    onBlur={() => handleBlur("password")}
-                    maxLength={250}
-                  />
-                  <span
-                    className={`eye-icon ${showPassword ? "show" : "hide"}`}
-                    onClick={handleTogglePassword}
-                  >
-                    {showPassword ? <IoEyeOff /> : <TiEye />}
-                  </span>
-                </div>
-                <ErrorMessage
-                  className="error"
-                  errors={errors}
-                  name="password"
-                  as="p"
+              <Form className="row" noValidate onSubmit={handleSubmit}>
+                <TextInput
+                  controlId="emailGroup"
+                  value={values?.email}
+                  onChange={handleChange}
+                  onBlur={handleBlur}
+                  touched={touched?.email}
+                  errors={errors?.email}
+                  formGroupClassName="mb-4 pt-3 pb-3"
+                  placeholder={"Email Address*"}
+                  type="email"
+                  name="email"
+                  restProps={{ "aria-describedby": "E-mail address" }}
                 />
-                <button
-                  type="button"
-                  onClick={() => {
-                    dispatch(handleCloseAllModal());
-                    dispatch(handleOpenForgotPasswordModal(true));
-                  }}
-                  id="emailHelp"
-                  className="forgot-password"
-                >
-                  Forgot Password?
-                </button>
-                <button type="submit" className="cls-btn btn">
-                  Sign In
-                </button>
+                <div className="position-relative">
+                  <TextInput
+                    controlId="passwordGroup"
+                    value={values?.password}
+                    onChange={handleChange}
+                    onBlur={handleBlur}
+                    touched={touched?.password}
+                    errors={errors?.password}
+                    formGroupClassName="mb-4"
+                    placeholder={"Password*"}
+                    type={passwordToggle ? "text" : "password"}
+                    name="password"
+                    inputClassName="placeholder-no-fix input-password text-box single-line password"
+                    restProps={{ "aria-describedby": "Password field" }}
+                    rightIcon={{
+                      onRightIconPress: togglePassword,
+                      toggleOff: <FaEyeSlash />,
+                      toggleON: <FaEye />,
+                      state: passwordToggle,
+                    }}
+                  />
+                </div>
+                <div className="col-12 text-right">
+                  <button
+                    type="button"
+                    onClick={() => {
+                      dispatch(handleCloseAllModal());
+                      dispatch(handleOpenForgotPasswordModal(true));
+                    }}
+                    id="emailHelp"
+                    className="forgot-password"
+                  >
+                    Forgot Password?
+                  </button>
+                </div>
+                <div className="col-12">
+                  <button type="submit" className="cls-btn btn">
+                    Sign In
+                  </button>
+                </div>
                 <div className="account">
                   <p>Don’t have an account? </p>
 
@@ -191,7 +201,7 @@ const LoginModal = () => {
                     &nbsp;Sign Up&nbsp;
                   </button>
                 </div>
-              </form>
+              </Form>
             </div>
           </div>
         </div>

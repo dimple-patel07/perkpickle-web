@@ -16,7 +16,10 @@ import axios from "axios";
 import { config } from "../../../utils/config";
 import { emailStoreSelectore } from "../../../redux/emailStore/emailStoreSlice";
 import { handleShowWarnModal } from "../../../redux/warnModel/warnModelSlice";
-import { handleStartLoading, handleStopLoading } from "../../../redux/loader/loaderSlice";
+import {
+  handleStartLoading,
+  handleStopLoading,
+} from "../../../redux/loader/loaderSlice";
 
 const ForgotPasswordOtpModal = () => {
   const modalState = useSelector(modalSelector);
@@ -37,6 +40,7 @@ const ForgotPasswordOtpModal = () => {
 
   useEffect(() => {
     setOtp(["", "", "", "", "", ""]);
+    inputRefs[0]?.current?.focus();
   }, []);
 
   const handleInputChange = (index, event) => {
@@ -73,8 +77,8 @@ const ForgotPasswordOtpModal = () => {
         email: emailStore?.forgotPasswordEmail,
         otp: otpNumber,
       });
+      dispatch(handleStopLoading());
       if (response?.data?.email) {
-        dispatch(handleStopLoading());
         closeModal();
         dispatch(handleOpenResetPasswordModal(true));
       }
@@ -84,7 +88,7 @@ const ForgotPasswordOtpModal = () => {
         handleShowWarnModal({
           isShow: true,
           modelType: "error",
-          modelMessage: errorObj?.response?.data?.error,
+          modelMessage: "Something Went Wrong",
         })
       );
     }
@@ -96,6 +100,7 @@ const ForgotPasswordOtpModal = () => {
       const response = await axios.post(`${config.apiURL}/resendOtp`, {
         email: emailStore?.forgotPasswordEmail,
       });
+      dispatch(handleStopLoading());
       if (response?.data?.email) {
         dispatch(
           handleShowWarnModal({
@@ -106,6 +111,7 @@ const ForgotPasswordOtpModal = () => {
         );
       }
     } catch (errorObj) {
+      dispatch(handleStopLoading());
       dispatch(
         handleShowWarnModal({
           isShow: true,
@@ -131,21 +137,25 @@ const ForgotPasswordOtpModal = () => {
                 <p>
                   Enter otp to Verify your <br /> email address
                 </p>
-                <Image src={images.ModalBannerImg} className="img-fluid" alt="banner-img"/>
+                <Image
+                  src={images.ModalBannerImg}
+                  className="img-fluid"
+                  alt="banner-img"
+                />
               </div>
             </div>
             <div className="col-12 col-sm-12 col-md-7 col-lg-7">
               <div className="login-right">
-                <div
-                  className="back-arrow text-start"
-                  onClick={() => {
-                    closeModal();
-                    dispatch(handleOpenForgotPasswordModal(true));
-                  }}
-                >
-                  <FaArrowLeft />
-                </div>
                 <form>
+                  <div
+                    className="back-arrow text-start"
+                    onClick={() => {
+                      closeModal();
+                      dispatch(handleOpenForgotPasswordModal(true));
+                    }}
+                  >
+                    <FaArrowLeft />
+                  </div>
                   <div className="mb-3">
                     <input
                       type="text"
@@ -175,7 +185,7 @@ const ForgotPasswordOtpModal = () => {
                   </div>
                   <button
                     type="button"
-                    disabled={numberString > 6}
+                    disabled={numberString < 6}
                     onClick={verifyUser}
                     className="btn cls-btn"
                   >

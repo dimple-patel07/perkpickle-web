@@ -35,8 +35,8 @@ header {
     .dropdown-menu {
         box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
         background-color: $bg-secondary;
-        top: 90px !important;
-        left: -20px !important;
+        top: 65px !important;
+        left: -2            0px !important;
         border-radius: 25px;
         padding: 0;
         border: none;
@@ -84,12 +84,13 @@ header {
             position: absolute;
             width: 30px;
             height: 30px;
-            background: $bg-secondary;
+            background: #1d4289;
             top: -12px;
-            left: 50px;
+            left: auto;
             transform: rotate(45deg);
             border-radius: 4px;
             z-index: -1;
+            right: 35px;
         }
     }
     .header-btn {
@@ -136,6 +137,9 @@ header {
 }
 
 @media (max-width: 767px) {
+    .container, .container-sm {
+        max-width: 700px;
+    }
     header {
         .dropdown-menu {
             top: 90px;
@@ -143,6 +147,15 @@ header {
             &:before {
                 top: -12px;
                 left: 140px;
+            }
+            ul{
+                width: 190px;
+                li{
+                    a{
+                        padding: 10px;
+                        font-size: 14px;
+                    }
+                }
             }
         }
         .login-toggle {

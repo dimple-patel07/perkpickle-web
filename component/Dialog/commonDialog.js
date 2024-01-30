@@ -8,6 +8,7 @@ import ForgotPasswordOtpModal from "./ForgotPassword/ForgotPasswordOtpModal";
 import ResetPasswordOtpModal from "./ForgotPassword/ResetPasswordOtpModal";
 import { useAppDispatch } from "../../redux/store";
 import { handleCloseAllModal } from "../../redux/modal/modalSlice";
+import ChangePasswordOtpModal from "./ForgotPassword/changePasswordModal";
 
 const CommonDialog = () => {
   const dispatch = useAppDispatch();
@@ -23,6 +24,7 @@ const CommonDialog = () => {
       <ForgotPasswordModal />
       <ForgotPasswordOtpModal />
       <ResetPasswordOtpModal />
+      <ChangePasswordOtpModal />
     </>
   );
 };

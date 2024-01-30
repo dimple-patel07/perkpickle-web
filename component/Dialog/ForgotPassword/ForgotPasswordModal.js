@@ -19,7 +19,14 @@ import { useForm } from "react-hook-form";
 import { ErrorMessage } from "@hookform/error-message";
 import { handleStoreForgotPasswordEmail } from "../../../redux/emailStore/emailStoreSlice";
 import { handleShowWarnModal } from "../../../redux/warnModel/warnModelSlice";
-import { handleStartLoading, handleStopLoading } from "../../../redux/loader/loaderSlice";
+import {
+  handleStartLoading,
+  handleStopLoading,
+} from "../../../redux/loader/loaderSlice";
+import { useFormik } from "formik";
+import * as yup from "yup";
+import { Form } from "react-bootstrap";
+import TextInput from "../../TextInput";
 
 const ForgotPasswordModal = () => {
   const modalState = useSelector(modalSelector);
@@ -27,63 +34,70 @@ const ForgotPasswordModal = () => {
   const dispatch = useAppDispatch();
   const closeModal = () => dispatch(handleCloseAllModal());
 
-  const EMAIL_REGEX = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+  const initialFormData = {
+    email: "",
+  };
+
+  const loginEmailValidation = () =>
+    yup.object().shape({
+      email: yup
+        .string()
+        .required("Please Enter Email")
+        .email("Please Enter Valid Email"),
+    });
 
   const {
-    register,
-    formState: { errors },
+    handleChange,
     handleSubmit,
-    reset,
-	trigger
-  } = useForm();
-
-  useEffect(() => {
-    reset();
-  }, []);
-
-  const handleBlur = async (fieldName) => await trigger(fieldName);
-  const handleOnChange = async (fieldName) => await trigger(fieldName);
-
-  const handleFormSubmit = async (data) => {
-    const emailAddress = {
-      email: data.emailAddress,
-    };
-    try {
-      dispatch(handleStartLoading());
-      const response = await axios.post(
-        `${config.apiURL}/forgotPassword`,
-        emailAddress
-      );
-      if (response?.data?.email) {
+    handleBlur,
+    values,
+    touched,
+    errors,
+    resetForm,
+  } = useFormik({
+    initialValues: initialFormData,
+    validationSchema: loginEmailValidation,
+    onSubmit: async (val) => {
+      const emailAddress = {
+        email: val.email,
+      };
+      try {
+        dispatch(handleStartLoading());
+        const response = await axios.post(
+          `${config.apiURL}/forgotPassword`,
+          emailAddress
+        );
         dispatch(handleStopLoading());
-        dispatch(handleStoreForgotPasswordEmail(response.data.email));
-        closeModal();
-        dispatch(handleOpenForgotPasswordOtpModal(true));
+        if (response?.data?.email) {
+          dispatch(handleStoreForgotPasswordEmail(response.data.email));
+          closeModal();
+          dispatch(handleOpenForgotPasswordOtpModal(true));
+          dispatch(
+            handleShowWarnModal({
+              isShow: true,
+              modelType: "success",
+              modelMessage: response.data.message,
+            })
+          );
+        }
+      } catch (errorObj) {
+        dispatch(handleStopLoading());
         dispatch(
           handleShowWarnModal({
             isShow: true,
-            modelType: "success",
-            modelMessage: "otp sent on the email",
+            modelType: "error",
+            modelMessage: errorObj?.response?.data?.error,
           })
         );
       }
-    } catch (errorObj) {
-      dispatch(handleStopLoading());
-      dispatch(
-        handleShowWarnModal({
-          isShow: true,
-          modelType: "error",
-          modelMessage: errorObj?.response?.data?.error,
-        })
-      );
-    }
-  };
+    },
+  });
 
   return (
     <>
       <Dialog
         open={forgotPasswordModalShow}
-        onShow={() => reset()}
+        onShow={() => resetForm()}
         onClose={() => dispatch(handleCloseAllModal())}
       >
         <div className="container-fluid p-0">
@@ -94,53 +108,44 @@ const ForgotPasswordModal = () => {
                 <p>
                   Enter your registered email <br /> to get OTP
                 </p>
-                <Image src={images.ModalBannerImg} className="img-fluid" alt="banner-img"/>
+                <Image
+                  src={images.ModalBannerImg}
+                  className="img-fluid"
+                  alt="banner-img"
+                />
               </div>
             </div>
             <div className="col-12 col-sm-12 col-md-7 col-lg-7 position-relative height">
               <div className="login-right">
-                <div
-                  className="back-arrow text-start"
-                  onClick={() => {
-                    closeModal();
-                    dispatch(handleOpenLoginModal(true));
-                  }}
-                >
-                  <FaArrowLeft />
-                </div>
-                <form onSubmit={handleSubmit(handleFormSubmit)}>
+                <Form className="row" noValidate onSubmit={handleSubmit}>
+                  <div
+                    className="back-arrow text-start"
+                    onClick={() => {
+                      closeModal();
+                      dispatch(handleOpenLoginModal(true));
+                    }}
+                  >
+                    <FaArrowLeft />
+                  </div>
                   <div className="mb-3">
-                    <input
-                      type="text"
-                      className={`form-control ${
-                        errors.emailAddress
-                         ? "error-input"
-                         : ""
-                     }`}
-                      autoComplete="off"
-                      placeholder="Email Address*"
-                      {...register("emailAddress", {
-                        required: "Please Enter Email Address",
-                        onChange: () => handleOnChange("emailAddress"),
-                        pattern: {
-                          value: EMAIL_REGEX,
-                          message: "Invalid Email Address",
-                        },
-                      })}
-                      onBlur={() => handleBlur("emailAddress")}
-                      maxLength={250}
-                    />
-                    <ErrorMessage
-                      className="error"
-                      errors={errors}
-                      name="emailAddress"
-                      as="p"
+                    <TextInput
+                      controlId="emailGroup"
+                      value={values?.email}
+                      onChange={handleChange}
+                      onBlur={handleBlur}
+                      touched={touched?.email}
+                      errors={errors?.email}
+                      formGroupClassName="mb-4"
+                      placeholder={"Email Address*"}
+                      type="email"
+                      name="email"
+                      restProps={{ "aria-describedby": "E-mail address" }}
                     />
                   </div>
                   <button type="submit" className="btn cls-btn">
                     Send OTP
                   </button>
-                </form>
+                </Form>
               </div>
             </div>
           </div>

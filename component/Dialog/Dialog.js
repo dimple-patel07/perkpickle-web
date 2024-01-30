@@ -2,14 +2,14 @@ import React from "react";
 import { Modal } from "react-bootstrap";
 
 const Dialog = (props) => {
-  const { open, onClose, children, onShow } = props;
+  const { open, onClose, children, onShow, dialogClass } = props;
 
   return (
     <Modal
       size="lg"
       aria-labelledby="contained-modal-title-vcenter"
       centered
-      className="login-modal"
+      className={`login-modal ${dialogClass}`}
       show={open}
       onHide={onClose}
       onShow={onShow}

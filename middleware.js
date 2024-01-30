@@ -4,22 +4,22 @@ export async function middleware(request) {
   const path = request.nextUrl.pathname;
   const token = request.cookies.get("user");
   // const token = false;
-  const AppNavigators = ["/"];
+  const AppNavigators = ["/dashboard", "/profile"];
 
-  const AuthNavigators = ["/login"];
+  const AuthNavigators = ["/"];
   if (token) {
-    if (AppNavigators.includes(path) && path !== "/") {
+    if (AppNavigators.includes(path) && path !== "/dashboard" && path !== "/profile") {
       return NextResponse.redirect(new URL(path, request.url));
     }
-    if (AuthNavigators.includes(path) && path !== "/") {
-      return NextResponse.redirect(new URL("/", request.url));
+    if (AuthNavigators.includes(path) && path !== "/dashboard") {
+      return NextResponse.redirect(new URL("/dashboard", request.url));
     }
   } else {
-    if (AuthNavigators.includes(path) && path !== "/login") {
+    if (AuthNavigators.includes(path) && path !== "/") {
       return NextResponse.redirect(new URL(path, request.url));
     }
-    if (AppNavigators.includes(path) && path !== "/login") {
-      return NextResponse.redirect(new URL("/login", request.url));
+    if (AppNavigators.includes(path) && path !== "/") {
+      return NextResponse.redirect(new URL("/", request.url));
     }
   }
 }

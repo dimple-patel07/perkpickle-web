@@ -9,6 +9,7 @@ const INITIAL_STATE = {
   SignUpForm: false,
   forgotPasswordOtp: false,
   resetPassword: false,
+  ChangePassword: false,
 };
 
 // const closeModal ={
@@ -47,6 +48,10 @@ const modalSlice = createSlice({
       ...state,
       SignUpForm: state,
     }),
+    handleOpenChangePasswordModal: (state) => ({
+      ...state,
+      ChangePassword: state,
+    }),
     handleOpenResetPasswordModal: (state) => ({
       ...state,
       resetPassword: state,
@@ -56,6 +61,7 @@ const modalSlice = createSlice({
       login: false,
       SignUp: false,
       forgotPassword: false,
+      ChangePassword: false,
       signUpOtp: false,
       SignUpForm: false,
       forgotPasswordOtp: false,
@@ -75,6 +81,7 @@ export const {
   handleOpenForgotPasswordModal,
   handleOpenForgotPasswordOtpModal,
   handleOpenResetPasswordModal,
+  handleOpenChangePasswordModal
 } = modalSlice.actions;
 
 export default modalSlice.reducer;

@@ -18,11 +18,7 @@ import {
   encryptStr,
   getLoggedEmail,
 } from "../../../utils/config";
-import { useForm, Controller } from "react-hook-form";
-import { ErrorMessage } from "@hookform/error-message";
 import { emailStoreSelectore } from "../../../redux/emailStore/emailStoreSlice";
-import { IoEyeOff } from "react-icons/io5";
-import { TiEye } from "react-icons/ti";
 import { handleShowWarnModal } from "../../../redux/warnModel/warnModelSlice";
 import {
   handleStartLoading,
@@ -33,15 +29,17 @@ import * as yup from "yup";
 import { Form } from "react-bootstrap";
 import TextInput from "../../TextInput";
 
-const ResetPasswordOtpModal = () => {
+const ChangePasswordOtpModal = () => {
   const Token = getLoggedEmail();
-  const resetPasswordModal = useSelector(modalSelector).resetPassword;
+  const changePasswordModal = useSelector(modalSelector).ChangePassword;
   const emailStore = useSelector(emailStoreSelectore);
   const dispatch = useAppDispatch();
+  const [oldPasswordToggle, setOldPasswordToggle] = useState(false);
   const [newPasswordToggle, setNewPasswordToggle] = useState(false);
   const [repeatPasswordToggle, setRepeatPasswordToggle] = useState(false);
 
   const initialFormData = {
+    oldPassword: "",
     newPassword: "",
     repeatPassword: "",
   };
@@ -50,12 +48,17 @@ const ResetPasswordOtpModal = () => {
   const changePasswordValidation = useMemo(
     () =>
       yup.object().shape({
+        oldPassword: yup.string().required("Please Enter Old Password"),
         newPassword: yup
           .string()
           .required("Please Enter New Password")
           .matches(
             PASSWORD_REGEX,
             "Password should be at least 8 characters, with a symbol or letter"
+          )
+          .notOneOf(
+            [yup.ref("oldPassword"), null],
+            "Current password and new password should be different."
           ),
         repeatPassword: yup
           .string()
@@ -114,6 +117,10 @@ const ResetPasswordOtpModal = () => {
     },
   });
 
+  const oldTogglePassword = () => {
+    setOldPasswordToggle(!oldPasswordToggle);
+  };
+
   const newTogglePassword = () => {
     setNewPasswordToggle(!newPasswordToggle);
   };
@@ -125,7 +132,7 @@ const ResetPasswordOtpModal = () => {
   return (
     <div>
       <Dialog
-        open={resetPasswordModal}
+        open={changePasswordModal}
         onShow={() => resetForm()}
         onClose={() => dispatch(handleCloseAllModal())}
       >
@@ -133,7 +140,7 @@ const ResetPasswordOtpModal = () => {
           <div className="row align-items-center">
             <div className="col-12 col-sm-12 col-md-6 col-lg-5">
               <div className="login-left">
-                <h2>RESET PASSWORD</h2>
+                <h2>CHANGE PASSWORD</h2>
                 <p>
                   Enter new and confirm password <br /> to reset your password
                 </p>
@@ -147,14 +154,37 @@ const ResetPasswordOtpModal = () => {
             <div className="col-12 col-sm-12 col-md-6 col-lg-7 position-relative">
               <div className="login-right">
                 <Form className="row" noValidate onSubmit={handleSubmit}>
-                  <div
-                    className="back-arrow text-start"
-                    onClick={() => {
-                      closeModal();
-                      dispatch(handleOpenForgotPasswordOtpModal(true));
-                    }}
-                  >
-                    <FaArrowLeft />
+                  {!Token && (
+                    <div
+                      className="back-arrow text-start"
+                      onClick={() => {
+                        closeModal();
+                        dispatch(handleOpenForgotPasswordOtpModal(true));
+                      }}
+                    >
+                      <FaArrowLeft />
+                    </div>
+                  )}
+                  <div className="position-relative mb-3">
+                    <TextInput
+                      controlId="oldPassword"
+                      value={values?.oldPassword}
+                      onChange={handleChange}
+                      onBlur={handleBlur}
+                      touched={touched?.oldPassword}
+                      errors={errors?.oldPassword}
+                      placeholder={"Old Password*"}
+                      type={oldPasswordToggle ? "text" : "password"}
+                      name="oldPassword"
+                      inputClassName="placeholder-no-fix input-password text-box single-line password"
+                      restProps={{ "aria-describedby": "oldPassword field" }}
+                      rightIcon={{
+                        onRightIconPress: oldTogglePassword,
+                        toggleOff: <FaEyeSlash />,
+                        toggleON: <FaEye />,
+                        state: oldPasswordToggle,
+                      }}
+                    />
                   </div>
                   <div className="my-4 position-relative">
                     <TextInput
@@ -199,7 +229,7 @@ const ResetPasswordOtpModal = () => {
                     />
                   </div>
                   <button type="submit" className="btn cls-btn mb-3">
-                    Reset Password
+                    Change Password
                   </button>
                 </Form>
               </div>
@@ -211,4 +241,4 @@ const ResetPasswordOtpModal = () => {
   );
 };
 
-export default ResetPasswordOtpModal;
+export default ChangePasswordOtpModal;
