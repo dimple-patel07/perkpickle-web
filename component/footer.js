@@ -3,6 +3,7 @@ import React from "react";
 import { images } from "./Images";
 import { FaInstagram, FaTwitter } from "react-icons/fa";
 import { TfiFacebook, TfiLinkedin } from "react-icons/tfi";
+import Link from "next/link";
 
 const Footer = () => {
   return (
@@ -41,10 +42,10 @@ const Footer = () => {
           <div className="row">
             <div className="col-12 col-sm-12 col-md-12 col-lg-8">
               <ul className="footer-menu">
-                <li>Home</li>
-                <li>About Us</li>
-                <li>Contact Us</li>
-                <li>Privacy Policy</li>
+                <li><Link href={"/"}>Home</Link></li>
+                <li><Link href={"/about-us"}>About Us</Link></li>
+                <li><Link href={"/contact-us"}>Contact Us</Link></li>
+                <li><Link href={"/privacy-policy"}>Privacy Policy</Link></li>
               </ul>
             </div>
             <div className="col-12 col-sm-12 col-md-12 col-lg-4">

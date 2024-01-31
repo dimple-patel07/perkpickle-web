@@ -50,10 +50,10 @@ footer {
             display: flex;
 
             li {
-                color: #f4f8ff;
                 font-size: 25px;
                 font-weight: 400;
                 &::after {
+                    color: #f4f8ff;
                     content: "|";
                     padding: 0 15px;
                 }
@@ -62,6 +62,9 @@ footer {
                         content: "";
                         display: none;
                     }
+                }
+                a {
+                    color: #f4f8ff;
                 }
             }
         }

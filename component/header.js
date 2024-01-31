@@ -12,6 +12,7 @@ import { IoMdLogIn } from "react-icons/io";
 import { FaRegUserCircle, FaUserAlt } from "react-icons/fa";
 import { useAppDispatch } from "../redux/store";
 import {
+  handleOpenChangePasswordModal,
   handleOpenLoginModal,
   handleOpenResetPasswordModal,
   handleOpenSignUpModal,
@@ -30,7 +31,7 @@ const Header = () => {
           <Container>
             <Link href="/">
               <div className="logo">
-                <Image src={images.logo} alt="logo"/>
+                <Image src={images.logo} alt="logo" />
               </div>
             </Link>
             <Navbar.Toggle aria-controls="basic-navbar-nav" />
@@ -58,7 +59,7 @@ const Header = () => {
                         <Link
                           href="/"
                           onClick={() =>
-                            dispatch(handleOpenResetPasswordModal(true))
+                            dispatch(handleOpenChangePasswordModal(true))
                           }
                         >
                           Change Password
@@ -66,6 +67,12 @@ const Header = () => {
                       </li>
                       <li>
                         <Link href="/contact-us">Contact Us</Link>
+                      </li>
+                      <li>
+                        <Link href="/about-us">About Us</Link>
+                      </li>
+                      <li>
+                        <Link href="/privacy-policy">Privacy Policy</Link>
                       </li>
                       <li onClick={() => deleteCookie("user")}>
                         <Link href="/">Logout</Link>
@@ -99,7 +106,7 @@ const Header = () => {
             </Navbar.Collapse>
 
             {/* Toggle Menu Login Header */}
-            <div className="login-toggle">
+            {/* <div className="login-toggle">
                 <Dropdown>
                   <Dropdown.Toggle variant="success" id="dropdown-basic">
                     <RxHamburgerMenu />
@@ -118,10 +125,9 @@ const Header = () => {
                     </ul>
                   </Dropdown.Menu>
                 </Dropdown>
-            </div>
+            </div> */}
           </Container>
         </Navbar>
-        <div></div>
       </header>
     </>
   );

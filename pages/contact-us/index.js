@@ -4,50 +4,50 @@ import { images } from "../../component/Images";
 import { useForm } from "react-hook-form";
 import { ErrorMessage } from "@hookform/error-message";
 import { EMAIL_REGEX } from "../../utils/config";
+import { useFormik } from "formik";
+import * as yup from "yup";
+import TextInput from "../../component/TextInput";
+import { Form } from "react-bootstrap";
+import PageBanner from "../../component/pageBanner";
 
 const ContactUs = () => {
+  const initialFormData = {
+    your_name: "",
+    email: "",
+    subject: "",
+    message: "",
+  };
+
+  const signInFormValidation = () =>
+    yup.object().shape({
+      your_name: yup.string().required("Please Enter Your Name"),
+      email: yup
+        .string()
+        .required("Please Enter Email")
+        .email("Please Enter Valid Email"),
+      subject: yup.string().required("Please Enter Subject"),
+    });
+
   const {
-    register,
-    formState: { errors },
+    handleChange,
     handleSubmit,
-    trigger,
-    setValue,
-  } = useForm();
+    handleBlur,
+    values,
+    touched,
+    errors,
+    resetForm,
+  } = useFormik({
+    initialValues: initialFormData,
+    validationSchema: signInFormValidation,
+    onSubmit: async (data) => {
+      console.log(data)
+    },
+  });
 
-  const handleBlur = async (fieldName) => await trigger(fieldName);
-  const handleOnChange = async (fieldName) => await trigger(fieldName);
-
-  const handleFormSubmit = async (data) => {};
   return (
     <>
       {/* Banner Section  */}
-      <section className="banner-section">
-        <div className="container">
-          <div className="banner-main">
-            <div className="row align-items-center">
-              <div className="col-12 col-sm-12 col-md-12 col-lg-6 order-1 order-sm-1 order-md-1 order-lg-0">
-                <div className="banner-text">
-                  <h1>Contact Us</h1>
-                  <p>
-                    lorem ipsum getiing dummy data lorem ipsum getiing dummy
-                    datalorem ipsum getiing dummy datalorem ipsum getiing dummy
-                    datalorem
-                  </p>
-                </div>
-              </div>
-              <div className="col-12 col-sm-12 col-md-12 col-lg-6">
-                <Image
-                  src={images.ContactBannerImg}
-                  alt="contact-img"
-                  width={544}
-                  height={544}
-                  className="img-fluid"
-                />
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
+      <PageBanner title={"Contact Us"}/>
 
       {/* Contact Form Start */}
       <section className="contact-us-section">
@@ -64,7 +64,7 @@ const ContactUs = () => {
                 <div className="contact-text-box">
                   <div className="contact-text-inn">
                     <div className="contact-icon">
-                      <Image src={images.ContactIcon} alt="contact-icn"/>
+                      <Image src={images.ContactIcon} alt="contact-icn" />
                     </div>
                     <div className="contact-description">
                       <strong>Email & Phone</strong>
@@ -77,7 +77,7 @@ const ContactUs = () => {
                 <div className="contact-text-box mt-4">
                   <div className="contact-text-inn">
                     <div className="contact-icon">
-                      <Image src={images.LocationIcon} alt="loc-icon"/>
+                      <Image src={images.LocationIcon} alt="loc-icon" />
                     </div>
                     <div className="contact-description">
                       <strong>Our Location</strong>
@@ -89,104 +89,64 @@ const ContactUs = () => {
             </div>
             <div className="col-12 col-sm-12 col-md-6 col-lg-6">
               <div className="contact-form">
-                <form onSubmit={handleSubmit(handleFormSubmit)}>
+                <Form noValidate onSubmit={handleSubmit}>
                   <div className="row gy-4 gy-sm-3 gy-md-4 gy-lg-4">
-                    <div className="col-12 col-sm-12 col-md-12 col-lg-12">
-                      <input
+                    <div className="col-12 col-sm-12 col-md-12 col-lg-12 mb-3">
+                      <TextInput
+                        controlId="your_name"
+                        value={values?.your_name}
+                        onChange={handleChange}
+                        onBlur={handleBlur}
+                        touched={touched?.your_name}
+                        errors={errors?.your_name}
+                        // formGroupClassName="mb-4 pt-3 pb-3"
+                        placeholder={"Your Name*"}
                         type="text"
-                        className={`form-control ${
-                          errors.your_name
-                           ? "error-input"
-                           : ""
-                       }`}
-                        placeholder="Your Name*"
-                        {...register("your_name", {
-                          required: "Please Enter Your Name",
-                          onChange: () => handleOnChange("your_name"),
-                          maxLength: {
-                            value: 30,
-                            message:
-                              "Last Name should not exceed 30 characters",
-                          },
-                          minLength: {
-                            value: 3,
-                            message: "Please enter more than 3 characters",
-                          },
-                        })}
-                        onBlur={() => handleBlur("your_name")}
-                      />
-                      <ErrorMessage
-                        className="error"
-                        errors={errors}
                         name="your_name"
-                        as="p"
+                        restProps={{ "aria-describedby": "your Name" }}
                       />
                     </div>
 
-                    <div className="col-12 col-sm-12 col-md-12 col-lg-12">
-                      <input
+                    <div className="col-12 col-sm-12 col-md-12 col-lg-12 mb-3">
+                      <TextInput
+                        controlId="email"
+                        value={values?.email}
+                        onChange={handleChange}
+                        onBlur={handleBlur}
+                        touched={touched?.email}
+                        errors={errors?.email}
+                        // formGroupClassName="mb-4 pt-3 pb-3"
+                        placeholder={"Email Address*"}
                         type="text"
-                        className={`form-control ${
-                          errors.emailAddress
-                           ? "error-input"
-                           : ""
-                       }`}
-                        placeholder="Email Address*"
-                        {...register("emailAddress", {
-                          onChange: () => handleOnChange("emailAddress"),
-                          required: "Please Enter Email Address",
-                          pattern: {
-                            value: EMAIL_REGEX,
-                            message: "Invalid Email Address",
-                          },
-                        })}
-                        maxLength={250}
-                        onBlur={() => handleBlur("emailAddress")}
-                      />
-                      <ErrorMessage
-                        className="error"
-                        errors={errors}
-                        name="emailAddress"
-                        as="p"
+                        name="email"
+                        restProps={{ "aria-describedby": "email-address" }}
                       />
                     </div>
 
-                    <div className="col-12 col-sm-12 col-md-12 col-lg-12">
-                      <input
+                    <div className="col-12 col-sm-12 col-md-12 col-lg-12 mb-3">
+                      <TextInput
+                        controlId="subject"
+                        value={values?.subject}
+                        onChange={handleChange}
+                        onBlur={handleBlur}
+                        touched={touched?.subject}
+                        errors={errors?.subject}
+                        // formGroupClassName="mb-4 pt-3 pb-3"
+                        placeholder={"Subject*"}
                         type="text"
-                        className={`form-control ${
-                          errors.subject
-                           ? "error-input"
-                           : ""
-                       }`}
-                        placeholder="Subject*"
-                        {...register("subject", {
-                          onChange: () => handleOnChange("subject"),
-                          required: "Please Enter Subject",
-                          maxLength: {
-                            value: 30,
-                            message:
-                              "Last Name should not exceed 30 characters",
-                          },
-                          minLength: {
-                            value: 3,
-                            message: "Please enter more than 3 characters",
-                          },
-                        })}
-                        onBlur={() => handleBlur("subject")}
-                      />
-                      <ErrorMessage
-                        className="error"
-                        errors={errors}
                         name="subject"
-                        as="p"
+                        restProps={{ "aria-describedby": "subject" }}
                       />
                     </div>
-                    <div className="col-12 col-sm-12 col-md-12 col-lg-12">
+                    <div className="col-12 col-sm-12 col-md-12 col-lg-12 mb-3">
                       <textarea
                         type="text"
                         placeholder="Address"
                         className="form-control"
+                        value={values?.message}
+                        onChange={handleChange}
+                        onBlur={handleBlur}
+                        name="message"
                       />
                     </div>
 
@@ -196,7 +156,7 @@ const ContactUs = () => {
                       </button>
                     </div>
                   </div>
-                </form>
+                </Form>
               </div>
             </div>
           </div>

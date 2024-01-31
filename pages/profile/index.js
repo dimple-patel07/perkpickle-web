@@ -1,25 +1,27 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, { useEffect, useState } from "react";
 import InputMask from "react-input-mask";
 import { images } from "../../component/Images";
 import Image from "next/image";
-import {
-  EMAIL_REGEX,
-  PHONE_NUMBER_REGEX,
+import { 
   getLoggedEmail,
-  config,
-  authHeader,
+  config, 
 } from "../../utils/config";
 import axios from "axios";
 import { useAppDispatch } from "../../redux/store";
 import { handleShowWarnModal } from "../../redux/warnModel/warnModelSlice";
-import { useForm } from "react-hook-form";
-import { ErrorMessage } from "@hookform/error-message"; 
-import { handleStartLoading, handleStopLoading } from "../../redux/loader/loaderSlice";
+import { ErrorMessage } from "@hookform/error-message";
+import {
+  handleStartLoading,
+  handleStopLoading,
+} from "../../redux/loader/loaderSlice";
+import { useFormik } from "formik";
+import * as yup from "yup";
+import TextInput from "../../component/TextInput";
+import { Form } from "react-bootstrap";
 
 const Profile = () => {
   const dispatch = useAppDispatch();
-  const [userData, setUserData] = useState();
-  const phoneInputRef = useRef();
+  const [userData, setUserData] = useState(); 
   useEffect(() => {
     getUserByEmail();
   }, []);
@@ -39,6 +41,7 @@ const Profile = () => {
         setUserData(response.data);
       }
     } catch (errorObj) {
+      dispatch(handleStopLoading());
       dispatch(
         handleShowWarnModal({
           isShow: true,
@@ -49,55 +52,70 @@ const Profile = () => {
     }
   };
 
+  const initialFormData = {
+    emailAddress: userData?.email,
+    first_name: userData?.first_name,
+    last_name: userData?.last_name,
+    zip_code: userData?.zip_code,
+    address: userData?.address,
+    phone_number: userData?.phone_number,
+  };
+
+  const signInFormValidation = () =>
+    yup.object().shape({
+      first_name: yup.string().required("Please Enter First Name"),
+      last_name: yup.string().required("Please Enter Last Name"),
+      zip_code: yup.string().required("Please Enter Zip Code"),
+    });
+
   const {
-    register,
-    formState: { errors },
+    handleChange,
     handleSubmit,
-    trigger,
-    setValue,
-  } = useForm();
+    handleBlur,
+    setFieldValue,
+    values,
+    touched,
+    errors,
+  } = useFormik({
+    initialValues: initialFormData,
+    validationSchema: signInFormValidation,
+    onSubmit: async (data) => {
+      const postData = {
+        ...userData,
+        email: data.emailAddress || userData?.email,
+        first_name: data.first_name,
+        last_name: data.last_name,
+        phone_number: data.phone_number,
+        zip_code: data.zip_code,
+        address: data.address,
+      };
 
-  useEffect(() => {
-    setValue("emailAddress", userData?.email);
-    setValue("first_name", userData?.first_name);
-    setValue("last_name", userData?.last_name);
-    setValue("phone_number", userData?.phone_number);
-    setValue("zip_code", userData?.zip_code);
-    if (phoneInputRef.current) {
-      phoneInputRef.current.value = userData?.phone_number || "";
-    }
-  }, [userData, setValue]);
-
-  const handleBlur = async (fieldName) => await trigger(fieldName);
-  const handleOnChange = async (fieldName) => await trigger(fieldName);
-
-  const handleFormSubmit = async (data) => {
-    const postData = {
-      ...userData,
-      email: data?.emailAddress,
-      first_name: data?.first_name,
-      last_name: data?.last_name,
-      phone_number: data?.phone_number,
-      zip_code: data?.zip_code,
-    };
-
-    try {
-      dispatch(handleStartLoading());
-      const response = await axios.post(
-        `${config.apiURL}/updateUser`,
-        postData
-        // { headers: authHeader }
-      );
-      dispatch(handleStopLoading());
-      if (response?.data?.email) {
-        dispatch(
-          handleShowWarnModal({
-            isShow: true,
-            modelType: "success",
-            modelMessage: "profile updated successfully",
-          })
+      try {
+        dispatch(handleStartLoading());
+        const response = await axios.post(
+          `${config.apiURL}/updateUser`,
+          postData
+          // { headers: authHeader }
         );
-      } else {
+        dispatch(handleStopLoading());
+        if (response?.data?.email) {
+          dispatch(
+            handleShowWarnModal({
+              isShow: true,
+              modelType: "success",
+              modelMessage: "profile updated successfully",
+            })
+          );
+        } else {
+          dispatch(
+            handleShowWarnModal({
+              isShow: true,
+              modelType: "error",
+              modelMessage: "profile updated failed",
+            })
+          );
+        }
+      } catch (errorObj) {
         dispatch(
           handleShowWarnModal({
             isShow: true,
@@ -106,16 +124,18 @@ const Profile = () => {
           })
         );
       }
-    } catch (errorObj) {
-      dispatch(
-        handleShowWarnModal({
-          isShow: true,
-          modelType: "error",
-          modelMessage: "profile updated failed",
-        })
-      );
-    }
-  };
+    },
+  });
+
+  useEffect(() => {
+    setFieldValue("email", userData?.email);
+    setFieldValue("first_name", userData?.first_name);
+    setFieldValue("last_name", userData?.last_name);
+    setFieldValue("phone_number", userData?.phone_number);
+    setFieldValue("zip_code", userData?.zip_code);
+    setFieldValue("address", userData?.address);
+  }, [userData]);
+
   return (
     <>
       {/* Banner Start */}
@@ -154,169 +174,97 @@ const Profile = () => {
       <section className="screenbanner-form">
         <div className="container">
           <div className="banner-form">
-            <form onSubmit={handleSubmit(handleFormSubmit)}>
-              <div className="row gy-4 gy-sm-3 gy-md-4 gy-lg-5">
-                <div className="col-12 col-sm-12 col-md-6 col-lg-6">
-                  <input
-                    type="text"
-                    className={`form-control ${
-                      errors.emailAddress ? "error-input" : ""
-                    }`}
+            <Form noValidate onSubmit={handleSubmit}>
+              <div className="row gy-4 gy-sm-3 gy-md-4">
+                <div className="col-12 col-sm-12 col-md-6 col-lg-6 mb-4">
+                  <TextInput
+                    controlId="email-controler"
+                    value={values?.email}
                     disabled
-                    placeholder="Email Address*"
-                    {...register("emailAddress", {
-                      onChange: () => handleOnChange("emailAddress"),
-                      required: "Please Enter Email Address",
-                      pattern: {
-                        value: EMAIL_REGEX,
-                        message: "Invalid Email Address",
-                      },
-                    })}
-                    maxLength={250}
-                    onBlur={() => handleBlur("emailAddress")}
-                  />
-                  <ErrorMessage
-                    className="error"
-                    errors={errors}
-                    name="emailAddress"
-                    as="p"
+                    placeholder="Email*"
+                    type="email"
+                    name="email"
+                    restProps={{ "aria-describedby": "email-form" }}
                   />
                 </div>
 
-                <div className="col-12 col-sm-12 col-md-6 col-lg-6">
+                <div className="col-12 col-sm-12 col-md-6 col-lg-6 mb-4">
                   <InputMask
                     className="form-control"
                     mask="(999) 999-9999"
                     placeholder="Phone Number"
-                    defaultValue={
-                      userData?.phone_number && userData?.phone_number
-                    }
-                    {...register("phone_number", {
-                      onChange: () => handleOnChange("phone_number"),
-                      // required: "Please Enter Phone Number",
-                      // pattern: {
-                      //   value: PHONE_NUMBER_REGEX,
-                      //   message: "",
-                      // },
-                    })}
-                    ref={phoneInputRef}
-                    onBlur={() => handleBlur("phone_number")}
-                  />
-                  <ErrorMessage
-                    className="error"
-                    errors={errors}
+                    value={values?.phone_number}
+                    onChange={handleChange}
+                    onBlur={handleBlur}
                     name="phone_number"
-                    as="p"
                   />
                 </div>
 
-                <div className="col-12 col-sm-12 col-md-6 col-lg-6">
-                  <input
-                    type="text"
-                    className={`form-control ${
-                      errors.first_name ? "error-input" : ""
-                    }`}
+                <div className="col-12 col-sm-12 col-md-6 col-lg-6 mb-4">
+                  <TextInput
+                    controlId="firstname"
+                    value={values?.first_name}
+                    onChange={handleChange}
+                    onBlur={handleBlur}
+                    touched={touched?.first_name}
+                    errors={errors?.first_name}
                     placeholder="First Name*"
-                    {...register("first_name", {
-                      onChange: () => handleOnChange("first_name"),
-                      required: "Please Enter First Name",
-                      maxLength: {
-                        value: 30,
-                        message: "Last Name should not exceed 30 characters",
-                      },
-                      minLength: {
-                        value: 3,
-                        message: "Please enter more than 3 characters",
-                      },
-                    })}
-                    onBlur={() => handleBlur("first_name")}
-                  />
-                  <ErrorMessage
-                    className="error"
-                    errors={errors}
-                    name="first_name"
-                    as="p"
-                  />
-                </div>
-
-                <div className="col-12 col-sm-12 col-md-6 col-lg-6">
-                  <input
                     type="text"
-                    className={`form-control ${
-                      errors.last_name ? "error-input" : ""
-                    }`}
-                    placeholder="Last Name*"
-                    {...register("last_name", {
-                      required: "Please Enter Last Name",
-                      onChange: () => handleOnChange("last_name"),
-                      maxLength: {
-                        value: 30,
-                        message: "Last Name should not exceed 30 characters",
-                      },
-                      minLength: {
-                        value: 3,
-                        message: "Please enter more than 3 characters",
-                      },
-                    })}
-                    onBlur={() => handleBlur("last_name")}
-                  />
-                  <ErrorMessage
-                    className="error"
-                    errors={errors}
-                    name="last_name"
-                    as="p"
+                    name="first_name"
+                    restProps={{ "aria-describedby": "First Name" }}
                   />
                 </div>
 
-                <div className="col-12 col-sm-12 col-md-12 col-lg-12">
+                <div className="col-12 col-sm-12 col-md-6 col-lg-6 mb-4">
+                  <TextInput
+                    controlId="lastname"
+                    value={values?.last_name}
+                    onChange={handleChange}
+                    onBlur={handleBlur}
+                    touched={touched?.last_name}
+                    errors={errors?.last_name}
+                    placeholder="Last Name*"
+                    type="text"
+                    name="last_name"
+                    restProps={{ "aria-describedby": "Last Name" }}
+                  />
+                </div>
+
+                <div className="col-12 col-sm-12 col-md-12 col-lg-12 mb-4">
                   <textarea
                     type="text"
-                    defaultValue={userData?.address}
                     placeholder="Address"
                     className="form-control"
+                    value={values?.address}
+                    onChange={handleChange}
+                    onBlur={handleBlur}
+                    name="address"
                   />
                 </div>
 
-                <div className="col-12 col-sm-12 col-md-6 col-lg-6">
-                  <input
-                    type="number"
-                    className={`form-control ${
-                      errors.zip_code ? "error-input" : ""
-                    }`}
+                <div className="col-12 col-sm-12 col-md-6 col-lg-6 mb-4">
+                  <TextInput
+                    controlId="zipcode"
+                    value={values?.zip_code}
+                    onChange={handleChange}
+                    onBlur={handleBlur}
+                    touched={touched?.zip_code}
+                    errors={errors?.zip_code}
                     placeholder="Zip Code*"
-                    {...register("zip_code", {
-                      required: "Please Enter Zip Code.",
-                      onChange: () => handleOnChange("zip_code"),
-                      maxLength: {
-                        value: 5,
-                        message: "Please Enter Valid Zip Code",
-                      },
-                      minLength: {
-                        value: 5,
-                        message: "Please Enter Valid Zip Code",
-                      },
-                    })}
-                    onBlur={() => handleBlur("zip_code")}
-                  />
-                  <ErrorMessage
-                    className="error"
-                    errors={errors}
+                    type="text"
+                    maxLength={5}
                     name="zip_code"
-                    as="p"
+                    restProps={{ "aria-describedby": "zip code" }}
                   />
                 </div>
 
                 <div className="col-12 col-sm-12 col-md-12 col-lg-12 text-center text-sm-center text-md-start text-lg-start">
-                  <button
-                    type="submit"
-                    className="btn"
-                    // onClick={() => updateUser()}
-                  >
+                  <button type="submit" className="btn">
                     Update Profile
                   </button>
                 </div>
               </div>
-            </form>
+            </Form>
           </div>
         </div>
       </section>

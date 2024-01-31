@@ -48,19 +48,28 @@
                 margin-bottom: 30px;
                 color: $bg-primary;
                 cursor: pointer;
-                display: inline-block;
+                display:flex;
             }
             form {
                 text-align: center;
                 width: 600px;
                 margin: 0 auto;
+                position: relative;
                 .form-control {
-                    border: none;
+                    // border: none;
+                    border-top-right-radius: 0.375rem !important;
+                     border-bottom-right-radius: 0.375rem !important;
                     &:focus {
                         box-shadow: none;
                     }
                 }
-
+                .invalid-feedback {
+                    position: absolute;
+                    left: 0;
+                    bottom: -27px;
+                    text-align: left;
+                    font-size: 16px;
+                }
                 & ::placeholder {
                     color: rgba(0, 0, 0, 0.2);
                 }
@@ -72,6 +81,16 @@
                     margin-left: auto;
                     background-color: transparent;
                     border: none;
+                    text-align: right;
+                }
+                .input-group-text.eslint-input-group-text {
+                    position: absolute;
+                    left: auto;
+                    right: 25px;
+                    top: 18px;
+                    border: none;
+                    background: transparent;
+                    z-index: 999;
                 }
                 .cls-btn {
                     border: none;
@@ -81,7 +100,7 @@
                     color: $white;
                     font-size: 16px;
                     font-weight: 400;
-                    margin: 40px 0;
+                    margin: 40px auto;
                 }
                 .signup{
                     background: transparent;
@@ -196,6 +215,19 @@
         }
     }
 }
+@media(max-width:1040px){
+    .signuptab {
+        height: 650px;
+    }
+    .signup-form{
+        form{
+            input{
+                height: 50px !important;
+            }
+        }
+    }
+    
+}
 
 @media (max-width: 991px) {
     .login-modal {
@@ -214,6 +246,12 @@
             .login-right {
                 form {
                     width: 90%;
+                    .otp-field{
+                        input{
+                            width: 40px;
+                            height: 40px;
+                        }
+                    }
                 }
             }
         }
@@ -245,6 +283,9 @@
                 form {
                     button {
                         margin: 15px 0;
+                    }
+                    .otp-field{
+                        justify-content: space-evenly;
                     }
                 }
                 .back-arrow{
@@ -279,6 +320,32 @@
             }
         }
     }
+    .translate{
+        transform: translateY(2%);
+    }
+    .signuptab{
+        height: 100% !important;
+        img{
+            width: 100% !important;
+            height: 200px !important;
+            object-fit: contain;
+        }
+    }
+    .signup-btn {
+        width: 125px !important;
+        height: 40px !important;
+    }
+    .account{
+        flex-direction: column;
+        margin-bottom: 20px;
+        p{
+            order: 1;
+            font-size: 15px !important;
+        }
+    }
+}
+.signuptab {
+    height: 700px;
 }
 
 @media(max-width:575px){
