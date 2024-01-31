@@ -59,7 +59,10 @@ const SignUpFormModal = () => {
       password: yup
         .string()
         .required("Please Enter Password")
-        .matches(PASSWORD_REGEX, "Password should be at least 8 characters, with a symbol or one capital letter"),
+        .matches(
+          PASSWORD_REGEX,
+          "Password must contain more than 8 characters, 1 upper case letter, and 1 special character"
+        ),
     });
 
   const {
@@ -135,7 +138,7 @@ const SignUpFormModal = () => {
             <div className="col-12 col-sm-12 col-md-6 col-lg-5">
               <div className="login-left signuptab">
                 <h2>Sign Up</h2>
-                <p>
+                <p className="order-1">
                   JOIN WITH US TO UNLOCK <br /> MORE OFFERS
                 </p>
                 <Image
@@ -165,7 +168,7 @@ const SignUpFormModal = () => {
                         restProps={{ "aria-describedby": "First Name" }}
                       />
                     </div>
-                    <div className="col-12 col-sm-12 col-md-12 col-lg-6 mt-5 mt-sm-5 mt-md-5 mt-lg-0">
+                    <div className="col-12 col-sm-12 col-md-12 col-lg-6">
                       <TextInput
                         controlId="last_name"
                         value={values?.last_name}
@@ -181,7 +184,7 @@ const SignUpFormModal = () => {
                       />
                     </div>
                     {/* password */}
-                    <div className="col-12 col-sm-12 position-relative my-5">
+                    <div className="col-12 col-sm-12 position-relative cls-password">
                       <TextInput
                         controlId="passwordGroup"
                         value={values?.password}
@@ -195,6 +198,7 @@ const SignUpFormModal = () => {
                         name="password"
                         inputClassName="placeholder-no-fix input-password text-box single-line password"
                         restProps={{ "aria-describedby": "Password field" }}
+                        errorClass={"signup-password"}
                         rightIcon={{
                           onRightIconPress: togglePassword,
                           toggleOff: <FaEyeSlash />,
@@ -203,7 +207,7 @@ const SignUpFormModal = () => {
                         }}
                       />
                     </div>
-                    <div className="col-12 col-sm-12">
+                    <div className="col-12 col-sm-12 mt-2 mt-sm-2 mt-md-2 mt-lg-0">
                       <TextInput
                         controlId="zipcode"
                         value={values?.zip_code}
@@ -219,15 +223,17 @@ const SignUpFormModal = () => {
                         restProps={{ "aria-describedby": "zip code" }}
                       />
                     </div>
-                    <div className="col-12 my-5">
-                      <textarea
-                        className="form-control"
-                        placeholder="Address"
-                        value={values?.address}
-                        onChange={handleChange}
-                        onBlur={handleBlur}
-                        name="address"
-                      />
+                    <div className="col-12">
+                      <div className="col">
+                        <textarea
+                          className="form-control"
+                          placeholder="Address"
+                          value={values?.address}
+                          onChange={handleChange}
+                          onBlur={handleBlur}
+                          name="address"
+                        />
+                      </div>
                     </div>
                     <div className="col-12">
                       <InputMask
@@ -240,10 +246,10 @@ const SignUpFormModal = () => {
                         name="phone_number"
                       />
                     </div>
-                    <div className="account d-flex justify-content-between align-items-center">
+                    <div className="account d-flex justify-content-between align-items-center py-3 py-sm-4 py-md-3">
                       <button
                         type="submit"
-                        className="btn order-1 mt-3 mb-0 cls-btn signup-btn"
+                        className="btn order-1 cls-btn signup-btn"
                       >
                         Continue
                       </button>
@@ -251,7 +257,7 @@ const SignUpFormModal = () => {
                         Already have an account?
                         <button
                           type="button"
-                          className="btn signup"
+                          className="btn signup m-0 "
                           onClick={() => {
                             dispatch(handleCloseAllModal());
                             dispatch(handleOpenLoginModal(true));

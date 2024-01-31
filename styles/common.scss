@@ -114,10 +114,13 @@ textarea {
 
 @media (max-width: 991px) {
     input {
-        height: 50px;
+        height: 60px;
     }
     textarea {
         height: 80px;
+    }
+    .order-1{
+        order: 1;
     }
 }
 

@@ -61,10 +61,7 @@ const LoginModal = () => {
         .string()
         .required("Please Enter Email")
         .email("Please Enter Valid Email"),
-      password: yup
-        .string()
-        .required("Please Enter Password")
-        .matches(PASSWORD_REGEX, "Password should be at least 8 characters, with a symbol or one capital letter"),
+      password: yup.string().required("Please Enter Password"),
     });
 
   const {
@@ -93,7 +90,7 @@ const LoginModal = () => {
         if (response?.data?.token) {
           setCookie("user", response?.data?.token);
           setCookie("userName", response?.data?.userName);
-          router.replace("/");
+          router.replace("/dashboard");
           dispatch(handleCloseAllModal());
         }
       } catch (errorObj) {
@@ -138,7 +135,7 @@ const LoginModal = () => {
               />
             </div>
           </div>
-          <div className="col-12 col-sm-12 col-md-6 col-lg-7">
+          <div className="col-12 col-sm-12 col-md-6 col-lg-7 ">
             <div className="login-right">
               <Form className="row" noValidate onSubmit={handleSubmit}>
                 <TextInput
@@ -149,13 +146,12 @@ const LoginModal = () => {
                   onBlur={handleBlur}
                   touched={touched?.email}
                   errors={errors?.email}
-                  formGroupClassName="mb-4 pt-3 pb-3"
                   placeholder={"Email Address*"}
                   type="email"
                   name="email"
                   restProps={{ "aria-describedby": "E-mail address" }}
                 />
-                <div className="position-relative">
+                <div className="p-0 position-relative mt-3">
                   <TextInput
                     controlId="passwordGroup"
                     value={values?.password}
@@ -163,7 +159,6 @@ const LoginModal = () => {
                     onBlur={handleBlur}
                     touched={touched?.password}
                     errors={errors?.password}
-                    formGroupClassName="mb-4"
                     placeholder={"Password*"}
                     type={passwordToggle ? "text" : "password"}
                     name="password"

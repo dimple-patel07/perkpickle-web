@@ -42,23 +42,23 @@ const Profile = () => {
       }
     } catch (errorObj) {
       dispatch(handleStopLoading());
-      dispatch(
-        handleShowWarnModal({
-          isShow: true,
-          modelType: "error",
-          modelMessage: errorObj?.response?.data?.error,
-        })
-      );
+      // dispatch(
+      //   handleShowWarnModal({
+      //     isShow: true,
+      //     modelType: "error",
+      //     modelMessage: errorObj?.response?.data?.error,
+      //   })
+      // );
     }
   };
 
   const initialFormData = {
-    emailAddress: userData?.email,
-    first_name: userData?.first_name,
-    last_name: userData?.last_name,
-    zip_code: userData?.zip_code,
-    address: userData?.address,
-    phone_number: userData?.phone_number,
+    emailAddress: "",
+    first_name: "",
+    last_name: "",
+    zip_code: "",
+    address: "",
+    phone_number: "",
   };
 
   const signInFormValidation = () =>
@@ -100,6 +100,7 @@ const Profile = () => {
         );
         dispatch(handleStopLoading());
         if (response?.data?.email) {
+          getUserByEmail();
           dispatch(
             handleShowWarnModal({
               isShow: true,
@@ -133,12 +134,14 @@ const Profile = () => {
   }, []);
 
   useEffect(() => {
-    setFieldValue("email", userData?.email);
-    setFieldValue("first_name", userData?.first_name);
-    setFieldValue("last_name", userData?.last_name);
-    setFieldValue("phone_number", userData?.phone_number);
-    setFieldValue("zip_code", userData?.zip_code);
-    setFieldValue("address", userData?.address);
+    if (userData) {
+      setFieldValue("email", userData?.email);
+      setFieldValue("first_name", userData?.first_name);
+      setFieldValue("last_name", userData?.last_name);
+      setFieldValue("phone_number", userData?.phone_number);
+      setFieldValue("zip_code", userData?.zip_code);
+      setFieldValue("address", userData?.address);
+    }
   }, [userData]);
 
   return (
@@ -181,10 +184,10 @@ const Profile = () => {
           <div className="banner-form">
             <Form noValidate onSubmit={handleSubmit}>
               <div className="row gy-4 gy-sm-3 gy-md-4">
-                <div className="col-12 col-sm-12 col-md-6 col-lg-6 mb-4">
+                <div className="col-12 col-sm-12 col-md-6 col-lg-6 mb-3">
                   <TextInput
                     controlId="email-controler"
-                    value={values?.email} 
+                    value={values?.email || ""}
                     disabled
                     placeholder="Email*"
                     type="email"
@@ -193,11 +196,11 @@ const Profile = () => {
                   />
                 </div>
 
-                <div className="col-12 col-sm-12 col-md-6 col-lg-6 mb-4">
+                <div className="col-12 col-sm-12 col-md-6 col-lg-6 mb-3">
                   <InputMask
                     className="form-control"
                     mask="(999) 999-9999"
-                    placeholder="Phone Number" 
+                    placeholder="Phone Number"
                     value={values?.phone_number}
                     onChange={handleChange}
                     onBlur={handleBlur}
@@ -205,7 +208,7 @@ const Profile = () => {
                   />
                 </div>
 
-                <div className="col-12 col-sm-12 col-md-6 col-lg-6 mb-4">
+                <div className="col-12 col-sm-12 col-md-6 col-lg-6 mb-3">
                   <TextInput
                     controlId="firstname"
                     value={values?.first_name}
@@ -221,7 +224,7 @@ const Profile = () => {
                   />
                 </div>
 
-                <div className="col-12 col-sm-12 col-md-6 col-lg-6 mb-4">
+                <div className="col-12 col-sm-12 col-md-6 col-lg-6 mb-3">
                   <TextInput
                     controlId="lastname"
                     value={values?.last_name}
@@ -236,7 +239,7 @@ const Profile = () => {
                   />
                 </div>
 
-                <div className="col-12 col-sm-12 col-md-12 col-lg-12 mb-4">
+                <div className="col-12 col-sm-12 col-md-12 col-lg-12 mb-3">
                   <textarea
                     type="text"
                     placeholder="Address"
@@ -248,7 +251,7 @@ const Profile = () => {
                   />
                 </div>
 
-                <div className="col-12 col-sm-12 col-md-6 col-lg-6 mb-4">
+                <div className="col-12 col-sm-12 col-md-6 col-lg-6 mb-3">
                   <TextInput
                     controlId="zipcode"
                     value={values?.zip_code}

@@ -26,10 +26,15 @@ const Header = () => {
   const dispatch = useAppDispatch();
   const router = useRouter()
   const [toggleDropdown, SetToggleDropdown] = useState(false)
+  const [currentUserName, SetCurrentUserName] = useState("")
 
   useEffect(()=> {
     SetToggleDropdown(false)
   }, [router.pathname])
+
+  useEffect(()=> {
+    SetCurrentUserName(userName)
+  }, [userName])
   
   const handleToggle = () => {
     SetToggleDropdown(!toggleDropdown)
@@ -57,7 +62,7 @@ const Header = () => {
                       <div className="profile">
                         {/* <Image src={images.profile} /> */}
                         <FaUserAlt />
-                        <span className="profile-name">{userName}</span>
+                        <span className="profile-name">{currentUserName}</span>
                       </div>
                     }
                     show={toggleDropdown}

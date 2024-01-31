@@ -55,6 +55,21 @@
                 width: 600px;
                 margin: 0 auto;
                 position: relative;
+                .cls-password {
+                    padding-bottom: 20px;
+                    .col{
+                        margin: 0;
+                    .signup-password.invalid-feedback{
+                        bottom: 0;
+                        top: 60px;
+                        font-size: 14px;
+                    }
+                }
+                }
+                .col{
+                    padding: 10px 0;
+                    margin-bottom: 15px;
+                }
                 .form-control {
                     // border: none;
                     border-top-right-radius: 0.375rem !important;
@@ -68,7 +83,7 @@
                     left: 0;
                     bottom: -27px;
                     text-align: left;
-                    font-size: 16px;
+                    font-size: 14px;
                 }
                 & ::placeholder {
                     color: rgba(0, 0, 0, 0.2);
@@ -91,6 +106,8 @@
                     border: none;
                     background: transparent;
                     z-index: 999;
+                    top: 50%;
+                    transform: translateY(-50%);
                 }
                 .cls-btn {
                     border: none;
@@ -191,7 +208,9 @@
         }
     }
 }
-
+.signuptab {
+    height: 700px;
+}
 // Media Query 
 
 @media (max-width:1200px){
@@ -216,10 +235,9 @@
         }
     }
 }
+
 @media(max-width:1040px){
-    .signuptab {
-        height: 650px;
-    }
+   
     .signup-form{
         form{
             input{
@@ -228,6 +246,25 @@
         }
     }
     
+}
+
+@media(max-width:1024px){
+    .login-modal{
+        .modal-inn{
+            .login-right{
+                form{
+                    .cls-password{
+                        .col{
+                            .signup-password.invalid-feedback{
+                                top:50px;
+                                line-height: 1  ;
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
 }
 
 @media (max-width: 991px) {
@@ -245,8 +282,16 @@
                 }
             }
             .login-right {
+                .back-arrow{
+                    margin-bottom: 20px;
+                }
                 form {
                     width: 90%;
+                    .cls-bnt{
+                        width: 150px;
+                        height: 55px;
+                        margin: 20px auto;
+                    }
                     .otp-field{
                         input{
                             width: 40px;
@@ -257,7 +302,12 @@
             }
         }
     }
+    .login-modal .modal-inn .login-right form .invalid-feedback {
+        bottom: -20px;
+        font-size: 13px;
+    }
 }
+
 @media (max-width: 767px) {
     .login-modal {
         .modal-header {
@@ -282,6 +332,9 @@
             .login-right {
                 margin-top: 20px;
                 form {
+                    .cls-btn{
+                        margin: 0 auto 10px auto;
+                    }
                     button {
                         margin: 15px 0;
                     }
@@ -335,18 +388,13 @@
     .signup-btn {
         width: 125px !important;
         height: 40px !important;
+        margin: 0 !important;
     }
     .account{
-        flex-direction: column;
-        margin-bottom: 20px;
         p{
-            order: 1;
             font-size: 15px !important;
         }
     }
-}
-.signuptab {
-    height: 700px;
 }
 
 @media(max-width:575px){

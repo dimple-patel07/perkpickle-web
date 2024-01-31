@@ -1,9 +1,6 @@
 import Image from "next/image";
 import React, { useEffect, useRef } from "react";
 import { images } from "../../component/Images";
-import { useForm } from "react-hook-form";
-import { ErrorMessage } from "@hookform/error-message";
-import { EMAIL_REGEX } from "../../utils/config";
 import { useFormik } from "formik";
 import * as yup from "yup";
 import TextInput from "../../component/TextInput";
@@ -14,7 +11,7 @@ const ContactUs = () => {
   const firstInputRef = useRef(null);
 
   useEffect(() => {
-      firstInputRef?.current?.focus();
+    firstInputRef?.current?.focus();
   }, []);
 
   const initialFormData = {
