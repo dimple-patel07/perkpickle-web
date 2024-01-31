@@ -8,171 +8,149 @@ import { Form } from "react-bootstrap";
 import PageBanner from "../../component/pageBanner";
 
 const ContactUs = () => {
-  const firstInputRef = useRef(null);
+	const firstInputRef = useRef(null);
 
-  useEffect(() => {
-    firstInputRef?.current?.focus();
-  }, []);
+	useEffect(() => {
+		firstInputRef?.current?.focus();
+	}, []);
 
-  const initialFormData = {
-    your_name: "",
-    email: "",
-    subject: "",
-    message: "",
-  };
+	const initialFormData = {
+		your_name: "",
+		email: "",
+		subject: "",
+		message: "",
+	};
 
-  const signInFormValidation = () =>
-    yup.object().shape({
-      your_name: yup.string().required("Please Enter Your Name"),
-      email: yup
-        .string()
-        .required("Please Enter Email")
-        .email("Please Enter Valid Email"),
-      subject: yup.string().required("Please Enter Subject"),
-    });
+	const signInFormValidation = () =>
+		yup.object().shape({
+			your_name: yup.string().required("Please Enter Your Name"),
+			email: yup.string().required("Please Enter Email").email("Please Enter Valid Email"),
+			subject: yup.string().required("Please Enter Subject"),
+		});
 
-  const {
-    handleChange,
-    handleSubmit,
-    handleBlur,
-    values,
-    touched,
-    errors,
-    resetForm,
-  } = useFormik({
-    initialValues: initialFormData,
-    validationSchema: signInFormValidation,
-    onSubmit: async (data) => {
-      console.log(data);
-    },
-  });
+	const { handleChange, handleSubmit, handleBlur, values, touched, errors, resetForm } = useFormik({
+		initialValues: initialFormData,
+		validationSchema: signInFormValidation,
+		onSubmit: async (data) => {
+			console.log(data);
+		},
+	});
 
-  useEffect(() => {
-    resetForm();
-  }, []);
+	useEffect(() => {
+		resetForm();
+	}, []);
 
-  return (
-    <>
-      {/* Banner Section  */}
-      <PageBanner title={"Contact Us"} />
+	return (
+		<>
+			{/* Banner Section  */}
+			<PageBanner title={"Contact Us"} />
 
-      {/* Contact Form Start */}
-      <section className="contact-us-section">
-        <div className="container">
-          <div className="row align-items-center justify-content-center gx-5">
-            <div className="col-12 col-sm-12 col-md-6 col-lg-5">
-              <div className="contact-text">
-                <h4>How Can We Help You?</h4>
-                <p>
-                  Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut et
-                  massa mi. Aliquam in hendrerit urna. Pellentesque sit amet{" "}
-                </p>
+			{/* Contact Form Start */}
+			<section className="contact-us-section">
+				<div className="container">
+					<div className="row align-items-center justify-content-center gx-5">
+						<div className="col-12 col-sm-12 col-md-6 col-lg-5">
+							<div className="contact-text">
+								<h4>How Can We Help You?</h4>
+								<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut et massa mi. Aliquam in hendrerit urna. Pellentesque sit amet </p>
 
-                <div className="contact-text-box">
-                  <div className="contact-text-inn">
-                    <div className="contact-icon">
-                      <Image src={images.ContactIcon} alt="contact-icn" />
-                    </div>
-                    <div className="contact-description">
-                      <strong>Email & Phone</strong>
-                      <p>asdsda@gmail.com</p>
-                      <p>+91 34 343 34343</p>
-                    </div>
-                  </div>
-                </div>
+								<div className="contact-text-box">
+									<div className="contact-text-inn">
+										<div className="contact-icon">
+											<Image src={images.ContactIcon} alt="contact-icn" />
+										</div>
+										<div className="contact-description">
+											<strong>Email & Phone</strong>
+											<p>asdsda@gmail.com</p>
+											<p>+91 34 343 34343</p>
+										</div>
+									</div>
+								</div>
 
-                <div className="contact-text-box mt-4">
-                  <div className="contact-text-inn">
-                    <div className="contact-icon">
-                      <Image src={images.LocationIcon} alt="loc-icon" />
-                    </div>
-                    <div className="contact-description">
-                      <strong>Our Location</strong>
-                      <p>762 Durgan Road, Lake Enidchester, TN 14712</p>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-            <div className="col-12 col-sm-12 col-md-6 col-lg-6">
-              <div className="contact-form">
-                <Form noValidate onSubmit={handleSubmit}>
-                  <div className="row gy-4 gy-sm-3 gy-md-4 gy-lg-4">
-                    <div className="col-12 col-sm-12 col-md-12 col-lg-12 mb-3">
-                      <TextInput
-                        controlId="your_name"
-                        inputRef={firstInputRef}
-                        value={values?.your_name}
-                        onChange={handleChange}
-                        onBlur={handleBlur}
-                        touched={touched?.your_name}
-                        errors={errors?.your_name}
-                        // formGroupClassName="mb-4 pt-3 pb-3"
-                        placeholder={"Your Name*"}
-                        type="text"
-                        name="your_name"
-                        restProps={{ "aria-describedby": "your Name" }}
-                      />
-                    </div>
+								<div className="contact-text-box mt-4">
+									<div className="contact-text-inn">
+										<div className="contact-icon">
+											<Image src={images.LocationIcon} alt="loc-icon" />
+										</div>
+										<div className="contact-description">
+											<strong>Our Location</strong>
+											<p>762 Durgan Road, Lake Enidchester, TN 14712</p>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+						<div className="col-12 col-sm-12 col-md-6 col-lg-6">
+							<div className="contact-form">
+								<Form noValidate onSubmit={handleSubmit}>
+									<div className="row gy-4 gy-sm-3 gy-md-4 gy-lg-4">
+										<div className="col-12 col-sm-12 col-md-12 col-lg-12 mb-3">
+											<TextInput
+												controlId="your_name"
+												inputRef={firstInputRef}
+												value={values?.your_name}
+												onChange={handleChange}
+												onBlur={handleBlur}
+												touched={touched?.your_name}
+												errors={errors?.your_name}
+												// formGroupClassName="mb-4 pt-3 pb-3"
+												placeholder={"Your Name*"}
+												type="text"
+												name="your_name"
+												restProps={{ "aria-describedby": "your Name" }}
+											/>
+										</div>
 
-                    <div className="col-12 col-sm-12 col-md-12 col-lg-12 mb-3">
-                      <TextInput
-                        controlId="email"
-                        value={values?.email}
-                        onChange={handleChange}
-                        onBlur={handleBlur}
-                        touched={touched?.email}
-                        errors={errors?.email}
-                        // formGroupClassName="mb-4 pt-3 pb-3"
-                        placeholder={"Email Address*"}
-                        type="text"
-                        name="email"
-                        restProps={{ "aria-describedby": "email-address" }}
-                      />
-                    </div>
+										<div className="col-12 col-sm-12 col-md-12 col-lg-12 mb-3">
+											<TextInput
+												controlId="email"
+												value={values?.email}
+												onChange={handleChange}
+												onBlur={handleBlur}
+												touched={touched?.email}
+												errors={errors?.email}
+												// formGroupClassName="mb-4 pt-3 pb-3"
+												placeholder={"Email Address*"}
+												type="text"
+												name="email"
+												restProps={{ "aria-describedby": "email-address" }}
+											/>
+										</div>
 
-                    <div className="col-12 col-sm-12 col-md-12 col-lg-12 mb-3">
-                      <TextInput
-                        controlId="subject"
-                        value={values?.subject}
-                        onChange={handleChange}
-                        onBlur={handleBlur}
-                        touched={touched?.subject}
-                        errors={errors?.subject}
-                        // formGroupClassName="mb-4 pt-3 pb-3"
-                        placeholder={"Subject*"}
-                        type="text"
-                        name="subject"
-                        restProps={{ "aria-describedby": "subject" }}
-                      />
-                    </div>
-                    <div className="col-12 col-sm-12 col-md-12 col-lg-12 mb-3">
-                      <textarea
-                        type="text"
-                        placeholder="Address"
-                        className="form-control"
-                        value={values?.message}
-                        onChange={handleChange}
-                        onBlur={handleBlur}
-                        name="message"
-                      />
-                    </div>
+										<div className="col-12 col-sm-12 col-md-12 col-lg-12 mb-3">
+											<TextInput
+												controlId="subject"
+												value={values?.subject}
+												onChange={handleChange}
+												onBlur={handleBlur}
+												touched={touched?.subject}
+												errors={errors?.subject}
+												// formGroupClassName="mb-4 pt-3 pb-3"
+												placeholder={"Subject*"}
+												type="text"
+												name="subject"
+												restProps={{ "aria-describedby": "subject" }}
+											/>
+										</div>
+										<div className="col-12 col-sm-12 col-md-12 col-lg-12 mb-3">
+											<textarea type="text" placeholder="Address" className="form-control" value={values?.message} onChange={handleChange} onBlur={handleBlur} name="message" />
+										</div>
 
-                    <div className="col-12 col-sm-12 col-md-12 col-lg-12 text-center">
-                      <button type="submit" className="btn">
-                        Send Message
-                      </button>
-                    </div>
-                  </div>
-                </Form>
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
-      {/* Contact Form End */}
-    </>
-  );
+										<div className="col-12 col-sm-12 col-md-12 col-lg-12 text-center">
+											<button type="submit" className="btn">
+												Send Message
+											</button>
+										</div>
+									</div>
+								</Form>
+							</div>
+						</div>
+					</div>
+				</div>
+			</section>
+			{/* Contact Form End */}
+		</>
+	);
 };
 
 export default ContactUs;
