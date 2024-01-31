@@ -1,15 +1,11 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import InputMask from "react-input-mask";
 import { images } from "../../component/Images";
 import Image from "next/image";
-import { 
-  getLoggedEmail,
-  config, 
-} from "../../utils/config";
+import { getLoggedEmail, config } from "../../utils/config";
 import axios from "axios";
 import { useAppDispatch } from "../../redux/store";
 import { handleShowWarnModal } from "../../redux/warnModel/warnModelSlice";
-import { ErrorMessage } from "@hookform/error-message";
 import {
   handleStartLoading,
   handleStopLoading,
@@ -21,9 +17,12 @@ import { Form } from "react-bootstrap";
 
 const Profile = () => {
   const dispatch = useAppDispatch();
-  const [userData, setUserData] = useState(); 
+  const [userData, setUserData] = useState();
+  const firstInputRef = useRef(null);
+  
   useEffect(() => {
     getUserByEmail();
+    firstInputRef?.current?.focus();
   }, []);
 
   const getUserByEmail = async () => {
@@ -36,6 +35,7 @@ const Profile = () => {
         // { headers: authHeader }
       );
       dispatch(handleStopLoading());
+      firstInputRef?.current?.focus();
       if (response?.data?.email) {
         // setCookie("userName", `${response?.data?.first_name}${response?.data?.last_name}`);
         setUserData(response.data);
@@ -76,6 +76,7 @@ const Profile = () => {
     values,
     touched,
     errors,
+    resetForm,
   } = useFormik({
     initialValues: initialFormData,
     validationSchema: signInFormValidation,
@@ -126,6 +127,10 @@ const Profile = () => {
       }
     },
   });
+
+  useEffect(() => {
+    resetForm();
+  }, []);
 
   useEffect(() => {
     setFieldValue("email", userData?.email);
@@ -179,7 +184,7 @@ const Profile = () => {
                 <div className="col-12 col-sm-12 col-md-6 col-lg-6 mb-4">
                   <TextInput
                     controlId="email-controler"
-                    value={values?.email}
+                    value={values?.email} 
                     disabled
                     placeholder="Email*"
                     type="email"
@@ -192,7 +197,7 @@ const Profile = () => {
                   <InputMask
                     className="form-control"
                     mask="(999) 999-9999"
-                    placeholder="Phone Number"
+                    placeholder="Phone Number" 
                     value={values?.phone_number}
                     onChange={handleChange}
                     onBlur={handleBlur}
@@ -204,6 +209,7 @@ const Profile = () => {
                   <TextInput
                     controlId="firstname"
                     value={values?.first_name}
+                    inputRef={firstInputRef}
                     onChange={handleChange}
                     onBlur={handleBlur}
                     touched={touched?.first_name}

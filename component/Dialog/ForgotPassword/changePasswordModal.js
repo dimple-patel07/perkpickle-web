@@ -1,4 +1,4 @@
-import React, { useMemo, useState } from "react";
+import React, { useEffect, useMemo, useRef, useState } from "react";
 import Dialog from "../Dialog";
 import Image from "next/image";
 import { images } from "../../Images";
@@ -38,6 +38,14 @@ const ChangePasswordOtpModal = () => {
   const [newPasswordToggle, setNewPasswordToggle] = useState(false);
   const [repeatPasswordToggle, setRepeatPasswordToggle] = useState(false);
 
+  const firstInputRef = useRef(null);
+
+  useEffect(() => {
+    if (changePasswordModal) {
+      firstInputRef?.current?.focus();
+    }
+  }, [changePasswordModal]);
+
   const initialFormData = {
     oldPassword: "",
     newPassword: "",
@@ -54,7 +62,7 @@ const ChangePasswordOtpModal = () => {
           .required("Please Enter New Password")
           .matches(
             PASSWORD_REGEX,
-            "Password should be at least 8 characters, with a symbol or letter"
+            "Password should be at least 8 characters, with a symbol or one capital letter"
           )
           .notOneOf(
             [yup.ref("oldPassword"), null],
@@ -169,6 +177,7 @@ const ChangePasswordOtpModal = () => {
                     <TextInput
                       controlId="oldPassword"
                       value={values?.oldPassword}
+                      inputRef={firstInputRef}
                       onChange={handleChange}
                       onBlur={handleBlur}
                       touched={touched?.oldPassword}

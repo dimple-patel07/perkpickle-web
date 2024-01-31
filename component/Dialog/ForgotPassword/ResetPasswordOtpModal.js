@@ -1,4 +1,4 @@
-import React, { useMemo, useState } from "react";
+import React, { useEffect, useMemo, useRef, useState } from "react";
 import Dialog from "../Dialog";
 import Image from "next/image";
 import { images } from "../../Images";
@@ -12,17 +12,8 @@ import {
 import { useSelector } from "react-redux";
 
 import axios from "axios";
-import {
-  PASSWORD_REGEX,
-  config,
-  encryptStr,
-  getLoggedEmail,
-} from "../../../utils/config";
-import { useForm, Controller } from "react-hook-form";
-import { ErrorMessage } from "@hookform/error-message";
+import { PASSWORD_REGEX, config, encryptStr } from "../../../utils/config";
 import { emailStoreSelectore } from "../../../redux/emailStore/emailStoreSlice";
-import { IoEyeOff } from "react-icons/io5";
-import { TiEye } from "react-icons/ti";
 import { handleShowWarnModal } from "../../../redux/warnModel/warnModelSlice";
 import {
   handleStartLoading,
@@ -34,12 +25,19 @@ import { Form } from "react-bootstrap";
 import TextInput from "../../TextInput";
 
 const ResetPasswordOtpModal = () => {
-  const Token = getLoggedEmail();
   const resetPasswordModal = useSelector(modalSelector).resetPassword;
   const emailStore = useSelector(emailStoreSelectore);
   const dispatch = useAppDispatch();
   const [newPasswordToggle, setNewPasswordToggle] = useState(false);
   const [repeatPasswordToggle, setRepeatPasswordToggle] = useState(false);
+
+  const firstInputRef = useRef(null);
+
+  useEffect(() => {
+    if (resetPasswordModal) {
+      firstInputRef?.current?.focus();
+    }
+  }, [resetPasswordModal]);
 
   const initialFormData = {
     newPassword: "",
@@ -55,7 +53,7 @@ const ResetPasswordOtpModal = () => {
           .required("Please Enter New Password")
           .matches(
             PASSWORD_REGEX,
-            "Password should be at least 8 characters, with a symbol or letter"
+            "Password should be at least 8 characters, with a symbol or one capital letter"
           ),
         repeatPassword: yup
           .string()
@@ -160,6 +158,7 @@ const ResetPasswordOtpModal = () => {
                     <TextInput
                       controlId="newPassword"
                       value={values?.newPassword}
+                      inputRef={firstInputRef}
                       onChange={handleChange}
                       onBlur={handleBlur}
                       touched={touched?.newPassword}

@@ -40,7 +40,7 @@ const ForgotPasswordOtpModal = () => {
 
   useEffect(() => {
     setOtp(["", "", "", "", "", ""]);
-    inputRefs[0]?.current?.focus();
+      inputRefs[0]?.current?.focus();
   }, []);
 
   const handleInputChange = (index, event) => {
@@ -84,13 +84,13 @@ const ForgotPasswordOtpModal = () => {
       }
     } catch (errorObj) {
       dispatch(handleStopLoading());
-      dispatch(
-        handleShowWarnModal({
-          isShow: true,
-          modelType: "error",
-          modelMessage: "Something Went Wrong",
-        })
-      );
+      // dispatch(
+      //   handleShowWarnModal({
+      //     isShow: true,
+      //     modelType: "error",
+      //     modelMessage: "Something Went Wrong",
+      //   })
+      // );
     }
   };
 
@@ -102,23 +102,23 @@ const ForgotPasswordOtpModal = () => {
       });
       dispatch(handleStopLoading());
       if (response?.data?.email) {
-        dispatch(
-          handleShowWarnModal({
-            isShow: true,
-            modelType: "success",
-            modelMessage: response.data.message,
-          })
-        );
+        // dispatch(
+        //   handleShowWarnModal({
+        //     isShow: true,
+        //     modelType: "success",
+        //     modelMessage: response.data.message,
+        //   })
+        // );
       }
     } catch (errorObj) {
       dispatch(handleStopLoading());
-      dispatch(
-        handleShowWarnModal({
-          isShow: true,
-          modelType: "error",
-          modelMessage: errorObj?.response?.data?.error,
-        })
-      );
+      // dispatch(
+      //   handleShowWarnModal({
+      //     isShow: true,
+      //     modelType: "error",
+      //     modelMessage: errorObj?.response?.data?.error,
+      //   })
+      // );
     }
   };
 
@@ -171,10 +171,12 @@ const ForgotPasswordOtpModal = () => {
                       <input
                         key={index}
                         type="text"
+                        placeholder="#"
                         value={digit}
                         maxLength="1"
                         onChange={(event) => handleInputChange(index, event)}
                         ref={inputRefs[index]}
+                        autoFocus={index === 0}
                       />
                     ))}
                   </div>

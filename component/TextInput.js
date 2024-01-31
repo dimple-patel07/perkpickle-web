@@ -1,9 +1,10 @@
-import React from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { Col } from "react-bootstrap";
 import Form from "react-bootstrap/Form"; 
 
 const TextInput = (props) => {
   const {
+    inputRef,
     controlId,
     label,
     type,
@@ -41,6 +42,7 @@ const TextInput = (props) => {
         <div className="input-group position-relative">
           <Form.Control
             type={type}
+            ref={inputRef}
             name={name}
             value={value}
             autoComplete="off"
@@ -70,6 +72,7 @@ const TextInput = (props) => {
          <div className="input-group position-relative">
           <Form.Control
             type={type}
+            ref={inputRef}
             name={name}
             value={value}
             autoComplete="off"

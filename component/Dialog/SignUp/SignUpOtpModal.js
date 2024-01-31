@@ -6,6 +6,7 @@ import {
   handleCloseAllModal,
   handleOpenLoginModal,
   handleOpenSignUpFormModal,
+  handleOpenSignUpModal,
   modalSelector,
 } from "../../../redux/modal/modalSlice";
 import { useAppDispatch } from "../../../redux/store";
@@ -18,11 +19,13 @@ import {
   handleStartLoading,
   handleStopLoading,
 } from "../../../redux/loader/loaderSlice";
+import { FaArrowLeft } from "react-icons/fa6";
 const SignUpOtpModal = () => {
   const ModalState = useSelector(modalSelector);
   const emailStore = useSelector(emailStoreSelectore);
   const signUpOtpShow = ModalState?.signUpOtp;
   const dispatch = useAppDispatch();
+  const closeModal = () => dispatch(handleCloseAllModal());
   const [otp, setOtp] = useState(["", "", "", "", "", ""]);
   const inputRefs = [
     useRef(),
@@ -35,7 +38,9 @@ const SignUpOtpModal = () => {
 
   useEffect(() => {
     setOtp(["", "", "", "", "", ""]);
-    inputRefs[0]?.current?.focus();
+    setTimeout(() => {
+      inputRefs[0]?.current?.focus();
+    }, 500);
   }, []);
 
   const handleInputChange = (index, event) => {
@@ -56,7 +61,7 @@ const SignUpOtpModal = () => {
         return newOtp;
       });
       if (index > 0) {
-        inputRefs[index - 1].current.focus();
+        inputRefs[index - 1]?.current?.focus();
       }
     }
   };
@@ -115,7 +120,6 @@ const SignUpOtpModal = () => {
         dispatch(handleOpenSignUpFormModal(true));
       }
     } catch (errorObj) {
-		console.log(errorObj);
       dispatch(handleStopLoading());
       dispatch(
         handleShowWarnModal({
@@ -152,6 +156,15 @@ const SignUpOtpModal = () => {
             <div className="col-12 col-sm-12 col-md-6 col-lg-7 position-relative height">
               <div className="login-right">
                 <form>
+                  <div
+                    className="back-arrow text-start"
+                    onClick={() => {
+                      closeModal()
+                      dispatch(handleOpenSignUpModal(true));
+                    }}
+                  >
+                    <FaArrowLeft />
+                  </div>
                   <div className="mb-3">
                     <input
                       type="email"
@@ -170,10 +183,12 @@ const SignUpOtpModal = () => {
                       <input
                         key={index}
                         type="text"
+                        placeholder="#"
                         value={digit}
                         maxLength="1"
                         onChange={(event) => handleInputChange(index, event)}
                         ref={inputRefs[index]}
+                        autoFocus={index === 0}
                       />
                     ))}
                   </div>
