@@ -6,6 +6,8 @@ import * as yup from "yup";
 import TextInput from "../../component/TextInput";
 import { Form } from "react-bootstrap";
 import PageBanner from "../../component/pageBanner";
+import { config } from "../../utils/config";
+import axios from "axios";
 
 const ContactUs = () => {
 	const firstInputRef = useRef(null);
@@ -15,7 +17,7 @@ const ContactUs = () => {
 	}, []);
 
 	const initialFormData = {
-		your_name: "",
+		name: "",
 		email: "",
 		subject: "",
 		message: "",
@@ -23,7 +25,7 @@ const ContactUs = () => {
 
 	const signInFormValidation = () =>
 		yup.object().shape({
-			your_name: yup.string().required("Please Enter Your Name"),
+			name: yup.string().required("Please Enter Your Name"),
 			email: yup.string().required("Please Enter Email").email("Please Enter Valid Email"),
 			subject: yup.string().required("Please Enter Subject"),
 		});
@@ -32,7 +34,11 @@ const ContactUs = () => {
 		initialValues: initialFormData,
 		validationSchema: signInFormValidation,
 		onSubmit: async (data) => {
-			console.log(data);
+			try {
+				await axios.post(`${config.apiURL}/contactMail`, data);
+			} catch (error) {
+				console.error("contact request failed :: ", error);
+			}
 		},
 	});
 
@@ -86,17 +92,17 @@ const ContactUs = () => {
 									<div className="row gy-4 gy-sm-3 gy-md-4 gy-lg-4">
 										<div className="col-12 col-sm-12 col-md-12 col-lg-12 mb-3">
 											<TextInput
-												controlId="your_name"
+												controlId="name"
 												inputRef={firstInputRef}
-												value={values?.your_name}
+												value={values?.name}
 												onChange={handleChange}
 												onBlur={handleBlur}
-												touched={touched?.your_name}
-												errors={errors?.your_name}
+												touched={touched?.name}
+												errors={errors?.name}
 												// formGroupClassName="mb-4 pt-3 pb-3"
 												placeholder={"Your Name*"}
 												type="text"
-												name="your_name"
+												name="name"
 												restProps={{ "aria-describedby": "your Name" }}
 											/>
 										</div>

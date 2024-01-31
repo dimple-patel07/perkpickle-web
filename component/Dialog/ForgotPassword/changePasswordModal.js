@@ -9,7 +9,7 @@ import { useSelector } from "react-redux";
 
 import axios from "axios";
 import { PASSWORD_REGEX, config, encryptStr, getLoggedEmail } from "../../../utils/config";
-import { emailStoreSelectore } from "../../../redux/emailStore/emailStoreSlice";
+// import { emailStoreSelectore } from "../../../redux/emailStore/emailStoreSlice";
 import { handleShowWarnModal } from "../../../redux/warnModel/warnModelSlice";
 import { handleStartLoading, handleStopLoading } from "../../../redux/loader/loaderSlice";
 import { useFormik } from "formik";
@@ -20,9 +20,9 @@ import TextInput from "../../TextInput";
 const ChangePasswordOtpModal = () => {
 	const Token = getLoggedEmail();
 	const changePasswordModal = useSelector(modalSelector).ChangePassword;
-	const emailStore = useSelector(emailStoreSelectore);
+	// const emailStore = useSelector(emailStoreSelectore);
 	const dispatch = useAppDispatch();
-	const [oldPasswordToggle, setOldPasswordToggle] = useState(false);
+	const [currentPasswordToggle, setCurrentPasswordToggle] = useState(false);
 	const [newPasswordToggle, setNewPasswordToggle] = useState(false);
 	const [repeatPasswordToggle, setRepeatPasswordToggle] = useState(false);
 
@@ -35,7 +35,7 @@ const ChangePasswordOtpModal = () => {
 	}, [changePasswordModal]);
 
 	const initialFormData = {
-		oldPassword: "",
+		currentPassword: "",
 		newPassword: "",
 		repeatPassword: "",
 	};
@@ -44,12 +44,12 @@ const ChangePasswordOtpModal = () => {
 	const changePasswordValidation = useMemo(
 		() =>
 			yup.object().shape({
-				oldPassword: yup.string().required("Please Enter Old Password"),
+				currentPassword: yup.string().required("Please Enter Current Password"),
 				newPassword: yup
 					.string()
 					.required("Please Enter New Password")
 					.matches(PASSWORD_REGEX, "Password must contain more than 8 characters, 1 upper case letter, and 1 special character")
-					.notOneOf([yup.ref("oldPassword"), null], "Current password and new password should be different."),
+					.notOneOf([yup.ref("currentPassword"), null], "Current password and new password should be different."),
 				repeatPassword: yup
 					.string()
 					.required("Please Corfirm New Password")
@@ -66,11 +66,12 @@ const ChangePasswordOtpModal = () => {
 				dispatch(handleStartLoading());
 				const encodedKey = encryptStr(
 					JSON.stringify({
-						email: emailStore?.forgotPasswordEmail,
-						newPassword: value.repeatPassword,
+						email: getLoggedEmail(),
+						password: value.currentPassword,
+						newPassword: value.newPassword,
 					})
 				);
-				const response = await axios.post(`${config.apiURL}/resetPassword`, {
+				const response = await axios.post(`${config.apiURL}/changePassword`, {
 					key: encodedKey,
 				});
 				dispatch(handleStopLoading());
@@ -99,8 +100,8 @@ const ChangePasswordOtpModal = () => {
 		},
 	});
 
-	const oldTogglePassword = () => {
-		setOldPasswordToggle(!oldPasswordToggle);
+	const toggleViewCurrentPassword = () => {
+		setCurrentPasswordToggle(!currentPasswordToggle);
 	};
 
 	const newTogglePassword = () => {
@@ -140,23 +141,23 @@ const ChangePasswordOtpModal = () => {
 									)}
 									<div className="position-relative">
 										<TextInput
-											controlId="oldPassword"
-											value={values?.oldPassword}
+											controlId="currentPassword"
+											value={values?.currentPassword}
 											inputRef={firstInputRef}
 											onChange={handleChange}
 											onBlur={handleBlur}
-											touched={touched?.oldPassword}
-											errors={errors?.oldPassword}
+											touched={touched?.currentPassword}
+											errors={errors?.currentPassword}
 											placeholder={"Old Password*"}
-											type={oldPasswordToggle ? "text" : "password"}
-											name="oldPassword"
+											type={currentPasswordToggle ? "text" : "password"}
+											name="currentPassword"
 											inputClassName="placeholder-no-fix input-password text-box single-line password"
-											restProps={{ "aria-describedby": "oldPassword field" }}
+											restProps={{ "aria-describedby": "currentPassword field" }}
 											rightIcon={{
-												onRightIconPress: oldTogglePassword,
+												onRightIconPress: toggleViewCurrentPassword,
 												toggleOff: <FaEyeSlash />,
 												toggleON: <FaEye />,
-												state: oldPasswordToggle,
+												state: currentPasswordToggle,
 											}}
 										/>
 									</div>
