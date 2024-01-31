@@ -1,5 +1,5 @@
 import Image from "next/image";
-import React from "react";
+import React, { useEffect, useRef } from "react";
 import { images } from "../../component/Images";
 import { useForm } from "react-hook-form";
 import { ErrorMessage } from "@hookform/error-message";
@@ -11,6 +11,12 @@ import { Form } from "react-bootstrap";
 import PageBanner from "../../component/pageBanner";
 
 const ContactUs = () => {
+  const firstInputRef = useRef(null);
+
+  useEffect(() => {
+      firstInputRef?.current?.focus();
+  }, []);
+
   const initialFormData = {
     your_name: "",
     email: "",
@@ -40,14 +46,18 @@ const ContactUs = () => {
     initialValues: initialFormData,
     validationSchema: signInFormValidation,
     onSubmit: async (data) => {
-      console.log(data)
+      console.log(data);
     },
   });
+
+  useEffect(() => {
+    resetForm();
+  }, []);
 
   return (
     <>
       {/* Banner Section  */}
-      <PageBanner title={"Contact Us"}/>
+      <PageBanner title={"Contact Us"} />
 
       {/* Contact Form Start */}
       <section className="contact-us-section">
@@ -94,6 +104,7 @@ const ContactUs = () => {
                     <div className="col-12 col-sm-12 col-md-12 col-lg-12 mb-3">
                       <TextInput
                         controlId="your_name"
+                        inputRef={firstInputRef}
                         value={values?.your_name}
                         onChange={handleChange}
                         onBlur={handleBlur}

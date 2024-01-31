@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import Dialog from "../../Dialog/Dialog";
 import { images } from "../../Images";
 import Image from "next/image";
@@ -40,8 +40,15 @@ const LoginModal = () => {
   const router = useRouter();
   const dispatch = useAppDispatch();
   const loginModal = ModalState?.login;
- 
   const [passwordToggle, setPasswordToggle] = useState(false);
+
+  const firstInputRef = useRef(null);
+
+  useEffect(() => {
+    if (loginModal) {
+      firstInputRef?.current?.focus();
+    }
+  }, [loginModal]);
 
   const initialFormData = {
     email: "",
@@ -57,7 +64,7 @@ const LoginModal = () => {
       password: yup
         .string()
         .required("Please Enter Password")
-        .matches(PASSWORD_REGEX, "Please Enter Valid Password"),
+        .matches(PASSWORD_REGEX, "Password should be at least 8 characters, with a symbol or one capital letter"),
     });
 
   const {
@@ -137,6 +144,7 @@ const LoginModal = () => {
                 <TextInput
                   controlId="emailGroup"
                   value={values?.email}
+                  inputRef={firstInputRef}
                   onChange={handleChange}
                   onBlur={handleBlur}
                   touched={touched?.email}

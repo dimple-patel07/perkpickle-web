@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import Dialog from "../Dialog";
 import Image from "next/image";
 import { images } from "../../Images";
@@ -32,8 +32,15 @@ const SignUpFormModal = () => {
   const signUpFormModalShow = ModalState?.SignUpForm;
   const dispatch = useAppDispatch();
   const closeModal = () => dispatch(handleCloseAllModal());
-
   const [passwordToggle, setPasswordToggle] = useState(false);
+
+  const firstInputRef = useRef(null);
+
+  useEffect(() => {
+    if (signUpFormModalShow) {
+      firstInputRef?.current?.focus();
+    }
+  }, [signUpFormModalShow]);
 
   const initialFormData = {
     first_name: "",
@@ -52,7 +59,7 @@ const SignUpFormModal = () => {
       password: yup
         .string()
         .required("Please Enter Password")
-        .matches(PASSWORD_REGEX, "Please Enter Valid Password"),
+        .matches(PASSWORD_REGEX, "Password should be at least 8 characters, with a symbol or one capital letter"),
     });
 
   const {
@@ -119,6 +126,7 @@ const SignUpFormModal = () => {
     <>
       <Dialog
         open={signUpFormModalShow}
+        onShow={() => resetForm()}
         onClose={() => dispatch(handleCloseAllModal())}
         dialogClass="translate"
       >
@@ -140,11 +148,12 @@ const SignUpFormModal = () => {
             <div className="col-12 col-sm-12 col-md-6 col-lg-7">
               <div className="login-right signup-form">
                 <Form noValidate onSubmit={handleSubmit}>
-                  <div className="row gy-4">
+                  <div className="row">
                     <div className="col-12 col-sm-12 col-md-12 col-lg-6 mb-2">
                       <TextInput
                         controlId="first_name"
                         value={values?.first_name}
+                        inputRef={firstInputRef}
                         onChange={handleChange}
                         onBlur={handleBlur}
                         touched={touched?.first_name}
@@ -156,7 +165,7 @@ const SignUpFormModal = () => {
                         restProps={{ "aria-describedby": "First Name" }}
                       />
                     </div>
-                    <div className="col-12 col-sm-12 col-md-12 col-lg-6 mb-2">
+                    <div className="col-12 col-sm-12 col-md-12 col-lg-6 mt-5 mt-sm-5 mt-md-5 mt-lg-0">
                       <TextInput
                         controlId="last_name"
                         value={values?.last_name}
@@ -172,7 +181,7 @@ const SignUpFormModal = () => {
                       />
                     </div>
                     {/* password */}
-                    <div className="col-12 col-sm-12 position-relative mb-2">
+                    <div className="col-12 col-sm-12 position-relative my-5">
                       <TextInput
                         controlId="passwordGroup"
                         value={values?.password}
@@ -194,7 +203,7 @@ const SignUpFormModal = () => {
                         }}
                       />
                     </div>
-                    <div className="col-12 col-sm-12 mb-2">
+                    <div className="col-12 col-sm-12">
                       <TextInput
                         controlId="zipcode"
                         value={values?.zip_code}
@@ -210,7 +219,7 @@ const SignUpFormModal = () => {
                         restProps={{ "aria-describedby": "zip code" }}
                       />
                     </div>
-                    <div className="col-12 mb-2">
+                    <div className="col-12 my-5">
                       <textarea
                         className="form-control"
                         placeholder="Address"

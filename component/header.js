@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { images } from "./Images";
 import Image from "next/image";
 import Container from "react-bootstrap/Container";
@@ -18,11 +18,22 @@ import {
   handleOpenSignUpModal,
 } from "../redux/modal/modalSlice";
 import { deleteCookie, getCookie } from "cookies-next";
+import { useRouter } from "next/router";
 
 const Header = () => {
   const token = getCookie("user");
   const userName = getCookie("userName");
   const dispatch = useAppDispatch();
+  const router = useRouter()
+  const [toggleDropdown, SetToggleDropdown] = useState(false)
+
+  useEffect(()=> {
+    SetToggleDropdown(false)
+  }, [router.pathname])
+  
+  const handleToggle = () => {
+    SetToggleDropdown(!toggleDropdown)
+  }
 
   return (
     <>
@@ -49,6 +60,9 @@ const Header = () => {
                         <span className="profile-name">{userName}</span>
                       </div>
                     }
+                    show={toggleDropdown}
+                    onToggle={handleToggle}
+                    onClick={handleToggle}
                     id="basic-nav-dropdown"
                   >
                     <ul>

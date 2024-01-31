@@ -1,5 +1,5 @@
 "use client";
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { images } from "../../Images";
 import Image from "next/image";
 import Dialog from "../Dialog";
@@ -33,6 +33,15 @@ const ForgotPasswordModal = () => {
   const forgotPasswordModalShow = modalState?.forgotPassword;
   const dispatch = useAppDispatch();
   const closeModal = () => dispatch(handleCloseAllModal());
+  const firstInputRef = useRef(null);
+
+  useEffect(() => {
+    if (forgotPasswordModalShow) {
+      setTimeout(() => {
+        firstInputRef?.current?.focus();
+      }, 500);
+    }
+  }, [forgotPasswordModalShow]);
 
   const initialFormData = {
     email: "",
@@ -72,23 +81,23 @@ const ForgotPasswordModal = () => {
           dispatch(handleStoreForgotPasswordEmail(response.data.email));
           closeModal();
           dispatch(handleOpenForgotPasswordOtpModal(true));
-          dispatch(
-            handleShowWarnModal({
-              isShow: true,
-              modelType: "success",
-              modelMessage: response.data.message,
-            })
-          );
+          // dispatch(
+          //   handleShowWarnModal({
+          //     isShow: true,
+          //     modelType: "success",
+          //     modelMessage: response.data.message,
+          //   })
+          // );
         }
       } catch (errorObj) {
         dispatch(handleStopLoading());
-        dispatch(
-          handleShowWarnModal({
-            isShow: true,
-            modelType: "error",
-            modelMessage: errorObj?.response?.data?.error,
-          })
-        );
+        // dispatch(
+        //   handleShowWarnModal({
+        //     isShow: true,
+        //     modelType: "error",
+        //     modelMessage: errorObj?.response?.data?.error,
+        //   })
+        // );
       }
     },
   });
@@ -129,7 +138,8 @@ const ForgotPasswordModal = () => {
                   </div>
                   <div className="mb-3">
                     <TextInput
-                      controlId="emailGroup"
+                      controlId="forgot-email-Group"
+                      inputRef={firstInputRef}
                       value={values?.email}
                       onChange={handleChange}
                       onBlur={handleBlur}
@@ -137,9 +147,9 @@ const ForgotPasswordModal = () => {
                       errors={errors?.email}
                       formGroupClassName="mb-4"
                       placeholder={"Email Address*"}
-                      type="email"
+                      type="text"
                       name="email"
-                      restProps={{ "aria-describedby": "E-mail address" }}
+                      restProps={{ "aria-describedby": "forgot-email-address" }}
                     />
                   </div>
                   <button type="submit" className="btn cls-btn">
