@@ -189,7 +189,7 @@ const ForgotPasswordOtpModal = () => {
                     type="button"
                     disabled={numberString < 6}
                     onClick={verifyUser}
-                    className="btn cls-btn"
+                    className="btn cls-btn mb-5"
                   >
                     Reset Password
                   </button>

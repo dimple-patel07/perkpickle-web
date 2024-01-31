@@ -156,7 +156,7 @@ const SignUpModal = () => {
             <div className="col-12 col-sm-12 col-md-7 col-lg-7 position-relative height">
               <div className="login-right">
                 <Form className="row" noValidate onSubmit={handleSubmit}>
-                  <div className="mb-4">
+                  <div className="mb-4 mb-sm-5 mb-md-0 mb-lg-0">
                     <TextInput
                       controlId="emailGroup"
                       value={values?.email}

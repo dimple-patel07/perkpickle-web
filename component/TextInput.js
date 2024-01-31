@@ -22,6 +22,7 @@ const TextInput = (props) => {
     rightIcon,
     tooltip,
     maxLength,
+    errorClass,
     autoComplete,
   } = props;
 
@@ -65,7 +66,7 @@ const TextInput = (props) => {
             {rightIcon.state ? rightIcon.toggleON : rightIcon.toggleOff}
           </span>
 
-          <Form.Control.Feedback type="invalid">{touched && errors}</Form.Control.Feedback>
+          <Form.Control.Feedback type="invalid" className={errorClass}>{touched && errors}</Form.Control.Feedback>
         </div>
       ) : (
         <>
@@ -87,7 +88,7 @@ const TextInput = (props) => {
             as="input"
             {...restProps}
           />
-          <Form.Control.Feedback type="invalid">{touched && errors}</Form.Control.Feedback>
+          <Form.Control.Feedback type="invalid" className={errorClass}>{touched && errors}</Form.Control.Feedback>
           </div>
         </>
       )}

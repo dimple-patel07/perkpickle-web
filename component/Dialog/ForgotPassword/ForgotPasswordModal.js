@@ -152,7 +152,7 @@ const ForgotPasswordModal = () => {
                       restProps={{ "aria-describedby": "forgot-email-address" }}
                     />
                   </div>
-                  <button type="submit" className="btn cls-btn">
+                  <button type="submit" className="btn cls-btn mb-5">
                     Send OTP
                   </button>
                 </Form>

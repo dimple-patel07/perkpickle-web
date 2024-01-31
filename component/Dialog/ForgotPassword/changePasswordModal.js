@@ -2,7 +2,7 @@ import React, { useEffect, useMemo, useRef, useState } from "react";
 import Dialog from "../Dialog";
 import Image from "next/image";
 import { images } from "../../Images";
-import { FaArrowLeft, FaEye, FaEyeSlash } from "react-icons/fa6";
+import { FaArrowLeft, FaEye, FaEyeSlash, FaTruckFieldUn } from "react-icons/fa6";
 import { useAppDispatch } from "../../../redux/store";
 import {
   handleCloseAllModal,
@@ -62,7 +62,7 @@ const ChangePasswordOtpModal = () => {
           .required("Please Enter New Password")
           .matches(
             PASSWORD_REGEX,
-            "Password should be at least 8 characters, with a symbol or one capital letter"
+            "Password must contain more than 8 characters, 1 upper case letter, and 1 special character"
           )
           .notOneOf(
             [yup.ref("oldPassword"), null],
@@ -173,7 +173,7 @@ const ChangePasswordOtpModal = () => {
                       <FaArrowLeft />
                     </div>
                   )}
-                  <div className="position-relative mb-3">
+                  <div className="position-relative">
                     <TextInput
                       controlId="oldPassword"
                       value={values?.oldPassword}
@@ -195,7 +195,7 @@ const ChangePasswordOtpModal = () => {
                       }}
                     />
                   </div>
-                  <div className="my-4 position-relative">
+                  <div className="my-0 my-sm-1 my-md-1 my-lg-3 position-relative">
                     <TextInput
                       controlId="newPassword"
                       value={values?.newPassword}
@@ -216,7 +216,7 @@ const ChangePasswordOtpModal = () => {
                       }}
                     />
                   </div>
-                  <div className="mt-3 position-relative ">
+                  <div className="mb-4 mb-sm-4 mb-md-0 mb-lg-0 position-relative">
                     <TextInput
                       controlId="repeatPassword"
                       value={values?.repeatPassword}
@@ -237,7 +237,7 @@ const ChangePasswordOtpModal = () => {
                       }}
                     />
                   </div>
-                  <button type="submit" className="btn cls-btn mb-3">
+                  <button type="submit" className="btn cls-btn mb-5">
                     Change Password
                   </button>
                 </Form>

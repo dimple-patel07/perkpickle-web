@@ -53,7 +53,7 @@ const ResetPasswordOtpModal = () => {
           .required("Please Enter New Password")
           .matches(
             PASSWORD_REGEX,
-            "Password should be at least 8 characters, with a symbol or one capital letter"
+            "Password must contain more than 8 characters, 1 upper case letter, and 1 special character"
           ),
         repeatPassword: yup
           .string()
@@ -154,7 +154,7 @@ const ResetPasswordOtpModal = () => {
                   >
                     <FaArrowLeft />
                   </div>
-                  <div className="my-4 position-relative">
+                  <div className="position-relative">
                     <TextInput
                       controlId="newPassword"
                       value={values?.newPassword}
@@ -176,7 +176,7 @@ const ResetPasswordOtpModal = () => {
                       }}
                     />
                   </div>
-                  <div className="mt-3 position-relative ">
+                  <div className="my-3 mb-4 position-relative ">
                     <TextInput
                       controlId="repeatPassword"
                       value={values?.repeatPassword}
@@ -197,7 +197,7 @@ const ResetPasswordOtpModal = () => {
                       }}
                     />
                   </div>
-                  <button type="submit" className="btn cls-btn mb-3">
+                  <button type="submit" className="btn cls-btn mb-5">
                     Reset Password
                   </button>
                 </Form>

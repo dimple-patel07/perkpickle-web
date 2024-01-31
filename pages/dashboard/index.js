@@ -4,7 +4,7 @@ import ExploreOffer from "../../component/LandingPage/ExploreOffer";
 import BestOffer from "../../component/LandingPage/BestOffer"; 
 import AvailableOffer from "../../component/LandingPage/AvailableOffer";
 import { useEffect, useState } from "react";
-import { authHeader, config } from "../../utils/config";
+import { config } from "../../utils/config";
 import axios from "axios";
 import {
   handleStartLoading,
@@ -20,7 +20,7 @@ export default function Home() {
   const getCards = async () => {
     dispatch(handleStartLoading());
     const data = await axios.get(`${config.apiURL}/getAllCards`, {
-      headers: authHeader,
+      // headers: authHeader,
     });
     const cardList = data?.data;
     const cardIssuerList = Array.from(
