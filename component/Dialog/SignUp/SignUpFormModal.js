@@ -42,7 +42,9 @@ const SignUpFormModal = () => {
   const firstInputRef = useRef(null);
 
   useEffect(() => {
-    firstInputRef?.current?.focus();
+    setTimeout(() => {
+      firstInputRef?.current?.focus();
+    }, 500);
   }, [signUpFormModalShow]);
 
   const initialFormData = {
@@ -121,9 +123,9 @@ const SignUpFormModal = () => {
     },
   });
 
-  useEffect(() => {
-    resetForm();
-  }, []);
+  // useEffect(() => {
+  //   resetForm();
+  // }, []);
 
   const togglePassword = () => {
     setPasswordToggle(!passwordToggle);
@@ -249,7 +251,7 @@ const SignUpFormModal = () => {
                         <InputMask
                           className="form-control"
                           mask="(999) 999-9999"
-                          placeholder="Phone Number"
+                          placeholder=""
                           value={values?.phone_number}
                           onChange={handleChange}
                           onBlur={handleBlur}

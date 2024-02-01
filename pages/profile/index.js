@@ -23,7 +23,9 @@ const Profile = () => {
 
   useEffect(() => {
     getUserByEmail();
-    firstInputRef?.current?.focus();
+    setTimeout(() => {
+      firstInputRef?.current?.focus();
+    }, 500);
   }, []);
 
   const getUserByEmail = async () => {
@@ -206,7 +208,7 @@ const Profile = () => {
                     <InputMask
                       className="form-control"
                       mask="(999) 999-9999"
-                      placeholder="Phone Number"
+                      placeholder=""
                       value={values?.phone_number}
                       onChange={handleChange}
                       onBlur={handleBlur}

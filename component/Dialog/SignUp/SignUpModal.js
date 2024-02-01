@@ -36,9 +36,9 @@ const SignUpModal = () => {
   const firstInputRef = useRef(null);
 
   useEffect(() => {
-    if (signUpModalShow) {
+    setTimeout(() => {
       firstInputRef?.current?.focus();
-    }
+    }, 500);
   }, [signUpModalShow]);
 
   const initialFormData = {

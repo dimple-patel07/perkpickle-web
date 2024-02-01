@@ -18,8 +18,11 @@ import { defaultMessageObj } from "../../utils/config";
 const ContactUs = () => {
   const firstInputRef = useRef(null);
   const dispatch = useAppDispatch();
+  
   useEffect(() => {
-    firstInputRef?.current?.focus();
+    setTimeout(() => {
+      firstInputRef?.current?.focus();
+    }, 500);
   }, []);
 
   const initialFormData = {
