@@ -27,7 +27,7 @@ import {
 } from "../../../redux/loader/loaderSlice";
 import { useFormik } from "formik";
 import TextInput from "../../TextInput";
-import { Form } from "react-bootstrap";
+import { FloatingLabel, Form } from "react-bootstrap";
 import { FaEye, FaEyeSlash } from "react-icons/fa";
 
 const SignUpFormModal = () => {
@@ -42,7 +42,7 @@ const SignUpFormModal = () => {
   const firstInputRef = useRef(null);
 
   useEffect(() => {
-      firstInputRef?.current?.focus();
+    firstInputRef?.current?.focus();
   }, [signUpFormModalShow]);
 
   const initialFormData = {
@@ -178,7 +178,7 @@ const SignUpFormModal = () => {
                         onChange={handleChange}
                         onBlur={handleBlur}
                         touched={touched?.last_name}
-                        errors={errors?.last_name} 
+                        errors={errors?.last_name}
                         placeholder={"Last Name*"}
                         type="text"
                         name="last_name"
@@ -227,27 +227,35 @@ const SignUpFormModal = () => {
                       />
                     </div>
                     <div className="col-12">
-                      <div className="col">
-                        <textarea
-                          className="form-control"
-                          placeholder="Address"
-                          value={values?.address}
-                          onChange={handleChange}
-                          onBlur={handleBlur}
-                          name="address"
-                        />
-                      </div>
-                    </div>
-                    <div className="col-12">
-                      <InputMask
-                        className="form-control"
-                        mask="(999) 999-9999"
-                        placeholder="Phone Number"
-                        value={values?.phone_number}
+                      <TextInput
+                        controlId="address"
+                        value={values?.address}
                         onChange={handleChange}
                         onBlur={handleBlur}
-                        name="phone_number"
+                        touched={touched?.address}
+                        errors={errors?.address}
+                        inputType="textarea"
+                        placeholder={"Address"}
+                        type="text"
+                        name="address"
+                        restProps={{ "aria-describedby": "address" }}
                       />
+                    </div>
+                    <div className="col-12">
+                      <FloatingLabel
+                        controlId="floatingPhoneNumber"
+                        label="Phone Number"
+                      >
+                        <InputMask
+                          className="form-control"
+                          mask="(999) 999-9999"
+                          placeholder="Phone Number"
+                          value={values?.phone_number}
+                          onChange={handleChange}
+                          onBlur={handleBlur}
+                          name="phone_number"
+                        />
+                      </FloatingLabel>
                     </div>
                     <div className="account d-flex justify-content-between align-items-center">
                       <button
