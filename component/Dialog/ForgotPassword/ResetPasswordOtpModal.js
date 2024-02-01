@@ -39,9 +39,9 @@ const ResetPasswordOtpModal = () => {
   const firstInputRef = useRef(null);
 
   useEffect(() => {
-    if (resetPasswordModal) {
+    setTimeout(() => {
       firstInputRef?.current?.focus();
-    }
+    }, 500);
   }, [resetPasswordModal]);
 
   const initialFormData = {

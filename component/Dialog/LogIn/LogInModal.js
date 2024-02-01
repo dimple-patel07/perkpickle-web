@@ -44,9 +44,9 @@ const LoginModal = () => {
   const firstInputRef = useRef(null);
 
   useEffect(() => {
-    if (loginModal) {
+    setTimeout(() => {
       firstInputRef?.current?.focus();
-    }
+    }, 500);
   }, [loginModal]);
 
   const initialFormData = {

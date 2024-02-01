@@ -47,9 +47,9 @@ const ChangePasswordOtpModal = () => {
   const firstInputRef = useRef(null);
 
   useEffect(() => {
-    if (changePasswordModal) {
+    setTimeout(() => {
       firstInputRef?.current?.focus();
-    }
+    }, 500);
   }, [changePasswordModal]);
 
   const initialFormData = {

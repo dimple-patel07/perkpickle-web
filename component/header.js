@@ -76,7 +76,7 @@ const Header = () => {
                       </li>
                       <li>
                         <Link
-                          href="/"
+                          href={router.pathname}
                           onClick={() =>
                             dispatch(handleOpenChangePasswordModal(true))
                           }
