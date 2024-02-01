@@ -1,9 +1,10 @@
 import React, { useEffect, useRef, useState } from "react";
 import { Col } from "react-bootstrap";
-import Form from "react-bootstrap/Form"; 
+import Form from "react-bootstrap/Form";
 
 const TextInput = (props) => {
   const {
+    inputType,
     inputRef,
     controlId,
     label,
@@ -40,7 +41,7 @@ const TextInput = (props) => {
         </Form.Label>
       )}
       {rightIcon ? (
-        <div className="input-group position-relative">
+        <div className="form-floating input-group position-relative">
           <Form.Control
             type={type}
             ref={inputRef}
@@ -51,7 +52,7 @@ const TextInput = (props) => {
             onBlur={onBlur}
             isValid={touched && !errors}
             isInvalid={touched && !!errors}
-            placeholder={placeholder}
+            placeholder=""
             className={inputClassName}
             disabled={disabled}
             as="input"
@@ -65,30 +66,35 @@ const TextInput = (props) => {
           >
             {rightIcon.state ? rightIcon.toggleON : rightIcon.toggleOff}
           </span>
-
-          <Form.Control.Feedback type="invalid" className={errorClass}>{touched && errors}</Form.Control.Feedback>
+          <label>{placeholder}</label>
+          <Form.Control.Feedback type="invalid" className={errorClass}>
+            {touched && errors}
+          </Form.Control.Feedback>
         </div>
       ) : (
         <>
-         <div className="input-group position-relative">
-          <Form.Control
-            type={type}
-            ref={inputRef}
-            name={name}
-            value={value}
-            autoComplete={autoComplete}
-            onChange={onChange}
-            onBlur={onBlur}
-            isValid={touched && !errors}
-            isInvalid={touched && !!errors}
-            placeholder={placeholder}
-            className={inputClassName}
-            disabled={disabled}
-            maxLength={maxLength}
-            as="input"
-            {...restProps}
-          />
-          <Form.Control.Feedback type="invalid" className={errorClass}>{touched && errors}</Form.Control.Feedback>
+          <div className="form-floating input-group position-relative">
+            <Form.Control
+              type={type}
+              ref={inputRef}
+              name={name}
+              value={value}
+              autoComplete={autoComplete}
+              onChange={onChange}
+              onBlur={onBlur}
+              isValid={touched && !errors}
+              isInvalid={touched && !!errors}
+              placeholder=""
+              className={inputClassName}
+              disabled={disabled}
+              maxLength={maxLength}
+              as={inputType ? inputType : "input"}
+              {...restProps}
+            />
+            <label>{placeholder}</label>
+            <Form.Control.Feedback type="invalid" className={errorClass}>
+              {touched && errors}
+            </Form.Control.Feedback>
           </div>
         </>
       )}

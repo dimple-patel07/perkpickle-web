@@ -13,7 +13,7 @@ import {
 import { useFormik } from "formik";
 import * as yup from "yup";
 import TextInput from "../../component/TextInput";
-import { Form } from "react-bootstrap";
+import { FloatingLabel, Form } from "react-bootstrap";
 import { defaultMessageObj } from "../../utils/config";
 
 const Profile = () => {
@@ -28,7 +28,7 @@ const Profile = () => {
 
   const getUserByEmail = async () => {
     try {
-      dispatch(handleStartLoading());
+      // dispatch(handleStartLoading());
       const params = { email: getLoggedEmail() };
       const response = await axios.post(
         `${config.apiURL}/getUserByEmail`,
@@ -47,7 +47,8 @@ const Profile = () => {
         showMessage({
           ...defaultMessageObj,
           type: "error",
-          messageText: errorObj?.response?.data?.error || "Something went wrong",
+          messageText:
+            errorObj?.response?.data?.error || "Something went wrong",
         })
       );
     }
@@ -198,15 +199,20 @@ const Profile = () => {
                 </div>
 
                 <div className="col-12 col-sm-12 col-md-6 col-lg-6 mb-3">
-                  <InputMask
-                    className="form-control"
-                    mask="(999) 999-9999"
-                    placeholder="Phone Number"
-                    value={values?.phone_number}
-                    onChange={handleChange}
-                    onBlur={handleBlur}
-                    name="phone_number"
-                  />
+                  <FloatingLabel
+                    controlId="floatingPhoneNumber"
+                    label="Phone Number"
+                  >
+                    <InputMask
+                      className="form-control"
+                      mask="(999) 999-9999"
+                      placeholder="Phone Number"
+                      value={values?.phone_number}
+                      onChange={handleChange}
+                      onBlur={handleBlur}
+                      name="phone_number"
+                    />
+                  </FloatingLabel>
                 </div>
 
                 <div className="col-12 col-sm-12 col-md-6 col-lg-6 mb-3">
@@ -241,14 +247,18 @@ const Profile = () => {
                 </div>
 
                 <div className="col-12 col-sm-12 col-md-12 col-lg-12 mb-3">
-                  <textarea
-                    type="text"
-                    placeholder="Address"
-                    className="form-control"
+                  <TextInput
+                    controlId="address"
                     value={values?.address}
                     onChange={handleChange}
                     onBlur={handleBlur}
+                    touched={touched?.address}
+                    errors={errors?.address}
+                    inputType="textarea"
+                    placeholder={"Address"}
+                    type="text"
                     name="address"
+                    restProps={{ "aria-describedby": "address" }}
                   />
                 </div>
 

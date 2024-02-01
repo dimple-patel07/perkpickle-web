@@ -35,7 +35,7 @@ const Savecard = ({ cardDataList }) => {
   // get user by email
   const getUserByEmail = async () => {
     try {
-      dispatch(handleStartLoading());
+      // dispatch(handleStartLoading());
       const params = { email: getLoggedEmail() };
       const response = await axios.post(
         `${config.apiURL}/getUserByEmail`,

@@ -183,8 +183,8 @@ const ForgotPasswordOtpModal = () => {
                       />
                     ))}
                   </div>
-                  <div className="text-end" onClick={resendOtp}>
-                    <button type="button" className="resend">
+                  <div className="text-end">
+                    <button type="button" className="resend" onClick={resendOtp}>
                       Resend OTP
                     </button>
                   </div>
