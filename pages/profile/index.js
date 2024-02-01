@@ -5,21 +5,22 @@ import Image from "next/image";
 import { getLoggedEmail, config } from "../../utils/config";
 import axios from "axios";
 import { useAppDispatch } from "../../redux/store";
-import { handleShowWarnModal } from "../../redux/warnModel/warnModelSlice";
 import {
   handleStartLoading,
   handleStopLoading,
+  showMessage,
 } from "../../redux/loader/loaderSlice";
 import { useFormik } from "formik";
 import * as yup from "yup";
 import TextInput from "../../component/TextInput";
 import { Form } from "react-bootstrap";
+import { defaultMessageObj } from "../../utils/config";
 
 const Profile = () => {
   const dispatch = useAppDispatch();
   const [userData, setUserData] = useState();
   const firstInputRef = useRef(null);
-  
+
   useEffect(() => {
     getUserByEmail();
     firstInputRef?.current?.focus();
@@ -42,13 +43,13 @@ const Profile = () => {
       }
     } catch (errorObj) {
       dispatch(handleStopLoading());
-      // dispatch(
-      //   handleShowWarnModal({
-      //     isShow: true,
-      //     modelType: "error",
-      //     modelMessage: errorObj?.response?.data?.error,
-      //   })
-      // );
+      dispatch(
+        showMessage({
+          ...defaultMessageObj,
+          type: "error",
+          messageText: errorObj?.response?.data?.error || "Something went wrong",
+        })
+      );
     }
   };
 
@@ -102,27 +103,27 @@ const Profile = () => {
         if (response?.data?.email) {
           getUserByEmail();
           dispatch(
-            handleShowWarnModal({
-              isShow: true,
-              modelType: "success",
-              modelMessage: "profile updated successfully",
+            showMessage({
+              ...defaultMessageObj,
+              type: "success",
+              messageText: response?.data?.message,
             })
           );
         } else {
           dispatch(
-            handleShowWarnModal({
-              isShow: true,
-              modelType: "error",
-              modelMessage: "profile updated failed",
+            showMessage({
+              ...defaultMessageObj,
+              type: "error",
+              messageText: response?.data?.message,
             })
           );
         }
       } catch (errorObj) {
         dispatch(
-          handleShowWarnModal({
-            isShow: true,
-            modelType: "error",
-            modelMessage: "profile updated failed",
+          showMessage({
+            ...defaultMessageObj,
+            type: "error",
+            messageText: "Something went wrong",
           })
         );
       }

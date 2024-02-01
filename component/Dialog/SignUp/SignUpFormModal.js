@@ -11,14 +11,19 @@ import {
 import { useAppDispatch } from "../../../redux/store";
 import InputMask from "react-input-mask";
 import axios from "axios";
-import { PASSWORD_REGEX, config, encryptStr } from "../../../utils/config";
+import {
+  PASSWORD_REGEX,
+  config,
+  encryptStr,
+  defaultMessageObj,
+} from "../../../utils/config";
 import { emailStoreSelectore } from "../../../redux/emailStore/emailStoreSlice";
 
 import * as yup from "yup";
-import { handleShowWarnModal } from "../../../redux/warnModel/warnModelSlice";
 import {
   handleStartLoading,
   handleStopLoading,
+  showMessage,
 } from "../../../redux/loader/loaderSlice";
 import { useFormik } from "formik";
 import TextInput from "../../TextInput";
@@ -37,9 +42,7 @@ const SignUpFormModal = () => {
   const firstInputRef = useRef(null);
 
   useEffect(() => {
-    if (signUpFormModalShow) {
       firstInputRef?.current?.focus();
-    }
   }, [signUpFormModalShow]);
 
   const initialFormData = {
@@ -97,20 +100,21 @@ const SignUpFormModal = () => {
           dispatch(handleStopLoading());
           closeModal();
           dispatch(
-            handleShowWarnModal({
-              isShow: true,
-              modelType: "success",
-              modelMessage: "account created successfully",
+            showMessage({
+              ...defaultMessageObj,
+              type: "success",
+              messageText: response.data.message,
             })
           );
         }
       } catch (errorObj) {
         dispatch(handleStopLoading());
         dispatch(
-          handleShowWarnModal({
-            isShow: true,
-            modelType: "error",
-            modelMessage: errorObj?.response?.data?.error,
+          showMessage({
+            ...defaultMessageObj,
+            type: "error",
+            messageText:
+              errorObj?.response?.data?.error || "Something went wrong",
           })
         );
       }
@@ -131,12 +135,12 @@ const SignUpFormModal = () => {
         open={signUpFormModalShow}
         onShow={() => resetForm()}
         onClose={() => dispatch(handleCloseAllModal())}
-        dialogClass="translate"
+        dialogClass="signup-modal-main"
       >
         <div className="container-fluid p-0">
-          <div className="row align-items-center">
-            <div className="col-12 col-sm-12 col-md-6 col-lg-5">
-              <div className="login-left signuptab">
+          <div className="row">
+            <div className="col-12 col-sm-12 col-md-6 col-lg-5 pe-lg-0">
+              <div className="login-left">
                 <h2>Sign Up</h2>
                 <p className="order-1">
                   JOIN WITH US TO UNLOCK <br /> MORE OFFERS
@@ -148,11 +152,11 @@ const SignUpFormModal = () => {
                 />
               </div>
             </div>
-            <div className="col-12 col-sm-12 col-md-6 col-lg-7">
-              <div className="login-right signup-form">
-                <Form noValidate onSubmit={handleSubmit}>
+            <div className="col-12 col-sm-12 col-md-6 col-lg-7 ps-0">
+              <div className="login-right">
+                <Form noValidate autoComplete="off" onSubmit={handleSubmit}>
                   <div className="row">
-                    <div className="col-12 col-sm-12 col-md-12 col-lg-6 mb-2">
+                    <div className="col-12 col-sm-12 col-md-12 col-lg-6">
                       <TextInput
                         controlId="first_name"
                         value={values?.first_name}
@@ -161,7 +165,6 @@ const SignUpFormModal = () => {
                         onBlur={handleBlur}
                         touched={touched?.first_name}
                         errors={errors?.first_name}
-                        // formGroupClassName="mb-4 pt-3 pb-3"
                         placeholder={"First Name*"}
                         type="text"
                         name="first_name"
@@ -175,8 +178,7 @@ const SignUpFormModal = () => {
                         onChange={handleChange}
                         onBlur={handleBlur}
                         touched={touched?.last_name}
-                        errors={errors?.last_name}
-                        // formGroupClassName="mb-4 pt-3 pb-3"
+                        errors={errors?.last_name} 
                         placeholder={"Last Name*"}
                         type="text"
                         name="last_name"
@@ -192,6 +194,7 @@ const SignUpFormModal = () => {
                         onBlur={handleBlur}
                         touched={touched?.password}
                         errors={errors?.password}
+                        autoComplete="new-password"
                         // formGroupClassName="mb-4"
                         placeholder={"Password*"}
                         type={passwordToggle ? "text" : "password"}
@@ -207,7 +210,7 @@ const SignUpFormModal = () => {
                         }}
                       />
                     </div>
-                    <div className="col-12 col-sm-12 mt-2 mt-sm-2 mt-md-2 mt-lg-0">
+                    <div className="col-12 col-sm-12">
                       <TextInput
                         controlId="zipcode"
                         value={values?.zip_code}
@@ -246,7 +249,7 @@ const SignUpFormModal = () => {
                         name="phone_number"
                       />
                     </div>
-                    <div className="account d-flex justify-content-between align-items-center py-3 py-sm-4 py-md-3">
+                    <div className="account d-flex justify-content-between align-items-center">
                       <button
                         type="submit"
                         className="btn order-1 cls-btn signup-btn"
@@ -257,7 +260,7 @@ const SignUpFormModal = () => {
                         Already have an account?
                         <button
                           type="button"
-                          className="btn signup m-0 "
+                          className="btn signup"
                           onClick={() => {
                             dispatch(handleCloseAllModal());
                             dispatch(handleOpenLoginModal(true));

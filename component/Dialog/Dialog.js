@@ -9,7 +9,7 @@ const Dialog = (props) => {
       size="lg"
       aria-labelledby="contained-modal-title-vcenter"
       centered
-      className={`login-modal ${dialogClass} py-5 py-sm-5 py-md-5 py-lg-0`}
+      className={dialogClass}
       show={open}
       onHide={onClose}
       onShow={onShow}

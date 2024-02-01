@@ -13,12 +13,12 @@ import {
 import { useAppDispatch } from "../../../redux/store";
 
 import axios from "axios";
-import { config } from "../../../utils/config";
+import { config, defaultMessageObj } from "../../../utils/config";
 import { emailStoreSelectore } from "../../../redux/emailStore/emailStoreSlice";
-import { handleShowWarnModal } from "../../../redux/warnModel/warnModelSlice";
 import {
   handleStartLoading,
   handleStopLoading,
+  showMessage,
 } from "../../../redux/loader/loaderSlice";
 
 const ForgotPasswordOtpModal = () => {
@@ -40,7 +40,7 @@ const ForgotPasswordOtpModal = () => {
 
   useEffect(() => {
     setOtp(["", "", "", "", "", ""]);
-      inputRefs[0]?.current?.focus();
+    inputRefs[0]?.current?.focus();
   }, []);
 
   const handleInputChange = (index, event) => {
@@ -84,13 +84,14 @@ const ForgotPasswordOtpModal = () => {
       }
     } catch (errorObj) {
       dispatch(handleStopLoading());
-      // dispatch(
-      //   handleShowWarnModal({
-      //     isShow: true,
-      //     modelType: "error",
-      //     modelMessage: "Something Went Wrong",
-      //   })
-      // );
+      dispatch(
+        showMessage({
+          ...defaultMessageObj,
+          type: "error",
+          messageText:
+            errorObj?.response?.data?.error || "Something went wrong",
+        })
+      );
     }
   };
 
@@ -102,23 +103,24 @@ const ForgotPasswordOtpModal = () => {
       });
       dispatch(handleStopLoading());
       if (response?.data?.email) {
-        // dispatch(
-        //   handleShowWarnModal({
-        //     isShow: true,
-        //     modelType: "success",
-        //     modelMessage: response.data.message,
-        //   })
-        // );
+        dispatch(
+          showMessage({
+            ...defaultMessageObj,
+            type: "success",
+            messageText: response.data.message,
+          })
+        );
       }
     } catch (errorObj) {
       dispatch(handleStopLoading());
-      // dispatch(
-      //   handleShowWarnModal({
-      //     isShow: true,
-      //     modelType: "error",
-      //     modelMessage: errorObj?.response?.data?.error,
-      //   })
-      // );
+      dispatch(
+        showMessage({
+          ...defaultMessageObj,
+          type: "error",
+          messageText:
+            errorObj?.response?.data?.error || "Something went wrong",
+        })
+      );
     }
   };
 
@@ -128,6 +130,7 @@ const ForgotPasswordOtpModal = () => {
         open={forgotPasswordOtpModalShow}
         onShow={() => setOtp(["", "", "", "", "", ""])}
         onClose={() => dispatch(handleCloseAllModal())}
+        dialogClass="login-modal py-5 py-sm-5 py-md-5 py-lg-0"
       >
         <div className="container-fluid p-0">
           <div className="row align-items-center">

@@ -18,15 +18,14 @@ import {
   PASSWORD_REGEX,
   config,
   encryptStr,
+  defaultMessageObj,
 } from "../../../utils/config";
 import { setCookie } from "cookies-next";
 import { useRouter } from "next/router";
-import { IoEyeOff } from "react-icons/io5";
-import { TiEye } from "react-icons/ti";
-import { handleShowWarnModal } from "../../../redux/warnModel/warnModelSlice";
 import {
   handleStartLoading,
   handleStopLoading,
+  showMessage,
 } from "../../../redux/loader/loaderSlice";
 
 import { Form } from "react-bootstrap";
@@ -95,11 +94,12 @@ const LoginModal = () => {
         }
       } catch (errorObj) {
         dispatch(handleStopLoading());
+        console.log(errorObj);
         dispatch(
-          handleShowWarnModal({
-            isShow: true,
-            modelType: "error",
-            modelMessage: errorObj?.response?.data?.error,
+          showMessage({
+            ...defaultMessageObj,
+            type: "error",
+            messageText: errorObj?.response?.data?.error || "Something went wrong",
           })
         );
       }
@@ -119,6 +119,7 @@ const LoginModal = () => {
       open={loginModal}
       onShow={() => resetForm()}
       onClose={() => dispatch(handleCloseAllModal())}
+      dialogClass="login-modal py-5 py-sm-5 py-md-5 py-lg-0"
     >
       <div className="container-fluid ps-0 pe-0 pe-sm-0">
         <div className="row align-items-center">

@@ -15,13 +15,13 @@ import { useAppDispatch } from "../../../redux/store";
 import { useSelector } from "react-redux";
 import * as yup from "yup";
 import axios from "axios";
-import { config } from "../../../utils/config";
+import { config, defaultMessageObj } from "../../../utils/config";
 
 import { handleStoreSignUpEmail } from "../../../redux/emailStore/emailStoreSlice";
-import { handleShowWarnModal } from "../../../redux/warnModel/warnModelSlice";
 import {
   handleStartLoading,
   handleStopLoading,
+  showMessage,
 } from "../../../redux/loader/loaderSlice";
 import { Form } from "react-bootstrap";
 import TextInput from "../../TextInput";
@@ -77,16 +77,16 @@ const SignUpModal = () => {
         dispatch(handleStopLoading());
         if (response && response?.data) {
           if (response?.data?.email) {
+            dispatch(
+              showMessage({
+                ...defaultMessageObj,
+                type: "success",
+                messageText: response.data.message,
+              })
+            );
             dispatch(handleStoreSignUpEmail(val.email));
             closeModel();
             dispatch(handleOpenSignUpOtpModal(true));
-            // dispatch(
-            //   handleShowWarnModal({
-            //     isShow: true,
-            //     modelType: "success",
-            //     modelMessage: response.data.message,
-            //   })
-            // );
           } else if (
             response?.data?.is_signup_completed === false &&
             response?.data?.is_verified
@@ -96,35 +96,29 @@ const SignUpModal = () => {
             dispatch(handleStoreSignUpEmail(val.email));
             closeModel();
             dispatch(handleOpenSignUpFormModal(true));
-            // dispatch(
-            //   handleShowWarnModal({
-            //     isShow: true,
-            //     modelType: "success",
-            //     modelMessage: response.data.message,
-            //   })
-            // );
           } else if (response?.data?.is_signup_completed === false) {
             // email exist but not verified & signup process pending
+            dispatch(
+              showMessage({
+                ...defaultMessageObj,
+                type: "success",
+                messageText: response.data.message,
+              })
+            );
             dispatch(handleStopLoading());
             dispatch(handleStoreSignUpEmail(val.email));
             closeModel();
             dispatch(handleOpenSignUpOtpModal(true));
-            // dispatch(
-            //   handleShowWarnModal({
-            //     isShow: true,
-            //     modelType: "success",
-            //     modelMessage: response.data.message,
-            //   })
-            // );
           }
         }
       } catch (errorObj) {
         dispatch(handleStopLoading());
         dispatch(
-          handleShowWarnModal({
-            isShow: true,
-            modelType: "error",
-            modelMessage: errorObj?.response?.data?.error,
+          showMessage({
+            ...defaultMessageObj,
+            type: "error",
+            messageText:
+              errorObj?.response?.data?.error || "Something went wrong",
           })
         );
       }
@@ -137,6 +131,7 @@ const SignUpModal = () => {
         open={signUpModalShow}
         onShow={() => resetForm()}
         onClose={() => dispatch(handleCloseAllModal())}
+        dialogClass="login-modal py-5 py-sm-5 py-md-5 py-lg-0"
       >
         <div className="container-fluid p-0">
           <div className="row align-items-center">

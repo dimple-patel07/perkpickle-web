@@ -12,12 +12,17 @@ import {
 import { useSelector } from "react-redux";
 
 import axios from "axios";
-import { PASSWORD_REGEX, config, encryptStr } from "../../../utils/config";
+import {
+  PASSWORD_REGEX,
+  config,
+  encryptStr,
+  defaultMessageObj,
+} from "../../../utils/config";
 import { emailStoreSelectore } from "../../../redux/emailStore/emailStoreSlice";
-import { handleShowWarnModal } from "../../../redux/warnModel/warnModelSlice";
 import {
   handleStartLoading,
   handleStopLoading,
+  showMessage,
 } from "../../../redux/loader/loaderSlice";
 import { useFormik } from "formik";
 import * as yup from "yup";
@@ -90,20 +95,21 @@ const ResetPasswordOtpModal = () => {
         if (response?.data?.email) {
           closeModal();
           dispatch(
-            handleShowWarnModal({
-              isShow: true,
-              modelType: "success",
-              modelMessage: response.data.message,
+            showMessage({
+              ...defaultMessageObj,
+              type: "success",
+              messageText: response.data.message,
             })
           );
         }
       } catch (errorObj) {
         dispatch(handleStopLoading());
         dispatch(
-          handleShowWarnModal({
-            isShow: true,
-            modelType: "error",
-            modelMessage: errorObj?.response?.data?.error,
+          showMessage({
+            ...defaultMessageObj,
+            type: "error",
+            messageText:
+              errorObj?.response?.data?.error || "Something went wrong",
           })
         );
       }
@@ -126,6 +132,7 @@ const ResetPasswordOtpModal = () => {
         open={resetPasswordModal}
         onShow={() => resetForm()}
         onClose={() => dispatch(handleCloseAllModal())}
+        dialogClass="login-modal py-5 py-sm-5 py-md-5 py-lg-0"
       >
         <div className="container-fluid p-0">
           <div className="row align-items-center">
