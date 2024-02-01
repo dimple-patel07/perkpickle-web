@@ -11,6 +11,14 @@ export const PHONE_NUMBER_REGEX = /^\(\d{3}\) \d{3}-\d{4}$/;
 
 export const EMAIL_REGEX = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
 
+export const defaultMessageObj = {
+  type: "info",
+  messageText: "",
+  duration: 3000,
+  position: "top-right",
+  theme: "colored",
+};
+
 export const encryptStr = (str) => {
   if (str) {
     return window.btoa(str);

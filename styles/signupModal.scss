@@ -1,15 +1,10 @@
-@import "../styles/variable/variable.scss";
-
-// Modal Css Start
-
-.login-modal {
+.signup-modal-main {
   .modal-dialog {
     max-width: 1200px !important;
+    .modal-content {
+      border-radius: 50px;
+    }
   }
-  .modal-content {
-    border-radius: 50px;
-  }
-
   .modal-header {
     border: none;
     padding: 0;
@@ -25,14 +20,21 @@
   }
   .modal-inn {
     .login-left {
+      border-radius: 50px 0 0 50px;
       background-color: $bg-primary;
       padding: 80px 40px;
-      border-radius: 50px 0 0 50px;
+      height: 100%;
+      display: flex;
+       flex-direction: column;
+       justify-content: center;
 
       h2 {
         color: $white;
         font-weight: 700;
         font-size: 35px;
+      }
+      img{
+        order: 1;
       }
       p {
         color: $white;
@@ -52,21 +54,16 @@
       form {
         text-align: center;
         width: 600px;
-        margin: 0 auto;
+        margin: 40px auto;
         position: relative;
         .cls-password {
           padding-bottom: 20px;
           .col {
             margin: 0;
-            .signup-password.invalid-feedback {
-              bottom: 0;
-              top: 60px;
-              font-size: 14px;
-            }
           }
         }
         .col {
-          padding: 10px 0;
+          padding-bottom: 20px;
           margin-bottom: 15px;
         }
         .form-control {
@@ -80,6 +77,8 @@
           bottom: -27px;
           text-align: left;
           font-size: 14px;
+          top: 64px;
+          line-height: 1;
         }
         & ::placeholder {
           color: rgba(0, 0, 0, 0.2);
@@ -113,7 +112,6 @@
           color: $white;
           font-size: 16px;
           font-weight: 400;
-          margin: 40px auto;
         }
         .signup {
           background: transparent;
@@ -124,6 +122,7 @@
           padding: 0;
         }
         .account {
+          margin-top: 20px  ;
           display: flex;
           justify-content: center;
           align-items: center;
@@ -204,204 +203,120 @@
     }
   }
 }
-.signuptab {
-  height: 700px;
-}
+
+
 // Media Query
 
 @media (max-width: 1200px) {
-  .login-modal {
-    .modal-dialog {
-      width: 90% !important;
-      margin: 0 auto;
-    }
-    .signup-form {
-      img {
-        width: 100%;
-        height: 250px;
+    .signup-modal-main {
+      .modal-dialog {
+        height: 100%;
+        width: 90% !important;
+        margin: 0 auto;
       }
-    }
-    .modal-inn {
-      .login-right {
-        form {
-          width: 500px;
+      .modal-inn {
+        .login-right {
+          form {
+            width: 500px;
+          }
         }
       }
     }
-  }
 }
-
-@media (max-width: 1040px) {
-  .signup-form {
-    form {
-      input {
-        height: 50px !important;
-      }
+  
+@media (max-width:1080px){
+    .signup-modal-main{
+        .modal-inn{
+            .login-right{
+                form{
+                    width: 500px;
+                }
+            }
+        }
     }
-  }
 }
-
-@media (max-width: 1024px) {
-  .login-modal {
-    .modal-inn {
-      .login-right {
-        form {
-          .cls-password {
-            .col {
-              .signup-password.invalid-feedback {
-                top: 50px;
-                line-height: 1;
+ 
+  @media (max-width: 991px) {
+    .signup-modal-main {
+      .modal-header {
+        button {
+          right: 20px;
+          top: -32px;
+        }
+      }
+      .modal-inn {
+        .login-left {
+          h2 {
+            font-size: 25px;
+          }
+        }
+        .login-right {
+          .back-arrow {
+            margin-bottom: 20px;
+          }
+          form {
+            width: 90%;
+            .cls-bnt {
+              width: 150px;
+              height: 55px;
+              margin: 20px auto;
+            }
+            .otp-field {
+              input {
+                width: 40px;
+                height: 40px;
               }
             }
           }
         }
       }
     }
-  }
-}
 
-@media (max-width: 991px) {
-  .login-modal {
-    .modal-header {
-      button {
-        right: 20px;
-        top: -32px;
-      }
-    }
-    .modal-inn {
-      .login-left {
-        h2 {
-          font-size: 25px;
+  }
+  
+  @media (max-width: 767px) {
+    .signup-modal-main {
+        .modal-dialog{
+            height: auto;
+        }
+        .modal-content{
+            margin: 20px 0;
+        }
+      .modal-header {
+        button {
+          right: -10px;
+          top: 0;
         }
       }
-      .login-right {
-        .back-arrow {
-          margin-bottom: 20px;
-        }
-        form {
-          width: 90%;
-          .cls-bnt {
-            width: 150px;
-            height: 55px;
-            margin: 20px auto;
+      .modal-inn {
+        text-align: center;
+        .login-left {
+          padding: 20px 0;
+          border-radius: 50px 50px 0px 0px;
+          p {
+            font-size: 18px;
           }
-          .otp-field {
-            input {
-              width: 40px;
-              height: 40px;
+          img {
+            width: 50%;
+            height: 100%;
+            margin: 0 auto;
+          }
+        }
+        .login-right {
+          form {
+            input{
+                height: 50px !important;
+            }
+            .invalid-feedback{
+                top: 52px;
+                bottom: 0;
+            }
+            .otp-field {
+              justify-content: space-evenly;
             }
           }
         }
       }
     }
-  }
-  .login-modal .modal-inn .login-right form .invalid-feedback {
-    bottom: -20px;
-    font-size: 13px;
-  }
 }
-
-@media (max-width: 767px) {
-  .login-modal {
-    .modal-header {
-      button {
-        right: -10px;
-        top: 0;
-      }
-    }
-    .modal-inn {
-      text-align: center;
-      .login-left {
-        padding: 20px 0;
-        border-radius: 50px 50px 0px 0px;
-        p {
-          font-size: 18px;
-        }
-        img {
-          width: 50%;
-          height: 100%;
-        }
-      }
-      .login-right {
-        margin-top: 20px;
-        form {
-          .cls-btn {
-            margin: 0 auto 10px auto;
-          }
-          button {
-            margin: 15px 0;
-          }
-          .otp-field {
-            justify-content: space-evenly;
-          }
-        }
-        .back-arrow {
-          margin-left: 20px;
-        }
-        .account {
-          padding-bottom: 10px;
-        }
-        .cls-btn {
-          margin: 0 0 20px 0;
-        }
-        .choose-card-btn {
-          justify-content: space-around;
-          margin-bottom: 20px;
-          .prev {
-            width: 126px;
-            height: 50px;
-            font-size: 17px;
-          }
-          .continue {
-            width: 126px;
-            height: 50px;
-            font-size: 17px;
-          }
-        }
-        .modal-card-img {
-          img {
-            width: 70px;
-            height: 70px;
-          }
-        }
-      }
-    }
-  }
-  .translate {
-    transform: translateY(2%);
-  }
-  .signuptab {
-    height: 100% !important;
-    img {
-      width: 100% !important;
-      height: 200px !important;
-      object-fit: contain;
-    }
-  }
-  .signup-btn {
-    width: 125px !important;
-    height: 40px !important;
-    margin: 0 !important;
-  }
-  .account {
-    p {
-      font-size: 15px !important;
-    }
-  }
-}
-
-@media (max-width: 575px) {
-  .login-modal {
-    .modal-inn {
-      .login-right {
-        .modal-card-img {
-          img {
-            width: 65px;
-            height: 65px;
-          }
-        }
-      }
-    }
-  }
-}
-
+  

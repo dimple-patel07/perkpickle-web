@@ -4,11 +4,19 @@ import { FaTrash } from "react-icons/fa";
 import Select from "react-select";
 import { IoSearch } from "react-icons/io5";
 import { useAppDispatch } from "../../redux/store";
-import { handleShowWarnModal } from "../../redux/warnModel/warnModelSlice";
 import axios from "axios";
-import { authHeader, config, getLoggedEmail } from "../../utils/config";
+import {
+  authHeader,
+  config,
+  getLoggedEmail,
+  defaultMessageObj,
+} from "../../utils/config";
 import DeleteModel from "../WarnModal/deleteModal";
-import { handleStartLoading, handleStopLoading } from "../../redux/loader/loaderSlice";
+import {
+  handleStartLoading,
+  handleStopLoading,
+  showMessage,
+} from "../../redux/loader/loaderSlice";
 
 const Savecard = ({ cardDataList }) => {
   const dispatch = useAppDispatch();
@@ -31,7 +39,7 @@ const Savecard = ({ cardDataList }) => {
       const params = { email: getLoggedEmail() };
       const response = await axios.post(
         `${config.apiURL}/getUserByEmail`,
-        params,
+        params
         // { headers: authHeader }
       );
       if (response?.data?.email) {
@@ -61,10 +69,11 @@ const Savecard = ({ cardDataList }) => {
     } catch (errorObj) {
       dispatch(handleStopLoading());
       dispatch(
-        handleShowWarnModal({
-          isShow: true,
-          modelType: "error",
-          modelMessage: errorObj?.response?.data?.error,
+        showMessage({
+          ...defaultMessageObj,
+          type: "error",
+          messageText:
+            errorObj?.response?.data?.error || "Something went wrong",
         })
       );
     }
@@ -79,7 +88,7 @@ const Savecard = ({ cardDataList }) => {
       const params = { cardKey: selCard.value };
       const response = await axios.post(
         `${config.apiURL}/cardDetailByCardKey`,
-        params,
+        params
         // { headers: authHeader }
       );
       if (response?.data) {
@@ -104,10 +113,10 @@ const Savecard = ({ cardDataList }) => {
   const onAvailableCardSelection = (selDataList) => {
     if (selDataList.length > selectionLimit) {
       dispatch(
-        handleShowWarnModal({
-          isShow: true,
-          modelType: "error",
-          modelMessage: `Max ${selectionLimit} selection allow`,
+        showMessage({
+          ...defaultMessageObj,
+          type: "error",
+          messageText: `Max ${selectionLimit} selection allow`,
         })
       );
     } else {
@@ -127,7 +136,7 @@ const Savecard = ({ cardDataList }) => {
       const params = { email: getLoggedEmail(), cardKeys: cardKeys };
       const response = await axios.post(
         `${config.apiURL}/updateUserCards`,
-        params,
+        params
         // { headers: authHeader }
       );
       if (response?.data?.email) {
@@ -137,10 +146,10 @@ const Savecard = ({ cardDataList }) => {
         dispatch(handleStopLoading());
         setSelAvailableCards([]);
         dispatch(
-          handleShowWarnModal({
-            isShow: true,
-            modelType: "error",
-            modelMessage: `saved cards failed`,
+          showMessage({
+            ...defaultMessageObj,
+            type: "error",
+            messageText: "saved cards failed",
           })
         );
       }
@@ -148,10 +157,10 @@ const Savecard = ({ cardDataList }) => {
       dispatch(handleStopLoading());
       setSelAvailableCards([]);
       dispatch(
-        handleShowWarnModal({
-          isShow: true,
-          modelType: "error",
-          modelMessage: `saved cards error`,
+        showMessage({
+          ...defaultMessageObj,
+          type: "error",
+          messageText: "saved cards failed",
         })
       );
     }
@@ -209,7 +218,7 @@ const Savecard = ({ cardDataList }) => {
                                 <Image
                                   src={card.card_image_url}
                                   alt="N/A"
-                                  fill 
+                                  fill
                                 />
                               </div>
                               <div className="card-content">

@@ -46,7 +46,7 @@ const TextInput = (props) => {
             ref={inputRef}
             name={name}
             value={value}
-            autoComplete="off"
+            autoComplete={autoComplete}
             onChange={onChange}
             onBlur={onBlur}
             isValid={touched && !errors}
@@ -76,7 +76,7 @@ const TextInput = (props) => {
             ref={inputRef}
             name={name}
             value={value}
-            autoComplete="off"
+            autoComplete={autoComplete}
             onChange={onChange}
             onBlur={onBlur}
             isValid={touched && !errors}

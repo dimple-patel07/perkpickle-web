@@ -12,14 +12,15 @@ import {
 import { useAppDispatch } from "../../../redux/store";
 import { useSelector } from "react-redux";
 import axios from "axios";
-import { config } from "../../../utils/config";
+import { config, defaultMessageObj } from "../../../utils/config";
 import { emailStoreSelectore } from "../../../redux/emailStore/emailStoreSlice";
-import { handleShowWarnModal } from "../../../redux/warnModel/warnModelSlice";
 import {
   handleStartLoading,
   handleStopLoading,
+  showMessage,
 } from "../../../redux/loader/loaderSlice";
 import { FaArrowLeft } from "react-icons/fa6";
+
 const SignUpOtpModal = () => {
   const ModalState = useSelector(modalSelector);
   const emailStore = useSelector(emailStoreSelectore);
@@ -88,20 +89,21 @@ const SignUpOtpModal = () => {
         dispatch(handleStopLoading());
         setOtp(["", "", "", "", "", ""]);
         dispatch(
-          handleShowWarnModal({
-            isShow: true,
-            modelType: "success",
-            modelMessage: response.data.message,
+          showMessage({
+            ...defaultMessageObj,
+            type: "success",
+            messageText: response.data.message,
           })
         );
       }
     } catch (errorObj) {
       dispatch(handleStopLoading());
       dispatch(
-        handleShowWarnModal({
-          isShow: true,
-          modelType: "error",
-          modelMessage: errorObj?.response?.data?.error,
+        showMessage({
+          ...defaultMessageObj,
+          type: "error",
+          messageText:
+            errorObj?.response?.data?.error || "Something went wrong",
         })
       );
     }
@@ -114,18 +116,19 @@ const SignUpOtpModal = () => {
         email: emailStore?.signUpEmail,
         otp: otpNumber,
       });
+      dispatch(handleStopLoading());
       if (response?.data?.email) {
-        dispatch(handleStopLoading());
         dispatch(handleCloseAllModal());
         dispatch(handleOpenSignUpFormModal(true));
       }
     } catch (errorObj) {
       dispatch(handleStopLoading());
       dispatch(
-        handleShowWarnModal({
-          isShow: true,
-          modelType: "error",
-          modelMessage: "Something went wrong",
+        showMessage({
+          ...defaultMessageObj,
+          type: "error",
+          messageText:
+            errorObj?.response?.data?.error || "Something went wrong",
         })
       );
     }
@@ -137,6 +140,7 @@ const SignUpOtpModal = () => {
         open={signUpOtpShow}
         onShow={() => setOtp(["", "", "", "", "", ""])}
         onClose={() => dispatch(handleCloseAllModal())}
+        dialogClass="login-modal py-5 py-sm-5 py-md-5 py-lg-0"
       >
         <div className="container-fluid p-0">
           <div className="row align-items-center">
@@ -159,7 +163,7 @@ const SignUpOtpModal = () => {
                   <div
                     className="back-arrow text-start"
                     onClick={() => {
-                      closeModal()
+                      closeModal();
                       dispatch(handleOpenSignUpModal(true));
                     }}
                   >
