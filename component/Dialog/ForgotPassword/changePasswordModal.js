@@ -153,7 +153,7 @@ const ChangePasswordOtpModal = () => {
         dialogClass="login-modal py-5 py-sm-5 py-md-5 py-lg-0"
       >
         <div className="container-fluid p-0">
-          <div className="row align-items-center">
+          <div className="row">
             <div className="col-12 col-sm-12 col-md-6 col-lg-5">
               <div className="login-left">
                 <h2>CHANGE PASSWORD</h2>

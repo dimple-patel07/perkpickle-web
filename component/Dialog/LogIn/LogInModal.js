@@ -15,7 +15,6 @@ import { useAppDispatch } from "../../../redux/store";
 import axios from "axios";
 import {
   EMAIL_REGEX,
-  PASSWORD_REGEX,
   config,
   encryptStr,
   defaultMessageObj,

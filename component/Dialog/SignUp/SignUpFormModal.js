@@ -141,7 +141,7 @@ const SignUpFormModal = () => {
       >
         <div className="container-fluid p-0">
           <div className="row">
-            <div className="col-12 col-sm-12 col-md-6 col-lg-5 pe-lg-0">
+            <div className="col-12 col-sm-12 col-md-6 col-lg-5 pe-lg-0 pe-md-0">
               <div className="login-left">
                 <h2>Sign Up</h2>
                 <p className="order-1">
