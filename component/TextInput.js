@@ -67,7 +67,7 @@ const TextInput = (props) => {
             {rightIcon.state ? rightIcon.toggleON : rightIcon.toggleOff}
           </span>
           <label>{placeholder}</label>
-          <Form.Control.Feedback type="invalid" className={errorClass}>
+          <Form.Control.Feedback type="invalid" className={`${errors?.length > 40 ? "password-error" : ""}`}>
             {touched && errors}
           </Form.Control.Feedback>
         </div>

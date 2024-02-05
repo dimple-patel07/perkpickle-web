@@ -28,6 +28,7 @@
       background-color: $bg-primary;
       padding: 80px 40px;
       border-radius: 50px 0 0 50px;
+      height: 100%;
 
       h2 {
         color: $white;
@@ -149,7 +150,7 @@
             text-align: center;
             font-size: 30px;
             font-weight: 700;
-            &:focus{
+            &:focus {
               border-color: green;
             }
           }
@@ -224,6 +225,9 @@
         height: 250px;
       }
     }
+    .password-error.invalid-feedback {
+      bottom: -46px !important;
+    }
     .modal-inn {
       .login-right {
         form {
@@ -297,7 +301,12 @@
         }
       }
     }
+    .password-error.invalid-feedback {
+      bottom: -30px !important;
+      line-height: 1;
+    }
   }
+
   .login-modal .modal-inn .login-right form .invalid-feedback {
     bottom: -20px;
     font-size: 13px;
@@ -322,7 +331,8 @@
         }
         img {
           width: 50%;
-          height: 100%;
+          height: auto;
+          object-fit: contain;
         }
       }
       .login-right {
@@ -370,17 +380,10 @@
       }
     }
   }
-  .translate {
-    transform: translateY(2%);
+  .login-modal .password-error.invalid-feedback {
+    bottom: -17px !important;
   }
-  .signuptab {
-    height: 100% !important;
-    img {
-      width: 100% !important;
-      height: 200px !important;
-      object-fit: contain;
-    }
-  }
+
   .signup-btn {
     width: 125px !important;
     height: 40px !important;
@@ -389,6 +392,14 @@
   .account {
     p {
       font-size: 15px !important;
+    }
+  }
+}
+
+@media (max-width: 670px) {
+  .login-modal {
+    .password-error.invalid-feedback {
+      bottom: -30px !important;
     }
   }
 }
@@ -408,3 +419,20 @@
   }
 }
 
+@media (max-width: 400px) {
+  .login-modal {
+    .password-error.invalid-feedback {
+      bottom: -26px !important;
+      font-size: 12px !important;
+    }
+  }
+}
+
+@media (max-width: 339px) {
+  .login-modal {
+    .password-error.invalid-feedback {
+      bottom: -25px !important;
+      font-size: 11px !important;
+    }
+  }
+}
