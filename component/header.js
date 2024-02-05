@@ -39,6 +39,7 @@ const Header = () => {
 		deleteCookie("authorizationToken");
 		deleteCookie("userName");
 		deleteCookie("loggedEmail");
+		router.replace("/");
 	};
 
 	return (
