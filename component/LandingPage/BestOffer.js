@@ -1,8 +1,22 @@
 import Image from "next/image";
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { images } from "../Images";
 
-const BestOffer = () => {
+const BestOffer = ({ bestOfferCards, allCards }) => {
+	const [suggestedCards, setSuggestedCards] = useState([]);
+	useEffect(() => {
+		console.log("best offers--ee--", bestOfferCards);
+		console.log("all cards----", allCards);
+		let bestCards = [];
+		for (const offerCard of bestOfferCards) {
+			const foundCard = allCards.find((card) => card.card_key === offerCard.cardKey);
+			if (foundCard) {
+				// expecting value should be found
+				bestCards.push({ ...offerCard, ...foundCard });
+			}
+		}
+		setSuggestedCards(bestCards);
+	}, []);
 	return (
 		<section className="best-offer-section mb">
 			<div className="container">
@@ -12,181 +26,39 @@ const BestOffer = () => {
 
 				<div className="best-offer-inn">
 					<div className="row gy-4">
-						<div className="col-12 col-sm-12 col-md-12 col-lg-6">
-							<div className="best-offer-main">
-								<div className="best-card-box">
-									<div className="card-box">
-										<Image src={images.Cardtwo} className="img-fluid" alt="card-img" />
-									</div>
-									<div className="card-content">
-										<h4>Well Fargo Active Cash Card</h4>
-										<ul>
-											<li>
-												<div className="d-flex">
-													<span>Intro Offer</span>
-													<strong>$200</strong>
-												</div>
-											</li>
-											<li className="py-1">
-												<div>
-													<span>Reward rate</span>
-													<strong>
-														2% <i>(Cashback)</i>
-													</strong>
-												</div>
-											</li>
-											<li>
-												<div>
-													<span>Annual Fee</span>
-													<strong>$0</strong>
-												</div>
-											</li>
-										</ul>
-									</div>
-								</div>
-								{/* <div className='card-footer'>
-                           <div className='card-footer-text'>
-                              <p>NerdWallet Rating</p>
-                              <span>5.0/5</span>
-                           </div>
-                           <div>
-                            <button className='btn'>Apply Now</button>
-                           </div>
-                          </div>  */}
-							</div>
-						</div>
+						{suggestedCards.map((card, index) => {
+							return (
+								<div className="col-12 col-sm-12 col-md-12 col-lg-6" key={index}>
+									<div className="best-offer-main">
+										<div className="best-card-box">
+											<div className="card-box">
+												<Image src={card.card_image_url} alt="N/A" fill />
+											</div>
 
-						<div className="col-12 col-sm-12 col-md-12 col-lg-6">
-							<div className="best-offer-main">
-								<div className="best-card-box">
-									<div className="card-box">
-										<Image src={images.Cardthree} className="img-fluid" alt="card-img" />
-									</div>
-									<div className="card-content">
-										<h4>Chase Freedom Unlimited*</h4>
-										<ul>
-											<li>
-												<div>
-													<span>Intro Offer</span>
-													<strong>Unlimited Matched Cashback</strong>
-												</div>
-											</li>
-											<li className="py-1">
-												<div>
-													<span>Reward rate</span>
-													<strong>
-														1.5%-5% <i>(Cashback)</i>
-													</strong>
-												</div>
-											</li>
-											<li>
-												<div>
-													<span>Annual Fee</span>
-													<strong>$0</strong>
-												</div>
-											</li>
-										</ul>
+											<div className="card-content">
+												<h4>{card.cardName}</h4>
+												<ul>
+													<li className="py-1">
+														<div>
+															<span>Reward rate</span>
+															<strong>
+																{card.earnMultiplier} <i>(Points)</i>
+															</strong>
+														</div>
+													</li>
+													<li>
+														<div>
+															<span>Description</span>
+															<strong>{card.spendBonusDesc}</strong>
+														</div>
+													</li>
+												</ul>
+											</div>
+										</div>
 									</div>
 								</div>
-								{/* <div className='card-footer'>
-                           <div className='card-footer-text'>
-                              <p>NerdWallet Rating</p>
-                              <span>5.0/5</span>
-                           </div>
-                           <div>
-                            <button className='btn'>Apply Now</button>
-                           </div>
-                          </div>  */}
-							</div>
-						</div>
-
-						<div className="col-12 col-sm-12 col-md-12 col-lg-6">
-							<div className="best-offer-main">
-								<div className="best-card-box">
-									<div className="card-box">
-										<Image src={images.Cardfive} className="img-fluid" alt="card-img" />
-									</div>
-									<div className="card-content">
-										<h4>Capital one SavorOne Card</h4>
-										<ul>
-											<li>
-												<div className="d-flex">
-													<span>Intro Offer</span>
-													<strong>$200</strong>
-												</div>
-											</li>
-											<li className="py-1">
-												<div className="d-flex">
-													<span>Reward rate</span>
-													<strong>
-														1%-10% <i>(Cashback)</i>
-													</strong>
-												</div>
-											</li>
-											<li>
-												<div className="d-flex">
-													<span>Annual Fee</span>
-													<strong>$0</strong>
-												</div>
-											</li>
-										</ul>
-									</div>
-								</div>
-								{/* <div className='card-footer'>
-                           <div className='card-footer-text'>
-                              <p>NerdWallet Rating</p>
-                              <span>5.0/5</span>
-                           </div>
-                           <div>
-                            <button className='btn'>Apply Now</button>
-                           </div>
-                          </div>  */}
-							</div>
-						</div>
-
-						<div className="col-12 col-sm-12 col-md-12 col-lg-6">
-							<div className="best-offer-main">
-								<div className="best-card-box">
-									<div className="card-box">
-										<Image src={images.Cardone} className="img-fluid" alt="card-img" />
-									</div>
-									<div className="card-content">
-										<h4>Well Fargo Active Cash Card</h4>
-										<ul>
-											<li>
-												<div className="d-flex">
-													<span>Intro Offer</span>
-													<strong>$75000</strong>
-												</div>
-											</li>
-											<li className="py-1">
-												<div>
-													<span>Reward rate</span>
-													<strong>
-														2x-5x <i>(Points)</i>
-													</strong>
-												</div>
-											</li>
-											<li>
-												<div>
-													<span>Annual Fee</span>
-													<strong>$95</strong>
-												</div>
-											</li>
-										</ul>
-									</div>
-								</div>
-								{/* <div className='card-footer'>
-                           <div className='card-footer-text'>
-                              <p>NerdWallet Rating</p>
-                              <span>5.0/5</span>
-                           </div>
-                           <div>
-                            <button className='btn'>Apply Now</button>
-                           </div>
-                          </div>  */}
-							</div>
-						</div>
+							);
+						})}
 					</div>
 				</div>
 			</div>

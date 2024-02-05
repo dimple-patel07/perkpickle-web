@@ -2,13 +2,10 @@ import React, { useEffect, useRef, useState } from "react";
 import Dialog from "../../Dialog/Dialog";
 import { images } from "../../Images";
 import Image from "next/image";
-import { useForm } from "react-hook-form";
-import { ErrorMessage } from "@hookform/error-message";
 import { useSelector } from "react-redux";
 import { handleCloseAllModal, handleOpenForgotPasswordModal, handleOpenSignUpModal, modalSelector } from "../../../redux/modal/modalSlice";
 import { useAppDispatch } from "../../../redux/store";
-import axios from "axios";
-import { EMAIL_REGEX, PASSWORD_REGEX, config, encryptStr, defaultMessageObj } from "../../../utils/config";
+import { encryptStr } from "../../../utils/config";
 import { setCookie } from "cookies-next";
 import { useRouter } from "next/router";
 import { handleStartLoading, handleStopLoading, showMessage } from "../../../redux/loader/loaderSlice";
@@ -18,7 +15,7 @@ import { FaEye, FaEyeSlash } from "react-icons/fa";
 import { useFormik } from "formik";
 import * as yup from "yup";
 import TextInput from "../../TextInput";
-import { getHeaders } from "../../../services/api";
+import { postCall } from "../../../services/apiCall";
 
 const LoginModal = () => {
 	const ModalState = useSelector(modalSelector);
@@ -54,34 +51,20 @@ const LoginModal = () => {
 				email: val?.email,
 				password: val?.password,
 			};
-			// const headers = {
-			// 	"Content-Type": "application/json",
-			// 	Authorization: "JWT fefege...",
-			// };
 			try {
 				dispatch(handleStartLoading());
 				const encryptedKey = encryptStr(JSON.stringify(loginCred));
-				const response = await axios.post(`${config.apiURL}/login`, {
-					key: encryptedKey,
-				});
+				const response = await postCall("login", { key: encryptedKey });
 				dispatch(handleStopLoading());
-				if (response?.data?.token) {
-					setCookie("authorizationToken", response?.data?.token);
-					setCookie("userName", response?.data?.userName);
-					setCookie("loggedEmail", response?.data?.email);
+				if (response?.token) {
+					setCookie("authorizationToken", response?.token);
+					setCookie("userName", response?.userName);
+					setCookie("loggedEmail", response?.email);
 					router.replace("/dashboard");
 					dispatch(handleCloseAllModal());
 				}
-			} catch (errorObj) {
-				dispatch(handleStopLoading());
-				console.log(errorObj);
-				dispatch(
-					showMessage({
-						...defaultMessageObj,
-						type: "error",
-						messageText: errorObj?.response?.data?.error || "Something went wrong",
-					})
-				);
+			} catch (error) {
+				console.error(error);
 			}
 		},
 	});

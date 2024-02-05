@@ -1,6 +1,6 @@
 import React from "react";
 
-const AvailableOffer = () => {
+const AvailableOffer = ({ availableOffers, savedCardList }) => {
 	return (
 		<section className="available-offer mb">
 			<div className="container">
@@ -25,18 +25,44 @@ const AvailableOffer = () => {
 						</ul>
 					</div>
 					<div className="list">
-						<ul>
-							<li>
-								<p className="m-0">Wells Fargo Active Cash® Card</p>
-								<span>2% Cashback</span>
-							</li>
-							<hr />
-							<li>
-								<p className="m-0">Chase Freedom Unlimited®</p>
-								<span>1.5%-6.5% Cashback</span>
-							</li>
-							<hr />
-						</ul>
+						{availableOffers.length > 0 ? (
+							// offers available on selected cards
+							<ul key="availableOfferList">
+								{availableOffers.map((card, index) => {
+									return (
+										<div key={index}>
+											<li key={`${index}`}>
+												<p className="m-0">{card.cardName}</p>
+												<span>{card.spendBonusDesc}</span>
+											</li>
+											<hr />
+										</div>
+									);
+								})}
+							</ul>
+						) : (
+							// when offers not available on selected cards
+							<ul>
+								{savedCardList.map((card, index) => {
+									return (
+										<div key={index}>
+											<li>
+												<p className="m-0">{card.cardName}</p>
+												<span>
+													{card.baseSpendAmount} / {card.baseSpendEarnCurrency}
+													{/* {card.benefit.length > 0 &&
+														card.benefit.map((data, index) => {
+															return <p key={index}>{data.benefitDesc}</p>;
+														})} */}
+												</span>
+												<hr />
+											</li>
+											<hr />
+										</div>
+									);
+								})}
+							</ul>
+						)}
 					</div>
 				</div>
 			</div>

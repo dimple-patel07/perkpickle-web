@@ -16,6 +16,7 @@ import { useFormik } from "formik";
 import * as yup from "yup";
 import { Form } from "react-bootstrap";
 import TextInput from "../../TextInput";
+import { postCall } from "../../../services/apiCall";
 
 const ForgotPasswordModal = () => {
 	const modalState = useSelector(modalSelector);
@@ -45,14 +46,10 @@ const ForgotPasswordModal = () => {
 		initialValues: initialFormData,
 		validationSchema: loginEmailValidation,
 		onSubmit: async (val) => {
-			const emailAddress = {
-				email: val.email,
-			};
 			try {
 				dispatch(handleStartLoading());
-				const response = await axios.post(`${config.apiURL}/forgotPassword`, emailAddress);
-				dispatch(handleStopLoading());
-				if (response?.data?.email) {
+				const response = await postCall("forgotPassword", { email: val.email });
+				if (response?.email) {
 					dispatch(handleStoreForgotPasswordEmail(response.data.email));
 					closeModal();
 					dispatch(handleOpenForgotPasswordOtpModal(true));
@@ -60,19 +57,13 @@ const ForgotPasswordModal = () => {
 						showMessage({
 							...defaultMessageObj,
 							type: "success",
-							messageText: response.data.message,
+							messageText: response.message,
 						})
 					);
 				}
-			} catch (errorObj) {
 				dispatch(handleStopLoading());
-				dispatch(
-					showMessage({
-						...defaultMessageObj,
-						type: "error",
-						messageText: errorObj?.response?.data?.error || "Something went wrong",
-					})
-				);
+			} catch (error) {
+				console.error(error);
 			}
 		},
 	});

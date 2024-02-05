@@ -67,7 +67,7 @@ textarea {
     background-color: $bg-dark;
 }
 .form-floating > .form-control-plaintext ~ label::after, .form-floating > .form-control:focus ~ label::after, .form-floating > .form-control:not(:placeholder-shown) ~ label::after, .form-floating > .form-select ~ label::after {
-     background-color: transparent !important; 
+     background-color: transparent !important;
 }
 .input-group > :not(:first-child):not(.dropdown-menu):not(.valid-tooltip):not(.valid-feedback):not(.invalid-tooltip):not(.invalid-feedback) {
     z-index: 99;
