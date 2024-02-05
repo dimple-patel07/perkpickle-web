@@ -11,11 +11,13 @@ import TextInput from "../../component/TextInput";
 import { FloatingLabel, Form } from "react-bootstrap";
 import { defaultMessageObj } from "../../utils/config";
 import { postCall } from "../../services/apiCall";
+import { useRouter } from "next/router";
 
 const Profile = () => {
 	const dispatch = useAppDispatch();
 	const [userData, setUserData] = useState();
 	const firstInputRef = useRef(null);
+	const router = useRouter();
 
 	useEffect(() => {
 		getUserByEmail();
@@ -28,7 +30,7 @@ const Profile = () => {
 		try {
 			// dispatch(handleStartLoading());
 			const params = { email: getLoggedEmail() };
-			const response = await postCall("getUserByEmail", params);
+			const response = await postCall("getUserByEmail", params, dispatch, router);
 			dispatch(handleStopLoading());
 			firstInputRef?.current?.focus();
 			if (response.email) {
@@ -71,7 +73,7 @@ const Profile = () => {
 
 			try {
 				dispatch(handleStartLoading());
-				const response = await postCall("updateUser", params);
+				const response = await postCall("updateUser", params, dispatch, router);
 				dispatch(handleStopLoading());
 				if (response.email) {
 					getUserByEmail();

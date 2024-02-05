@@ -48,9 +48,9 @@ const ForgotPasswordModal = () => {
 		onSubmit: async (val) => {
 			try {
 				dispatch(handleStartLoading());
-				const response = await postCall("forgotPassword", { email: val.email });
+				const response = await postCall("forgotPassword", { email: val.email }, dispatch);
 				if (response?.email) {
-					dispatch(handleStoreForgotPasswordEmail(response.data.email));
+					dispatch(handleStoreForgotPasswordEmail(response.email));
 					closeModal();
 					dispatch(handleOpenForgotPasswordOtpModal(true));
 					dispatch(

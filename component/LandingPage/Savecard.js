@@ -9,9 +9,11 @@ import DeleteModel from "../WarnModal/deleteModal";
 import { handleStartLoading, handleStopLoading, showMessage } from "../../redux/loader/loaderSlice";
 import { postCall } from "../../services/apiCall";
 import DropdownWithCheckbox from "./DropdownWithCheckbox";
+import { useRouter } from "next/router";
 
 const Savecard = ({ cardDataList, onSavedCards }) => {
 	const dispatch = useAppDispatch();
+	const router = useRouter();
 	const selectionLimit = 10; // card selection limit
 	const [selAvailableCards, setSelAvailableCards] = useState([]);
 	const [selSavedCards, setSelSavedCards] = useState([]);
@@ -27,7 +29,7 @@ const Savecard = ({ cardDataList, onSavedCards }) => {
 	const getUserByEmail = async () => {
 		try {
 			// dispatch(handleStartLoading());
-			const response = await postCall("getUserByEmail", { email: getLoggedEmail() });
+			const response = await postCall("getUserByEmail", { email: getLoggedEmail() }, dispatch, router);
 			if (response.email) {
 				dispatch(handleStopLoading());
 				setUserData(response);
@@ -60,7 +62,7 @@ const Savecard = ({ cardDataList, onSavedCards }) => {
 			}
 			let result = [];
 			for (const selCard of savedSelectionList) {
-				const response = await postCall("cardDetailByCardKey", { cardKey: selCard.value });
+				const response = await postCall("cardDetailByCardKey", { cardKey: selCard.value }, dispatch, router);
 				if (response?.length > 0) {
 					if (response[0].baseSpendAmount && response[0].baseSpendEarnCurrency) {
 						result.push({ ...response[0], ...selCard });
@@ -109,7 +111,7 @@ const Savecard = ({ cardDataList, onSavedCards }) => {
 	const updateUserCards = async (cardKeys) => {
 		try {
 			const params = { email: getLoggedEmail(), cardKeys: cardKeys };
-			const response = await postCall("updateUserCards", params);
+			const response = await postCall("updateUserCards", params, dispatch, router);
 			if (response.email) {
 				console.log("card saved successfully");
 			}

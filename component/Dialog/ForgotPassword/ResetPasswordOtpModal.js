@@ -62,7 +62,7 @@ const ResetPasswordOtpModal = () => {
 						newPassword: value.repeatPassword,
 					})
 				);
-				const response = await postCall("resetPassword", { key: encodedKey });
+				const response = await postCall("resetPassword", { key: encodedKey }, dispatch);
 				dispatch(handleStopLoading());
 				if (response?.email) {
 					closeModal();
@@ -70,7 +70,7 @@ const ResetPasswordOtpModal = () => {
 						showMessage({
 							...defaultMessageObj,
 							type: "success",
-							messageText: response.data.message,
+							messageText: response.message,
 						})
 					);
 				}

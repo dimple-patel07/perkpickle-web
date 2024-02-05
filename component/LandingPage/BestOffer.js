@@ -1,12 +1,9 @@
 import Image from "next/image";
 import React, { useEffect, useState } from "react";
-import { images } from "../Images";
 
 const BestOffer = ({ bestOfferCards, allCards }) => {
 	const [suggestedCards, setSuggestedCards] = useState([]);
 	useEffect(() => {
-		console.log("best offers--ee--", bestOfferCards);
-		console.log("all cards----", allCards);
 		let bestCards = [];
 		for (const offerCard of bestOfferCards) {
 			const foundCard = allCards.find((card) => card.card_key === offerCard.cardKey);

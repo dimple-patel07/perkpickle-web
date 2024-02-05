@@ -66,7 +66,7 @@ const SignUpOtpModal = () => {
 	const resendOtp = async () => {
 		try {
 			dispatch(handleStartLoading());
-			const response = await postCall("resendOtp", { email: emailStore?.signUpEmail });
+			const response = await postCall("resendOtp", { email: emailStore?.signUpEmail }, dispatch);
 			if (response.email) {
 				dispatch(handleStopLoading());
 				setOtp(["", "", "", "", "", ""]);
@@ -86,10 +86,14 @@ const SignUpOtpModal = () => {
 	const verifyUser = async () => {
 		try {
 			dispatch(handleStartLoading());
-			const response = await postCall("verifyUser", {
-				email: emailStore?.signUpEmail,
-				otp: otpNumber,
-			});
+			const response = await postCall(
+				"verifyUser",
+				{
+					email: emailStore?.signUpEmail,
+					otp: otpNumber,
+				},
+				dispatch
+			);
 
 			dispatch(handleStopLoading());
 			if (response.email) {

@@ -16,6 +16,7 @@ import { postCall } from "../../services/apiCall";
 const ContactUs = () => {
 	const firstInputRef = useRef(null);
 	const dispatch = useAppDispatch();
+	const router = useRouter();
 
 	useEffect(() => {
 		setTimeout(() => {
@@ -43,7 +44,7 @@ const ContactUs = () => {
 		onSubmit: async (data) => {
 			try {
 				dispatch(handleStartLoading());
-				const response = await postCall("contactMail", data);
+				const response = await postCall("contactMail", data, dispatch, router);
 				if (response?.status === 200) {
 					dispatch(
 						showMessage({

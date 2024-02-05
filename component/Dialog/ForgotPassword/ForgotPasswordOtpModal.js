@@ -58,10 +58,14 @@ const ForgotPasswordOtpModal = () => {
 	const verifyUser = async () => {
 		try {
 			dispatch(handleStartLoading());
-			const response = await postCall("verifyUser", {
-				email: emailStore?.forgotPasswordEmail,
-				otp: otpNumber,
-			});
+			const response = await postCall(
+				"verifyUser",
+				{
+					email: emailStore?.forgotPasswordEmail,
+					otp: otpNumber,
+				},
+				dispatch
+			);
 			dispatch(handleStopLoading());
 			if (response?.email) {
 				closeModal();
@@ -75,16 +79,20 @@ const ForgotPasswordOtpModal = () => {
 	const resendOtp = async () => {
 		try {
 			dispatch(handleStartLoading());
-			const response = await postCall("resendOtp", {
-				email: emailStore?.forgotPasswordEmail,
-			});
+			const response = await postCall(
+				"resendOtp",
+				{
+					email: emailStore?.forgotPasswordEmail,
+				},
+				dispatch
+			);
 			dispatch(handleStopLoading());
 			if (response?.data?.email) {
 				dispatch(
 					showMessage({
 						...defaultMessageObj,
 						type: "success",
-						messageText: response.data.message,
+						messageText: response.message,
 					})
 				);
 			}

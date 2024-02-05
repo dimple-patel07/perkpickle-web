@@ -54,7 +54,7 @@ const LoginModal = () => {
 			try {
 				dispatch(handleStartLoading());
 				const encryptedKey = encryptStr(JSON.stringify(loginCred));
-				const response = await postCall("login", { key: encryptedKey });
+				const response = await postCall("login", { key: encryptedKey }, dispatch, router);
 				dispatch(handleStopLoading());
 				if (response?.token) {
 					setCookie("authorizationToken", response?.token);

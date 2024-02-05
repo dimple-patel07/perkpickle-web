@@ -1,10 +1,15 @@
 import React, { useState } from "react";
 import Select from "react-select";
 import { postCall } from "../../services/apiCall";
+import { useAppDispatch } from "../../redux/store";
+import { useRouter } from "next/router";
+import { handleStartLoading, handleStopLoading } from "../../redux/loader/loaderSlice";
 
 const ExploreOffer = ({ spendBonusCategoryList, savedCardList, onAvailableOffers, onBestOffers, onOffersChecked }) => {
 	const [groupCatagories, setGroupCatagories] = useState([]);
 	const [selCategory, setSelCategory] = useState();
+	const dispatch = useAppDispatch();
+	const router = useRouter();
 
 	// on group changed
 	const onGroupChanged = (val) => {
@@ -18,6 +23,7 @@ const ExploreOffer = ({ spendBonusCategoryList, savedCardList, onAvailableOffers
 
 	// get card offers
 	const getCardOffers = async () => {
+		dispatch(handleStartLoading());
 		const categoryWiseCards = await spendBonusCategoryCard(selCategory.value);
 		let foundCards = [];
 		let notFoundCards = [];
@@ -37,17 +43,20 @@ const ExploreOffer = ({ spendBonusCategoryList, savedCardList, onAvailableOffers
 		onOffersChecked(true);
 		onAvailableOffers(foundCards);
 		onBestOffers(notFoundCards);
-		// setSuggestCards(notFoundCards);
-		// setMatchCards(foundCards);
-		// setIsOffersChecked(true);
+		dispatch(handleStopLoading());
 	};
 	// spend bonus category card - get category associated cards
 	const spendBonusCategoryCard = async () => {
 		let categoryWiseCards = [];
 		try {
-			const response = await postCall("spendBonusCategoryCard", {
-				spendBonusCategoryId: selCategory.value,
-			});
+			const response = await postCall(
+				"spendBonusCategoryCard",
+				{
+					spendBonusCategoryId: selCategory.value,
+				},
+				dispatch,
+				router
+			);
 			if (response.length > 0) {
 				categoryWiseCards = response;
 			}

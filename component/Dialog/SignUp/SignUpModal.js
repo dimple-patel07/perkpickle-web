@@ -46,14 +46,14 @@ const SignUpModal = () => {
 		onSubmit: async (val) => {
 			try {
 				dispatch(handleStartLoading());
-				const response = await postCall("newUserSignup", { email: val.email });
+				const response = await postCall("newUserSignup", { email: val.email }, dispatch);
 				dispatch(handleStopLoading());
 				if (response.email) {
 					dispatch(
 						showMessage({
 							...defaultMessageObj,
 							type: "success",
-							messageText: response.data.message,
+							messageText: response.message,
 						})
 					);
 					dispatch(handleStoreSignUpEmail(val.email));
@@ -71,7 +71,7 @@ const SignUpModal = () => {
 						showMessage({
 							...defaultMessageObj,
 							type: "success",
-							messageText: response.data.message,
+							messageText: response.message,
 						})
 					);
 					dispatch(handleStopLoading());

@@ -67,9 +67,8 @@ const SignUpFormModal = () => {
 			};
 			try {
 				dispatch(handleStartLoading());
-				const response = postCall("completeUserSignup", userData);
+				const response = await postCall("completeUserSignup", userData, dispatch);
 				if (response?.email) {
-					dispatch(handleStopLoading());
 					closeModal();
 					dispatch(
 						showMessage({
@@ -79,6 +78,7 @@ const SignUpFormModal = () => {
 						})
 					);
 				}
+				dispatch(handleStopLoading());
 			} catch (error) {
 				console.error(error);
 			}
