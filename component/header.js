@@ -11,121 +11,107 @@ import { RxHamburgerMenu } from "react-icons/rx";
 import { IoMdLogIn } from "react-icons/io";
 import { FaRegUserCircle, FaUserAlt } from "react-icons/fa";
 import { useAppDispatch } from "../redux/store";
-import {
-  handleOpenChangePasswordModal,
-  handleOpenLoginModal,
-  handleOpenResetPasswordModal,
-  handleOpenSignUpModal,
-} from "../redux/modal/modalSlice";
+import { handleOpenChangePasswordModal, handleOpenLoginModal, handleOpenResetPasswordModal, handleOpenSignUpModal } from "../redux/modal/modalSlice";
 import { deleteCookie, getCookie } from "cookies-next";
 import { useRouter } from "next/router";
 
 const Header = () => {
-  const token = getCookie("user");
-  const userName = getCookie("userName");
-  const dispatch = useAppDispatch();
-  const router = useRouter()
-  const [toggleDropdown, SetToggleDropdown] = useState(false)
-  const [currentUserName, SetCurrentUserName] = useState("")
+	const token = getCookie("authorizationToken");
+	const userName = getCookie("userName");
+	const dispatch = useAppDispatch();
+	const router = useRouter();
+	const [toggleDropdown, SetToggleDropdown] = useState(false);
+	const [currentUserName, SetCurrentUserName] = useState("");
 
-  useEffect(()=> {
-    SetToggleDropdown(false)
-  }, [router.pathname])
+	useEffect(() => {
+		SetToggleDropdown(false);
+	}, [router.pathname]);
 
-  useEffect(()=> {
-    SetCurrentUserName(userName)
-  }, [userName])
-  
-  const handleToggle = () => {
-    SetToggleDropdown(!toggleDropdown)
-  }
+	useEffect(() => {
+		SetCurrentUserName(userName);
+	}, [userName]);
 
-  return (
-    <>
-      <header>
-        <Navbar>
-          <Container>
-            <Link href="/">
-              <div className="logo">
-                <Image src={images.logo} alt="logo" />
-              </div>
-            </Link>
-            <Navbar.Toggle aria-controls="basic-navbar-nav" />
-            <Navbar.Collapse
-              id="basic-navbar-nav"
-              className="justify-content-end"
-            >
-              {token && (
-                <Nav className="align-items-center">
-                  <NavDropdown
-                    title={
-                      <div className="profile">
-                        {/* <Image src={images.profile} /> */}
-                        <FaUserAlt />
-                        <span className="profile-name">{currentUserName}</span>
-                      </div>
-                    }
-                    show={toggleDropdown}
-                    onToggle={handleToggle}
-                    onClick={handleToggle}
-                    id="basic-nav-dropdown"
-                  >
-                    <ul>
-                      <li>
-                        <Link href="/profile">Profile</Link>
-                      </li>
-                      <li>
-                        <Link
-                          href={router.pathname}
-                          onClick={() =>
-                            dispatch(handleOpenChangePasswordModal(true))
-                          }
-                        >
-                          Change Password
-                        </Link>
-                      </li>
-                      <li>
-                        <Link href="/contact-us">Contact Us</Link>
-                      </li>
-                      <li>
-                        <Link href="/about-us">About Us</Link>
-                      </li>
-                      <li>
-                        <Link href="/privacy-policy">Privacy Policy</Link>
-                      </li>
-                      <li onClick={() => deleteCookie("user")}>
-                        <Link href="/">Logout</Link>
-                      </li>
-                    </ul>
-                  </NavDropdown>
-                </Nav>
-              )}
-              {!token && (
-                <div className="header-btn">
-                  <button
-                    onClick={() => dispatch(handleOpenLoginModal(true))}
-                    className="btn"
-                  >
-                    <span>Login</span>
-                    <i>
-                      <IoMdLogIn />
-                    </i>
-                  </button>
-                  <button
-                    onClick={() => dispatch(handleOpenSignUpModal(true))}
-                    className="btn"
-                  >
-                    <span>Sign Up</span>
-                    <i>
-                      <FaRegUserCircle />
-                    </i>
-                  </button>
-                </div>
-              )}
-            </Navbar.Collapse>
+	const handleToggle = () => {
+		SetToggleDropdown(!toggleDropdown);
+	};
 
-            {/* Toggle Menu Login Header */}
-            {/* <div className="login-toggle">
+	const logoutProcess = () => {
+		deleteCookie("authorizationToken");
+		deleteCookie("userName");
+		deleteCookie("loggedEmail");
+	};
+
+	return (
+		<>
+			<header>
+				<Navbar>
+					<Container>
+						<Link href="/">
+							<div className="logo">
+								<Image src={images.logo} alt="logo" />
+							</div>
+						</Link>
+						<Navbar.Toggle aria-controls="basic-navbar-nav" />
+						<Navbar.Collapse id="basic-navbar-nav" className="justify-content-end">
+							{token && (
+								<Nav className="align-items-center">
+									<NavDropdown
+										title={
+											<div className="profile">
+												{/* <Image src={images.profile} /> */}
+												<FaUserAlt />
+												<span className="profile-name">{currentUserName}</span>
+											</div>
+										}
+										show={toggleDropdown}
+										onToggle={handleToggle}
+										onClick={handleToggle}
+										id="basic-nav-dropdown">
+										<ul>
+											<li>
+												<Link href="/profile">Profile</Link>
+											</li>
+											<li>
+												<Link href={router.pathname} onClick={() => dispatch(handleOpenChangePasswordModal(true))}>
+													Change Password
+												</Link>
+											</li>
+											<li>
+												<Link href="/contact-us">Contact Us</Link>
+											</li>
+											<li>
+												<Link href="/about-us">About Us</Link>
+											</li>
+											<li>
+												<Link href="/privacy-policy">Privacy Policy</Link>
+											</li>
+											<li onClick={() => logoutProcess()}>
+												<Link href="/">Logout</Link>
+											</li>
+										</ul>
+									</NavDropdown>
+								</Nav>
+							)}
+							{!token && (
+								<div className="header-btn">
+									<button onClick={() => dispatch(handleOpenLoginModal(true))} className="btn">
+										<span>Login</span>
+										<i>
+											<IoMdLogIn />
+										</i>
+									</button>
+									<button onClick={() => dispatch(handleOpenSignUpModal(true))} className="btn">
+										<span>Sign Up</span>
+										<i>
+											<FaRegUserCircle />
+										</i>
+									</button>
+								</div>
+							)}
+						</Navbar.Collapse>
+
+						{/* Toggle Menu Login Header */}
+						{/* <div className="login-toggle">
                 <Dropdown>
                   <Dropdown.Toggle variant="success" id="dropdown-basic">
                     <RxHamburgerMenu />
@@ -145,11 +131,11 @@ const Header = () => {
                   </Dropdown.Menu>
                 </Dropdown>
             </div> */}
-          </Container>
-        </Navbar>
-      </header>
-    </>
-  );
+					</Container>
+				</Navbar>
+			</header>
+		</>
+	);
 };
 
 export default Header;

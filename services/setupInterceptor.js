@@ -1,25 +1,21 @@
 import { getCookie } from "cookies-next";
-import { getLocalAccessToken } from "./token"
-
+// NOT IN USED
 const onRequest = (config) => {
-  const token = getCookie("user");
-  if (config.headers) {
-    if (token) {
-      config.headers.Authorization = `${token}`;
-    }
-    config.headers.identity = 'user'
-  }
-  return config
-}
+	const token = getCookie("authorizationToken");
+	if (config.headers && token) {
+		config.headers.Authorization = token;
+	}
+	return config;
+};
 
-const onRequestError = (error) => Promise.reject(error)
+const onRequestError = (error) => Promise.reject(error);
 
-const onResponse = (response) => response
+const onResponse = (response) => response;
 
-const onResponseError = async (error) => Promise.reject(error)
+const onResponseError = async (error) => Promise.reject(error);
 
 export const setupInterceptorsTo = (axiosObj) => {
-  axiosObj?.interceptors?.request?.use(onRequest, onRequestError)
-  axiosObj?.interceptors?.response?.use(onResponse, onResponseError)
-  return axiosObj
-}
+	axiosObj?.interceptors?.request?.use(onRequest, onRequestError);
+	axiosObj?.interceptors?.response?.use(onResponse, onResponseError);
+	return axiosObj;
+};

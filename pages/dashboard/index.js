@@ -4,107 +4,106 @@ import ExploreOffer from "../../component/LandingPage/ExploreOffer";
 import BestOffer from "../../component/LandingPage/BestOffer";
 import AvailableOffer from "../../component/LandingPage/AvailableOffer";
 import { useEffect, useState } from "react";
-import { config } from "../../utils/config";
-import axios from "axios";
-// import {
-//   handleStartLoading,
-//   handleStopLoading,
-// } from "../../redux/loader/loaderSlice";
 import { useAppDispatch } from "../../redux/store";
+import { useRouter } from "next/router";
+import { postCall } from "../../services/apiCall";
 
 export default function Home() {
-  const dispatch = useAppDispatch();
-  const [cardDataList, setCardDataList] = useState();
-  const [spendBonusCategoryList, setspendBonusCategoryList] = useState();
+	const dispatch = useAppDispatch();
+	const router = useRouter();
+	const [cardDataList, setCardDataList] = useState();
+	const [allCards, setAllCards] = useState();
+	const [spendBonusCategoryList, setspendBonusCategoryList] = useState();
+	const [savedCardList, setSavedCardList] = useState([]);
+	const [availableOffers, setAvailableOffers] = useState([]);
+	const [bestOfferCards, setBestOfferCards] = useState([]);
+	const [isOfferChecked, setIsOfferChecked] = useState(false);
 
-  const getCards = async () => {
-    try {
-      // dispatch(handleStartLoading());
-      const data = await axios.post(`${config.apiURL}/getAllCards`, {
-        // headers: authHeader,
-      });
-      const cardList = data?.data;
-      const cardIssuerList = Array.from(
-        new Set(cardList.map((card) => card.cardIssuer))
-      );
+	useEffect(() => {
+		getAllCards();
+		getSpendBonusCategoryList();
+	}, []);
+	// get all cards
+	const getAllCards = async () => {
+		try {
+			const cardList = await postCall("getAllCards", {}, dispatch, router);
+			setAllCards(cardList);
+			const cardIssuerList = Array.from(new Set(cardList.map((card) => card.cardIssuer)));
+			const cardGrouping = cardIssuerList.reduce((acc, cardIssuer) => {
+				const associatedCards = cardList.filter((card) => card.cardIssuer === cardIssuer);
+				const options = associatedCards.map((card) => ({
+					label: card.card_name,
+					value: card.card_key,
+					card_image_url: card.card_image_url, // will be use in SaveCard.js
+				}));
 
-      const cardGrouping = cardIssuerList.reduce((acc, cardIssuer) => {
-        const associatedCards = cardList.filter(
-          (card) => card.cardIssuer === cardIssuer
-        );
-        const options = associatedCards.map((card) => ({
-          label: card.card_name,
-          value: card.card_key,
-          card_image_url: card.card_image_url, // will be use in SaveCard.js
-        }));
+				acc.push({
+					label: cardIssuer,
+					value: cardIssuer,
+					options: options,
+				});
+				// dispatch(handleStopLoading());
+				return acc;
+			}, []);
+			setCardDataList(cardGrouping);
+		} catch (error) {
+			console.error(error);
+		}
+	};
+	// get spend bonus category list
+	const getSpendBonusCategoryList = async () => {
+		try {
+			const categoryGroupList = await postCall("spendBonusCategoryList", {}, dispatch, router);
+			const result = categoryGroupList
+				?.map(({ spendBonusCategoryGroup, spendBonusSubcategoryGroup }) => {
+					const groupChildrenList = spendBonusSubcategoryGroup
+						.filter((subGroupData) => subGroupData.spendBonusCategory?.length > 0)
+						.map(({ spendBonusSubcategoryGroup, spendBonusCategory }) => ({
+							label: spendBonusSubcategoryGroup,
+							value: spendBonusSubcategoryGroup,
 
-        acc.push({
-          label: cardIssuer,
-          value: cardIssuer,
-          options: options,
-        });
-        // dispatch(handleStopLoading());
-        return acc;
-      }, []);
-      // dispatch(handleStopLoading());
-      setCardDataList(cardGrouping);
-    } catch (error) {
-      // dispatch(handleStopLoading());
-    }
-  };
+							categoryChildrenList: spendBonusCategory.map((categoryData) => ({
+								label: categoryData.spendBonusCategoryName,
+								value: categoryData.spendBonusCategoryId,
+							})),
+						}));
 
-  const getSpendBonusCategoryList = async () => {
-    try {
-      // dispatch(handleStartLoading());
-      const data = await axios.post(
-        `${config.apiURL}/spendBonusCategoryList`
-        //  { headers: authHeader }
-      );
-      // dispatch(handleStopLoading());
-      const categoryGroupList = data?.data;
-      const result = categoryGroupList
-        ?.map(({ spendBonusCategoryGroup, spendBonusSubcategoryGroup }) => {
-          const groupChildrenList = spendBonusSubcategoryGroup
-            .filter(
-              (subGroupData) => subGroupData.spendBonusCategory?.length > 0
-            )
-            .map(({ spendBonusSubcategoryGroup, spendBonusCategory }) => ({
-              label: spendBonusSubcategoryGroup,
-              value: spendBonusSubcategoryGroup,
-
-              categoryChildrenList: spendBonusCategory.map((categoryData) => ({
-                label: categoryData.spendBonusCategoryName,
-                value: categoryData.spendBonusCategoryId,
-              })),
-            }));
-
-          return (
-            groupChildrenList.length > 0 && {
-              label: spendBonusCategoryGroup,
-              value: spendBonusCategoryGroup,
-              options: groupChildrenList,
-            }
-          );
-        })
-        .filter(Boolean);
-      setspendBonusCategoryList(result);
-    } catch (error) {
-      // dispatch(handleStopLoading());
-    }
-  };
-
-  useEffect(() => {
-    getCards();
-    getSpendBonusCategoryList();
-  }, []);
-  return (
-    <>
-      <BannerSection />
-      {/* <BannerBottom /> */}
-      <Savecard cardDataList={cardDataList} />
-      <ExploreOffer spendBonusCategoryList={spendBonusCategoryList} />
-      <AvailableOffer />
-      <BestOffer />
-    </>
-  );
+					return (
+						groupChildrenList.length > 0 && {
+							label: spendBonusCategoryGroup,
+							value: spendBonusCategoryGroup,
+							options: groupChildrenList,
+						}
+					);
+				})
+				.filter(Boolean);
+			setspendBonusCategoryList(result);
+		} catch (error) {
+			// dispatch(handleStopLoading());
+		}
+	};
+	const handleSavedCards = (val) => {
+		setSavedCardList(val);
+		setAvailableOffers([]);
+		setBestOfferCards([]);
+		setIsOfferChecked(false);
+	};
+	return (
+		<>
+			<BannerSection />
+			{/* <BannerBottom /> */}
+			{/* saved cards */}
+			<Savecard cardDataList={cardDataList} onSavedCards={(val) => handleSavedCards(val)} />
+			{savedCardList.length > 0 && (
+				<>
+					{/* explore offers */}
+					<ExploreOffer spendBonusCategoryList={spendBonusCategoryList} savedCardList={savedCardList} onAvailableOffers={(val) => setAvailableOffers(val)} onBestOffers={(val) => setBestOfferCards(val)} onOffersChecked={(val) => setIsOfferChecked(val)} />
+					{/* available offers */}
+					{isOfferChecked && (availableOffers.length > 0 || savedCardList.length > 0) && <AvailableOffer availableOffers={availableOffers} savedCardList={savedCardList} />}
+					{/* best offers */}
+					{isOfferChecked && bestOfferCards.length > 0 && <BestOffer bestOfferCards={bestOfferCards} allCards={allCards} />}
+				</>
+			)}
+		</>
+	);
 }
