@@ -1,11 +1,12 @@
 import React from "react";
+import Image from "next/image";
 
 const AvailableOffer = ({ availableOffers, savedCardList }) => {
 	return (
 		<section className="available-offer mb">
 			<div className="container">
 				<div className="text-center">
-					<h3 className="title">Available Offers</h3>
+					<h3 className="title">{availableOffers.length > 0 ? "Available Offers" : "Default Card Offers"}</h3>
 					<p className="subtitle">
 						Select your offer <br /> for different categories
 					</p>
@@ -17,8 +18,11 @@ const AvailableOffer = ({ availableOffers, savedCardList }) => {
 								<p className="m-0">
 									<strong>Credit Card</strong>
 								</p>
+								<p className="m-0">
+									<strong>Rewards rate (Points / Currency)</strong>
+								</p>
 								<span>
-									<strong>Rewards rate</strong>
+									<strong>Description</strong>
 								</span>
 							</li>
 							<hr />
@@ -32,7 +36,13 @@ const AvailableOffer = ({ availableOffers, savedCardList }) => {
 									return (
 										<div key={index}>
 											<li key={`${index}`}>
+												<div className="available-card-img">
+													<Image src={card.card_image_url} alt="N/A" width="50" height="50" />
+												</div>
 												<p className="m-0">{card.cardName}</p>
+												<p className="m-0">
+													{card.earnMultiplier} ({card.baseSpendAmount} / {card.baseSpendEarnCurrency})
+												</p>
 												<span>{card.spendBonusDesc}</span>
 											</li>
 											<hr />
@@ -47,14 +57,14 @@ const AvailableOffer = ({ availableOffers, savedCardList }) => {
 									return (
 										<div key={index}>
 											<li>
+												<div className="available-card-img">
+													<Image src={card.card_image_url} alt="N/A" width="50" height="50" />
+												</div>
 												<p className="m-0">{card.cardName}</p>
-												<span>
-													{card.baseSpendAmount} / {card.baseSpendEarnCurrency}
-													{/* {card.benefit.length > 0 &&
-														card.benefit.map((data, index) => {
-															return <p key={index}>{data.benefitDesc}</p>;
-														})} */}
-												</span>
+												<p className="m-0">
+													{card.baseSpendEarnCashValue} ({card.baseSpendAmount} / {card.baseSpendEarnCurrency})
+												</p>
+												<span>{card.signupBonusDesc}</span>
 												<hr />
 											</li>
 											<hr />

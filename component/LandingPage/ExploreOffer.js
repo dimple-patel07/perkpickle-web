@@ -5,7 +5,7 @@ import { useAppDispatch } from "../../redux/store";
 import { useRouter } from "next/router";
 import { handleStartLoading, handleStopLoading } from "../../redux/loader/loaderSlice";
 
-const ExploreOffer = ({ spendBonusCategoryList, savedCardList, onAvailableOffers, onBestOffers, onOffersChecked }) => {
+const ExploreOffer = ({ spendBonusCategoryList, savedCardList, onAvailableOffers, onBestOffers, onOffersChecked, allCards }) => {
 	const [groupCatagories, setGroupCatagories] = useState([]);
 	const [selCategory, setSelCategory] = useState();
 	const dispatch = useAppDispatch();
@@ -30,15 +30,17 @@ const ExploreOffer = ({ spendBonusCategoryList, savedCardList, onAvailableOffers
 		for (const cardCategoryData of categoryWiseCards) {
 			if (cardCategoryData.earnMultiplier > 0 && cardCategoryData.spendBonusDesc) {
 				const cardKey = cardCategoryData["cardKey"];
+				const dbCard = allCards.find((ac) => ac.card_key === cardKey);
 				const found = savedCardList.find((card) => card.value === cardKey);
 				if (found) {
-					foundCards.push(cardCategoryData);
+					foundCards.push({ ...cardCategoryData, ...found, ...dbCard });
 				} else {
-					notFoundCards.push(cardCategoryData);
+					notFoundCards.push({ ...cardCategoryData, ...dbCard });
 				}
 			}
 		}
 		// sorting on descending to order to show highest discount on top in the list
+		foundCards = foundCards.sort((a, b) => (a.earnMultiplier < b.earnMultiplier ? 1 : -1));
 		notFoundCards = notFoundCards.sort((a, b) => (a.earnMultiplier < b.earnMultiplier ? 1 : -1));
 		onOffersChecked(true);
 		onAvailableOffers(foundCards);

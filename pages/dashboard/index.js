@@ -7,6 +7,7 @@ import { useEffect, useState } from "react";
 import { useAppDispatch } from "../../redux/store";
 import { useRouter } from "next/router";
 import { postCall } from "../../services/apiCall";
+import { handleStartLoading, handleStopLoading } from "../../redux/loader/loaderSlice";
 
 export default function Home() {
 	const dispatch = useAppDispatch();
@@ -20,8 +21,8 @@ export default function Home() {
 	const [isOfferChecked, setIsOfferChecked] = useState(false);
 
 	useEffect(() => {
+		dispatch(handleStartLoading());
 		getAllCards();
-		getSpendBonusCategoryList();
 	}, []);
 	// get all cards
 	const getAllCards = async () => {
@@ -42,10 +43,10 @@ export default function Home() {
 					value: cardIssuer,
 					options: options,
 				});
-				// dispatch(handleStopLoading());
 				return acc;
 			}, []);
 			setCardDataList(cardGrouping);
+			await getSpendBonusCategoryList();
 		} catch (error) {
 			console.error(error);
 		}
@@ -79,7 +80,7 @@ export default function Home() {
 				.filter(Boolean);
 			setspendBonusCategoryList(result);
 		} catch (error) {
-			// dispatch(handleStopLoading());
+			console.error(error);
 		}
 	};
 	const handleSavedCards = (val) => {
@@ -97,7 +98,7 @@ export default function Home() {
 			{savedCardList.length > 0 && (
 				<>
 					{/* explore offers */}
-					<ExploreOffer spendBonusCategoryList={spendBonusCategoryList} savedCardList={savedCardList} onAvailableOffers={(val) => setAvailableOffers(val)} onBestOffers={(val) => setBestOfferCards(val)} onOffersChecked={(val) => setIsOfferChecked(val)} />
+					<ExploreOffer spendBonusCategoryList={spendBonusCategoryList} savedCardList={savedCardList} onAvailableOffers={(val) => setAvailableOffers(val)} onBestOffers={(val) => setBestOfferCards(val)} onOffersChecked={(val) => setIsOfferChecked(val)} allCards={allCards} />
 					{/* available offers */}
 					{isOfferChecked && (availableOffers.length > 0 || savedCardList.length > 0) && <AvailableOffer availableOffers={availableOffers} savedCardList={savedCardList} />}
 					{/* best offers */}

@@ -28,10 +28,8 @@ const Savecard = ({ cardDataList, onSavedCards }) => {
 	// get user by email
 	const getUserByEmail = async () => {
 		try {
-			// dispatch(handleStartLoading());
 			const response = await postCall("getUserByEmail", { email: getLoggedEmail() }, dispatch, router);
 			if (response.email) {
-				dispatch(handleStopLoading());
 				setUserData(response);
 				// set saved cards
 				if (response.card_keys && cardDataList[0].options?.length > 0) {
@@ -47,6 +45,8 @@ const Savecard = ({ cardDataList, onSavedCards }) => {
 						setSelAvailableCards(savedSelectionList);
 						onSave(false, savedSelectionList);
 					}
+				} else {
+					dispatch(handleStopLoading());
 				}
 			}
 		} catch (error) {
@@ -64,9 +64,9 @@ const Savecard = ({ cardDataList, onSavedCards }) => {
 			for (const selCard of savedSelectionList) {
 				const response = await postCall("cardDetailByCardKey", { cardKey: selCard.value }, dispatch, router);
 				if (response?.length > 0) {
-					if (response[0].baseSpendAmount && response[0].baseSpendEarnCurrency) {
-						result.push({ ...response[0], ...selCard });
-					}
+					// if (response[0].baseSpendAmount && response[0].baseSpendEarnCurrency) {
+					result.push({ ...response[0], ...selCard });
+					// }
 				}
 			}
 			// setSelAvailableCards([]);
@@ -76,6 +76,7 @@ const Savecard = ({ cardDataList, onSavedCards }) => {
 				const cardKeys = result.map((card) => card.value);
 				await updateUserCards(cardKeys.join(","));
 			}
+			dispatch(handleStopLoading());
 		} catch (error) {
 			console.error(error);
 		}
@@ -96,26 +97,30 @@ const Savecard = ({ cardDataList, onSavedCards }) => {
 	};
 	// remove specific card
 	const removeUserCard = async () => {
-		dispatch(handleStartLoading());
 		setIsShowDeleteModel(false);
+		dispatch(handleStartLoading());
 		const filterSavedCards = selSavedCards.filter((card) => card.cardKey !== deleteCardId);
 		setSelSavedCards(filterSavedCards);
 		onSavedCards(filterSavedCards);
 		const filterAvailableCards = selAvailableCards.filter((card) => card.value !== deleteCardId);
 		setSelAvailableCards(filterAvailableCards);
 		const cardKeys = filterAvailableCards.map((card) => card.value);
-		await updateUserCards(cardKeys.join(","));
+		await updateUserCards(cardKeys.join(","), true);
 	};
 
 	// cardKeys = cardKey(s) - either one or multiple keys will be update
-	const updateUserCards = async (cardKeys) => {
+	const updateUserCards = async (cardKeys, isDeleted = false) => {
 		try {
 			const params = { email: getLoggedEmail(), cardKeys: cardKeys };
 			const response = await postCall("updateUserCards", params, dispatch, router);
 			if (response.email) {
-				console.log("card saved successfully");
+				console.log("card updated successfully");
 			}
-			dispatch(handleStopLoading());
+			if (isDeleted) {
+				setTimeout(() => {
+					dispatch(handleStopLoading());
+				}, 1000);
+			}
 		} catch (error) {
 			setSelAvailableCards([]);
 			console.error(error);
