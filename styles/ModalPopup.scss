@@ -208,10 +208,14 @@
     }
   }
 }
-.signuptab {
-  height: 700px;
-}
+
 // Media Query
+
+@media(max-width:1920px){
+  .password-error.invalid-feedback {
+    top: 60px !important;
+}
+}
 
 @media (max-width: 1200px) {
   .login-modal {
