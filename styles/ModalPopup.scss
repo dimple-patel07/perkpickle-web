@@ -217,6 +217,12 @@
 }
 }
 
+@media(max-width:3840px){
+  .password-error.invalid-feedback {
+    top: 60px !important;
+}
+}
+
 @media (max-width: 1200px) {
   .login-modal {
     .modal-dialog {
