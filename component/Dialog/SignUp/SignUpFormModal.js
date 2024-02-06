@@ -112,7 +112,7 @@ const SignUpFormModal = () => {
  restProps={{ "aria-describedby": "First Name" }} />
 										</div>
 										<div className="col-12 col-sm-12 col-md-12 col-lg-6">
-											<TextInput controlId="last_name" value={values?.last_name} onChange={handleChange} onBlur={handleBlur} touched={touched?.last_name} errors={errors?.last_name} placeholder={"Last Name*"} type="text" name="last_name" restProps={{ "aria-describedby": "Last Name" }} />
+											<TextInput controlId="last_name" value={values?.last_name} onChange={handleChange} onBlur={handleBlur} touched={touched?.last_name} errors={errors?.last_name} placeholder={"Last Name*"} type="text" name="last_name" maxLength={50} restProps={{ "aria-describedby": "Last Name" }} />
 										</div>
 										{/* password */}
 										<div className="col-12 col-sm-12 position-relative cls-password">
@@ -156,7 +156,7 @@ const SignUpFormModal = () => {
 											/>
 										</div>
 										<div className="col-12">
-											<TextInput controlId="address" value={values?.address} onChange={handleChange} onBlur={handleBlur} touched={touched?.address} errors={errors?.address} inputType="textarea" placeholder={"Address"} type="text" name="address" restProps={{ "aria-describedby": "address" }} />
+											<TextInput controlId="address" value={values?.address} onChange={handleChange} onBlur={handleBlur} touched={touched?.address} errors={errors?.address} inputType="textarea" placeholder={"Address"} type="text" name="address" maxLength={200} restProps={{ "aria-describedby": "address" }} />
 										</div>
 										<div className="col-12">
 											<FloatingLabel controlId="floatingPhoneNumber" label="Phone Number">
