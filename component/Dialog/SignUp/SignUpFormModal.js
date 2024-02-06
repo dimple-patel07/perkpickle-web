@@ -165,6 +165,7 @@ const SignUpFormModal = () => {
                         inputRef={firstInputRef}
                         onChange={handleChange}
                         onBlur={handleBlur}
+                        maxLength={50}
                         touched={touched?.first_name}
                         errors={errors?.first_name}
                         placeholder={"First Name*"}
@@ -179,6 +180,7 @@ const SignUpFormModal = () => {
                         value={values?.last_name}
                         onChange={handleChange}
                         onBlur={handleBlur}
+                        maxLength={50}
                         touched={touched?.last_name}
                         errors={errors?.last_name}
                         placeholder={"Last Name*"}
@@ -235,6 +237,7 @@ const SignUpFormModal = () => {
                         onChange={handleChange}
                         onBlur={handleBlur}
                         touched={touched?.address}
+                        maxLength={100}
                         errors={errors?.address}
                         inputType="textarea"
                         placeholder={"Address"}
