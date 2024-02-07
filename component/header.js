@@ -14,11 +14,14 @@ import { useAppDispatch } from "../redux/store";
 import { handleOpenChangePasswordModal, handleOpenLoginModal, handleOpenResetPasswordModal, handleOpenSignUpModal } from "../redux/modal/modalSlice";
 import { deleteCookie, getCookie } from "cookies-next";
 import { useRouter } from "next/router";
+import { useSelector } from "react-redux";
+import { emailStoreSelectore } from "../redux/emailStore/emailStoreSlice";
 
 const Header = () => {
 	const token = getCookie("authorizationToken");
 	const userName = getCookie("userName");
 	const dispatch = useAppDispatch();
+	const userSelector = useSelector(emailStoreSelectore).userName
 	const router = useRouter();
 	const [toggleDropdown, SetToggleDropdown] = useState(false);
 	const [currentUserName, SetCurrentUserName] = useState("");
@@ -61,7 +64,7 @@ const Header = () => {
 											<div className="profile">
 												{/* <Image src={images.profile} /> */}
 												<FaUserAlt />
-												<span className="profile-name">{currentUserName}</span>
+												<span className="profile-name">{userSelector}</span>
 											</div>
 										}
 										show={toggleDropdown}

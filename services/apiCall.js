@@ -12,6 +12,7 @@ export const postCall = async (apiName, requestBody = {}, dispatch, router) => {
 			headers = getHeaders();
 		}
 		const response = await axios.post(`${config.apiURL}/${apiName}`, requestBody, { headers });
+		dispatch(handleStopLoading());
 		return response.data;
 	} catch (errorResponse) {
 		return handleAxiosError(errorResponse, dispatch, router);

@@ -16,6 +16,7 @@ import { useFormik } from "formik";
 import * as yup from "yup";
 import TextInput from "../../TextInput";
 import { postCall } from "../../../services/apiCall";
+import { handleStoreUserName } from "../../../redux/emailStore/emailStoreSlice";
 
 const LoginModal = () => {
 	const ModalState = useSelector(modalSelector);
@@ -57,6 +58,7 @@ const LoginModal = () => {
 				const response = await postCall("login", { key: encryptedKey }, dispatch, router);
 				dispatch(handleStopLoading());
 				if (response?.token) {
+					dispatch(handleStoreUserName(response?.userName))
 					setCookie("authorizationToken", response?.token);
 					setCookie("userName", response?.userName);
 					setCookie("loggedEmail", response?.email);

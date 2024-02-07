@@ -4,6 +4,7 @@ import { createSlice } from "@reduxjs/toolkit";
 const INITIAL_STATE = {
   forgotPasswordEmail: "",
   signUpEmail: "",
+  userName: "",
 };
 
 const emailStoreSlice = createSlice({
@@ -18,12 +19,16 @@ const emailStoreSlice = createSlice({
       ...state,
       signUpEmail: payload,
     }),
+    handleStoreUserName: (state, { payload }) => ({
+      ...state,
+      userName: payload,
+    }),
   },
 });
 
 export const emailStoreSelectore = (state) => state?.EmailStore;
 
-export const { handleStoreForgotPasswordEmail, handleStoreSignUpEmail } =
+export const { handleStoreForgotPasswordEmail, handleStoreSignUpEmail, handleStoreUserName } =
   emailStoreSlice.actions;
 
 export default emailStoreSlice.reducer;

@@ -8,7 +8,6 @@ const Loader = () => {
   const dispatch = useAppDispatch()
   const state = useSelector(loaderSelector)
   const { message, loading } = state
-  console.log(message, loading);
   useEffect(() => {
     if (message && message !== null && !loading) {
       const { type, messageText, duration, position, onCloseAction } = message
