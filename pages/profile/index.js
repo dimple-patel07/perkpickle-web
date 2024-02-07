@@ -12,6 +12,8 @@ import { FloatingLabel, Form } from "react-bootstrap";
 import { defaultMessageObj } from "../../utils/config";
 import { postCall } from "../../services/apiCall";
 import { useRouter } from "next/router";
+import { setCookie } from "cookies-next";
+import { handleStoreUserName } from "../../redux/emailStore/emailStoreSlice";
 
 const Profile = () => {
 	const dispatch = useAppDispatch();
@@ -70,13 +72,16 @@ const Profile = () => {
 				zip_code: data.zip_code,
 				address: data.address,
 			};
-
+			const userName = data.first_name +" " + data.last_name
+			
 			try {
 				dispatch(handleStartLoading());
 				const response = await postCall("updateUser", params, dispatch, router);
 				dispatch(handleStopLoading());
 				if (response.email) {
 					getUserByEmail();
+					dispatch(handleStoreUserName(userName))
+					setCookie("userName", userName);
 					dispatch(
 						showMessage({
 							...defaultMessageObj,
