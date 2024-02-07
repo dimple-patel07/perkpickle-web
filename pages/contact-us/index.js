@@ -12,6 +12,8 @@ import { useAppDispatch } from "../../redux/store";
 import { handleStartLoading, showMessage } from "../../redux/loader/loaderSlice";
 import { defaultMessageObj } from "../../utils/config";
 import { postCall } from "../../services/apiCall";
+import { useRouter } from 'next/router'
+
 
 const ContactUs = () => {
 	const firstInputRef = useRef(null);
