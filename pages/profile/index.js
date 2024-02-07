@@ -147,15 +147,15 @@ const Profile = () => {
 								</div>
 
 								<div className="col-12 col-sm-12 col-md-6 col-lg-6 mb-3">
-									<TextInput controlId="firstname" value={values?.first_name} inputRef={firstInputRef} onChange={handleChange} onBlur={handleBlur} touched={touched?.first_name} errors={errors?.first_name} placeholder="First Name*" type="text" name="first_name" restProps={{ "aria-describedby": "First Name" }} />
+									<TextInput controlId="firstname" value={values?.first_name} inputRef={firstInputRef} onChange={handleChange} onBlur={handleBlur} touched={touched?.first_name} errors={errors?.first_name} placeholder="First Name*" type="text" name="first_name" maxLength={50} restProps={{ "aria-describedby": "First Name" }} />
 								</div>
 
 								<div className="col-12 col-sm-12 col-md-6 col-lg-6 mb-3">
-									<TextInput controlId="lastname" value={values?.last_name} onChange={handleChange} onBlur={handleBlur} touched={touched?.last_name} errors={errors?.last_name} placeholder="Last Name*" type="text" name="last_name" restProps={{ "aria-describedby": "Last Name" }} />
+									<TextInput controlId="lastname" value={values?.last_name} onChange={handleChange} onBlur={handleBlur} touched={touched?.last_name} errors={errors?.last_name} placeholder="Last Name*" type="text" name="last_name" maxLength={50} restProps={{ "aria-describedby": "Last Name" }} />
 								</div>
 
 								<div className="col-12 col-sm-12 col-md-12 col-lg-12 mb-3">
-									<TextInput controlId="address" value={values?.address} onChange={handleChange} onBlur={handleBlur} touched={touched?.address} errors={errors?.address} inputType="textarea" placeholder={"Address"} type="text" name="address" restProps={{ "aria-describedby": "address" }} />
+									<TextInput controlId="address" value={values?.address} onChange={handleChange} onBlur={handleBlur} touched={touched?.address} errors={errors?.address} inputType="textarea" placeholder={"Address"} type="text" name="address" maxLength={200} restProps={{ "aria-describedby": "address" }} />
 								</div>
 
 								<div className="col-12 col-sm-12 col-md-6 col-lg-6 mb-3">
