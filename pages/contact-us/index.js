@@ -12,8 +12,7 @@ import { useAppDispatch } from "../../redux/store";
 import { handleStartLoading, showMessage } from "../../redux/loader/loaderSlice";
 import { defaultMessageObj } from "../../utils/config";
 import { postCall } from "../../services/apiCall";
-import { useRouter } from 'next/router'
-
+import { useRouter } from "next/router";
 
 const ContactUs = () => {
 	const firstInputRef = useRef(null);
@@ -47,12 +46,12 @@ const ContactUs = () => {
 			try {
 				dispatch(handleStartLoading());
 				const response = await postCall("contactMail", data, dispatch, router);
-				if (response?.status === 200) {
+				if (response?.message) {
 					dispatch(
 						showMessage({
 							...defaultMessageObj,
 							type: "success",
-							messageText: response?.data?.message,
+							messageText: response.message,
 						})
 					);
 					resetForm();
