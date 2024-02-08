@@ -76,10 +76,11 @@
     }
 
     .select__control {
-        height: 60px;
+        height: auto;
         border: none;
         border-radius: 8px;
         box-shadow: none;
+        overflow: hidden;
 
         .select__value-container {
             border-radius: 8px;
@@ -111,12 +112,12 @@
     }
 
     .save-card-show {
-        padding-top: 100px;
+        padding-top: 15px;
 
         .best-offer-main {
             border: 1px solid #55a360;
             background-color: $white;
-            border-radius: 30px;
+            border-radius: 10px;
         }
 
         .best-card-box {
@@ -127,6 +128,7 @@
 
         .card-box {
             background-color: transparent;
+            padding:5px
         }
 
         .card-content {
@@ -140,10 +142,11 @@
         }
 
         .card-box img {
-            width: 70px !important;
-            height: 70px !important;
+            width: 100px !important;
+            height: auto !important;
             position: unset !important;
             object-fit: contain;
+            border-radius: 7px;
         }
 
         .card-content ul li span {
