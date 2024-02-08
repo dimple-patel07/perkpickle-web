@@ -42,7 +42,7 @@ const Header = () => {
 		deleteCookie("authorizationToken");
 		deleteCookie("userName");
 		deleteCookie("loggedEmail");
-		router.replace("/");
+		router.push("/");
 	};
 
 	return (
