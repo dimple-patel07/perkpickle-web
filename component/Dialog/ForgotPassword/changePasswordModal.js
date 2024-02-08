@@ -9,7 +9,7 @@ import { useSelector } from "react-redux";
 
 import { PASSWORD_REGEX, encryptStr, getLoggedEmail, defaultMessageObj } from "../../../utils/config";
 // import { emailStoreSelectore } from "../../../redux/emailStore/emailStoreSlice";
-import { handleStartLoading, handleStopLoading, showMessage } from "../../../redux/loader/loaderSlice";
+import { handleStartLoading, showMessage } from "../../../redux/loader/loaderSlice";
 import { useFormik } from "formik";
 import * as yup from "yup";
 import { Form } from "react-bootstrap";
@@ -73,7 +73,6 @@ const ChangePasswordOtpModal = () => {
 					})
 				);
 				const response = await postCall("changePassword", { key: encodedKey }, dispatch, router);
-				dispatch(handleStopLoading());
 				if (response?.email) {
 					closeModal();
 					dispatch(

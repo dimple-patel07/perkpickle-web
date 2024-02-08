@@ -15,51 +15,53 @@ const BestOffer = ({ bestOfferCards, allCards }) => {
 		setSuggestedCards(bestCards);
 	}, []);
 	return (
-		<section className="best-offer-section mb">
-			<div className="container">
-				<div className="text-center">
-					<h3 className="title">Best Offers From Our Partners</h3>
-				</div>
+		suggestedCards.length > 0 && (
+			<section className="best-offer-section mb">
+				<div className="container">
+					<div className="text-center">
+						<h3 className="title">Best Offers From Our Partners</h3>
+					</div>
 
-				<div className="best-offer-inn">
-					<div className="row gy-4">
-						{suggestedCards.map((card, index) => {
-							return (
-								<div className="col-12 col-sm-12 col-md-12 col-lg-6" key={index}>
-									<div className="best-offer-main">
-										<div className="best-card-box">
-											<div className="card-box">
-												<Image src={card.card_image_url} alt="N/A" fill />
-											</div>
+					<div className="best-offer-inn">
+						<div className="row gy-4">
+							{suggestedCards.map((card, index) => {
+								return (
+									<div className="col-12 col-sm-12 col-md-12 col-lg-6" key={index}>
+										<div className="best-offer-main">
+											<div className="best-card-box">
+												<div className="card-box">
+													<Image src={card.card_image_url} alt="N/A" fill />
+												</div>
 
-											<div className="card-content">
-												<h4>{card.cardName}</h4>
-												<ul>
-													<li className="py-1">
-														<div>
-															<span>Reward rate</span>
-															<strong>
-																{card.earnMultiplier} <i>(Points)</i>
-															</strong>
-														</div>
-													</li>
-													<li>
-														<div>
-															<span>Description</span>
-															<strong>{card.spendBonusDesc}</strong>
-														</div>
-													</li>
-												</ul>
+												<div className="card-content">
+													<h4>{card.cardName}</h4>
+													<ul>
+														<li className="py-1">
+															<div>
+																<span>Reward rate</span>
+																<strong>
+																	{card.earnMultiplier} <i>(Points)</i>
+																</strong>
+															</div>
+														</li>
+														<li>
+															<div>
+																<span>Description</span>
+																<strong>{card.spendBonusDesc}</strong>
+															</div>
+														</li>
+													</ul>
+												</div>
 											</div>
 										</div>
 									</div>
-								</div>
-							);
-						})}
+								);
+							})}
+						</div>
 					</div>
 				</div>
-			</div>
-		</section>
+			</section>
+		)
 	);
 };
 

@@ -2,14 +2,13 @@ import React, { useEffect, useRef, useState } from "react";
 import InputMask from "react-input-mask";
 import { images } from "../../component/Images";
 import Image from "next/image";
-import { getLoggedEmail, config } from "../../utils/config";
+import { getLoggedEmail, defaultMessageObj } from "../../utils/config";
 import { useAppDispatch } from "../../redux/store";
-import { handleStartLoading, handleStopLoading, showMessage } from "../../redux/loader/loaderSlice";
+import { handleStartLoading, showMessage } from "../../redux/loader/loaderSlice";
 import { useFormik } from "formik";
 import * as yup from "yup";
 import TextInput from "../../component/TextInput";
 import { FloatingLabel, Form } from "react-bootstrap";
-import { defaultMessageObj } from "../../utils/config";
 import { postCall } from "../../services/apiCall";
 import { useRouter } from "next/router";
 import { setCookie } from "cookies-next";
@@ -33,7 +32,6 @@ const Profile = () => {
 			// dispatch(handleStartLoading());
 			const params = { email: getLoggedEmail() };
 			const response = await postCall("getUserByEmail", params, dispatch, router);
-			dispatch(handleStopLoading());
 			firstInputRef?.current?.focus();
 			if (response.email) {
 				setUserData(response);
@@ -72,15 +70,14 @@ const Profile = () => {
 				zip_code: data.zip_code,
 				address: data.address,
 			};
-			const userName = data.first_name +" " + data.last_name
-			
+			const userName = data.first_name + " " + data.last_name;
+
 			try {
 				dispatch(handleStartLoading());
 				const response = await postCall("updateUser", params, dispatch, router);
-				dispatch(handleStopLoading());
 				if (response.email) {
 					getUserByEmail();
-					dispatch(handleStoreUserName(userName))
+					dispatch(handleStoreUserName(userName));
 					setCookie("userName", userName);
 					dispatch(
 						showMessage({

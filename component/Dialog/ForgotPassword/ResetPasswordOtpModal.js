@@ -10,7 +10,7 @@ import { useSelector } from "react-redux";
 import axios from "axios";
 import { PASSWORD_REGEX, config, encryptStr, defaultMessageObj } from "../../../utils/config";
 import { emailStoreSelectore } from "../../../redux/emailStore/emailStoreSlice";
-import { handleStartLoading, handleStopLoading, showMessage } from "../../../redux/loader/loaderSlice";
+import { handleStartLoading, showMessage } from "../../../redux/loader/loaderSlice";
 import { useFormik } from "formik";
 import * as yup from "yup";
 import { Form } from "react-bootstrap";
@@ -63,7 +63,6 @@ const ResetPasswordOtpModal = () => {
 					})
 				);
 				const response = await postCall("resetPassword", { key: encodedKey }, dispatch);
-				dispatch(handleStopLoading());
 				if (response?.email) {
 					closeModal();
 					dispatch(

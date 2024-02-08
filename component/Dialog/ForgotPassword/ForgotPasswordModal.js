@@ -11,7 +11,7 @@ import { useAppDispatch } from "../../../redux/store";
 import axios from "axios";
 import { config, defaultMessageObj } from "../../../utils/config";
 import { handleStoreForgotPasswordEmail } from "../../../redux/emailStore/emailStoreSlice";
-import { handleStartLoading, handleStopLoading, showMessage } from "../../../redux/loader/loaderSlice";
+import { handleStartLoading, showMessage } from "../../../redux/loader/loaderSlice";
 import { useFormik } from "formik";
 import * as yup from "yup";
 import { Form } from "react-bootstrap";
@@ -61,7 +61,6 @@ const ForgotPasswordModal = () => {
 						})
 					);
 				}
-				dispatch(handleStopLoading());
 			} catch (error) {
 				console.error(error);
 			}

@@ -2,6 +2,20 @@ import React from "react";
 import Image from "next/image";
 
 const AvailableOffer = ({ availableOffers, savedCardList }) => {
+	const getCurrency = (card) => {
+		let result = "-";
+		if (card.baseSpendAmount) {
+			if (card.baseSpendEarnCurrency === "miles" || card.baseSpendEarnCurrency === "points") {
+				result = `X ${card.baseSpendAmount} ${card.baseSpendEarnCurrency}`;
+			} else if (card.baseSpendEarnCurrency === "cashback") {
+				result = `${card.baseSpendAmount} %`;
+			} else {
+				result = `${card.baseSpendAmount} ${card.baseSpendEarnCurrency}`;
+			}
+		}
+
+		return result;
+	};
 	return (
 		<section className="available-offer mb">
 			<div className="container">
@@ -41,9 +55,10 @@ const AvailableOffer = ({ availableOffers, savedCardList }) => {
 												</div>
 												<p className="m-0">{card.cardName}</p>
 												<p className="m-0">
-													{card.earnMultiplier} ({card.baseSpendAmount} / {card.baseSpendEarnCurrency})
+													{/* X 3 mile */}
+													{getCurrency(card)}
 												</p>
-												<span>{card.spendBonusDesc}</span>
+												<span>{card.spendBonusDesc ? card.spendBonusDesc : card.baseSpendAmount ? "-" : "No offer available on selected category"}</span>
 											</li>
 											<hr />
 										</div>
@@ -62,9 +77,10 @@ const AvailableOffer = ({ availableOffers, savedCardList }) => {
 												</div>
 												<p className="m-0">{card.cardName}</p>
 												<p className="m-0">
-													{card.baseSpendEarnCashValue} ({card.baseSpendAmount} / {card.baseSpendEarnCurrency})
+													{getCurrency(card)}
+													{/* {card.baseSpendEarnCashValue} ({card.baseSpendAmount} / {card.baseSpendEarnCurrency}) */}
 												</p>
-												<span>{card.signupBonusDesc}</span>
+												<span>{card.signupBonusDesc ? card.signupBonusDesc : card.baseSpendAmount ? "-" : "No offer available on selected card"}</span>
 												<hr />
 											</li>
 											<hr />

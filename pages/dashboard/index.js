@@ -7,7 +7,7 @@ import { useEffect, useState } from "react";
 import { useAppDispatch } from "../../redux/store";
 import { useRouter } from "next/router";
 import { postCall } from "../../services/apiCall";
-import { handleStartLoading, handleStopLoading } from "../../redux/loader/loaderSlice";
+import { handleStartLoading } from "../../redux/loader/loaderSlice";
 
 export default function Home() {
 	const dispatch = useAppDispatch();
@@ -27,7 +27,7 @@ export default function Home() {
 	// get all cards
 	const getAllCards = async () => {
 		try {
-			const cardList = await postCall("getAllCards", {}, dispatch, router);
+			const cardList = await postCall("getAllCards", {}, dispatch, router, false);
 			setAllCards(cardList);
 			const cardIssuerList = Array.from(new Set(cardList.map((card) => card.cardIssuer)));
 			const cardGrouping = cardIssuerList.reduce((acc, cardIssuer) => {

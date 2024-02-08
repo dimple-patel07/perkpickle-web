@@ -3,7 +3,7 @@ import axios from "axios";
 import { deleteCookie, getCookie } from "cookies-next";
 import { handleStopLoading, showMessage } from "../redux/loader/loaderSlice";
 
-export const postCall = async (apiName, requestBody = {}, dispatch, router) => {
+export const postCall = async (apiName, requestBody = {}, dispatch, router, isStopLoader = true) => {
 	try {
 		let headers = {};
 		const excludeUrls = ["login", "forgotPassword", "resetPassword", "verifyUser", "resendOtp", "contactMail", "initialSetup", "newUserSignup", "completeUserSignup"]; // no need to check token for these urls
@@ -12,7 +12,9 @@ export const postCall = async (apiName, requestBody = {}, dispatch, router) => {
 			headers = getHeaders();
 		}
 		const response = await axios.post(`${config.apiURL}/${apiName}`, requestBody, { headers });
-		dispatch(handleStopLoading());
+		if (isStopLoader) {
+			dispatch(handleStopLoading());
+		}
 		return response.data;
 	} catch (errorResponse) {
 		return handleAxiosError(errorResponse, dispatch, router);

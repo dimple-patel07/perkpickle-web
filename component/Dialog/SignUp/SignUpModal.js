@@ -11,7 +11,7 @@ import axios from "axios";
 import { config, defaultMessageObj } from "../../../utils/config";
 
 import { handleStoreSignUpEmail } from "../../../redux/emailStore/emailStoreSlice";
-import { handleStartLoading, handleStopLoading, showMessage } from "../../../redux/loader/loaderSlice";
+import { handleStartLoading, showMessage } from "../../../redux/loader/loaderSlice";
 import { Form } from "react-bootstrap";
 import TextInput from "../../TextInput";
 import { useFormik } from "formik";
@@ -47,7 +47,6 @@ const SignUpModal = () => {
 			try {
 				dispatch(handleStartLoading());
 				const response = await postCall("newUserSignup", { email: val.email }, dispatch);
-				dispatch(handleStopLoading());
 				if (response.email) {
 					dispatch(
 						showMessage({
@@ -61,7 +60,6 @@ const SignUpModal = () => {
 					dispatch(handleOpenSignUpOtpModal(true));
 				} else if (response.is_signup_completed === false && response.is_verified) {
 					// email exist & verified but signup process pending
-					dispatch(handleStopLoading());
 					dispatch(handleStoreSignUpEmail(val.email));
 					closeModel();
 					dispatch(handleOpenSignUpFormModal(true));
@@ -74,7 +72,6 @@ const SignUpModal = () => {
 							messageText: response.message,
 						})
 					);
-					dispatch(handleStopLoading());
 					dispatch(handleStoreSignUpEmail(val.email));
 					closeModel();
 					dispatch(handleOpenSignUpOtpModal(true));

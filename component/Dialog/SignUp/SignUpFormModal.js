@@ -10,7 +10,7 @@ import { PASSWORD_REGEX, config, encryptStr, defaultMessageObj } from "../../../
 import { emailStoreSelectore } from "../../../redux/emailStore/emailStoreSlice";
 
 import * as yup from "yup";
-import { handleStartLoading, handleStopLoading, showMessage } from "../../../redux/loader/loaderSlice";
+import { handleStartLoading, showMessage } from "../../../redux/loader/loaderSlice";
 import { useFormik } from "formik";
 import TextInput from "../../TextInput";
 import { FloatingLabel, Form } from "react-bootstrap";
@@ -78,7 +78,6 @@ const SignUpFormModal = () => {
 						})
 					);
 				}
-				dispatch(handleStopLoading());
 			} catch (error) {
 				console.error(error);
 			}
@@ -108,8 +107,7 @@ const SignUpFormModal = () => {
 								<Form noValidate autoComplete="off" onSubmit={handleSubmit}>
 									<div className="row">
 										<div className="col-12 col-sm-12 col-md-12 col-lg-6">
-											<TextInput controlId="first_name" value={values?.first_name} inputRef={firstInputRef} onChange={handleChange} onBlur={handleBlur} touched={touched?.first_name} errors={errors?.first_name} placeholder={"First Name*"} type="text" name="first_name"  maxLength={50}
- restProps={{ "aria-describedby": "First Name" }} />
+											<TextInput controlId="first_name" value={values?.first_name} inputRef={firstInputRef} onChange={handleChange} onBlur={handleBlur} touched={touched?.first_name} errors={errors?.first_name} placeholder={"First Name*"} type="text" name="first_name" maxLength={50} restProps={{ "aria-describedby": "First Name" }} />
 										</div>
 										<div className="col-12 col-sm-12 col-md-12 col-lg-6">
 											<TextInput controlId="last_name" value={values?.last_name} onChange={handleChange} onBlur={handleBlur} touched={touched?.last_name} errors={errors?.last_name} placeholder={"Last Name*"} type="text" name="last_name" maxLength={50} restProps={{ "aria-describedby": "Last Name" }} />

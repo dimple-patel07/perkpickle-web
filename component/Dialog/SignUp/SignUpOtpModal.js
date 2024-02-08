@@ -8,7 +8,7 @@ import { useSelector } from "react-redux";
 import axios from "axios";
 import { config, defaultMessageObj } from "../../../utils/config";
 import { emailStoreSelectore } from "../../../redux/emailStore/emailStoreSlice";
-import { handleStartLoading, handleStopLoading, showMessage } from "../../../redux/loader/loaderSlice";
+import { handleStartLoading, showMessage } from "../../../redux/loader/loaderSlice";
 import { FaArrowLeft } from "react-icons/fa6";
 import { postCall } from "../../../services/apiCall";
 
@@ -68,7 +68,6 @@ const SignUpOtpModal = () => {
 			dispatch(handleStartLoading());
 			const response = await postCall("resendOtp", { email: emailStore?.signUpEmail }, dispatch);
 			if (response.email) {
-				dispatch(handleStopLoading());
 				setOtp(["", "", "", "", "", ""]);
 				dispatch(
 					showMessage({
@@ -95,7 +94,6 @@ const SignUpOtpModal = () => {
 				dispatch
 			);
 
-			dispatch(handleStopLoading());
 			if (response.email) {
 				dispatch(handleCloseAllModal());
 				dispatch(handleOpenSignUpFormModal(true));

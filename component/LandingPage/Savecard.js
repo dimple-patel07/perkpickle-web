@@ -28,8 +28,8 @@ const Savecard = ({ cardDataList, onSavedCards }) => {
 	// get user by email
 	const getUserByEmail = async () => {
 		try {
-			const response = await postCall("getUserByEmail", { email: getLoggedEmail() }, dispatch, router);
-			if (response.email) {
+			const response = await postCall("getUserByEmail", { email: getLoggedEmail() }, dispatch, router, false);
+			if (response) {
 				setUserData(response);
 				// set saved cards
 				if (response.card_keys && cardDataList[0].options?.length > 0) {
@@ -44,6 +44,8 @@ const Savecard = ({ cardDataList, onSavedCards }) => {
 					if (savedSelectionList.length > 0) {
 						setSelAvailableCards(savedSelectionList);
 						onSave(false, savedSelectionList);
+					} else {
+						dispatch(handleStopLoading());
 					}
 				} else {
 					dispatch(handleStopLoading());

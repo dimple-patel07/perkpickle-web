@@ -10,7 +10,7 @@ import { useAppDispatch } from "../../../redux/store";
 import axios from "axios";
 import { config, defaultMessageObj } from "../../../utils/config";
 import { emailStoreSelectore } from "../../../redux/emailStore/emailStoreSlice";
-import { handleStartLoading, handleStopLoading, showMessage } from "../../../redux/loader/loaderSlice";
+import { handleStartLoading, showMessage } from "../../../redux/loader/loaderSlice";
 import { postCall } from "../../../services/apiCall";
 
 const ForgotPasswordOtpModal = () => {
@@ -66,7 +66,6 @@ const ForgotPasswordOtpModal = () => {
 				},
 				dispatch
 			);
-			dispatch(handleStopLoading());
 			if (response?.email) {
 				closeModal();
 				dispatch(handleOpenResetPasswordModal(true));
@@ -86,7 +85,6 @@ const ForgotPasswordOtpModal = () => {
 				},
 				dispatch
 			);
-			dispatch(handleStopLoading());
 			if (response?.data?.email) {
 				dispatch(
 					showMessage({

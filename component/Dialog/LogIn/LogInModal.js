@@ -8,7 +8,7 @@ import { useAppDispatch } from "../../../redux/store";
 import { encryptStr } from "../../../utils/config";
 import { setCookie } from "cookies-next";
 import { useRouter } from "next/router";
-import { handleStartLoading, handleStopLoading, showMessage } from "../../../redux/loader/loaderSlice";
+import { handleStartLoading } from "../../../redux/loader/loaderSlice";
 
 import { Form } from "react-bootstrap";
 import { FaEye, FaEyeSlash } from "react-icons/fa";
@@ -56,9 +56,8 @@ const LoginModal = () => {
 				dispatch(handleStartLoading());
 				const encryptedKey = encryptStr(JSON.stringify(loginCred));
 				const response = await postCall("login", { key: encryptedKey }, dispatch, router);
-				dispatch(handleStopLoading());
 				if (response?.token) {
-					dispatch(handleStoreUserName(response?.userName))
+					dispatch(handleStoreUserName(response?.userName));
 					setCookie("authorizationToken", response?.token);
 					setCookie("userName", response?.userName);
 					setCookie("loggedEmail", response?.email);
