@@ -13,6 +13,7 @@ import { handleStartLoading, showMessage } from "../../redux/loader/loaderSlice"
 import { defaultMessageObj } from "../../utils/config";
 import { postCall } from "../../services/apiCall";
 import { useRouter } from "next/router";
+import commonRoute from "../../utils/commonRoute";
 
 const ContactUs = () => {
 	const firstInputRef = useRef(null);
@@ -179,4 +180,4 @@ const ContactUs = () => {
 	);
 };
 
-export default ContactUs;
+export default commonRoute(ContactUs);

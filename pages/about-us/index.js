@@ -1,6 +1,7 @@
 import React from "react";
 import BannerSection from "../../component/LandingPage/BannerSection";
 import PageBanner from "../../component/pageBanner";
+import commonRoute from "../../utils/commonRoute";
 
 const AboutUs = () => {
   return (
@@ -17,4 +18,4 @@ const AboutUs = () => {
   );
 };
 
-export default AboutUs;
+export default commonRoute(AboutUs);

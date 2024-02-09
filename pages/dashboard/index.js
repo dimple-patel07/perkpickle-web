@@ -8,8 +8,9 @@ import { useAppDispatch } from "../../redux/store";
 import { useRouter } from "next/router";
 import { postCall } from "../../services/apiCall";
 import { handleStartLoading } from "../../redux/loader/loaderSlice";
+import withAuth from "../../utils/withAuth";
 
-export default function Home() {
+const Home = () => {
 	const dispatch = useAppDispatch();
 	const router = useRouter();
 	const [cardDataList, setCardDataList] = useState();
@@ -108,3 +109,5 @@ export default function Home() {
 		</>
 	);
 }
+
+export default withAuth(Home)

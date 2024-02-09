@@ -15,13 +15,13 @@ import { handleOpenChangePasswordModal, handleOpenLoginModal, handleOpenResetPas
 import { deleteCookie, getCookie } from "cookies-next";
 import { useRouter } from "next/router";
 import { useSelector } from "react-redux";
-import { emailStoreSelectore } from "../redux/emailStore/emailStoreSlice";
+import { emailStoreSelectore, handleStoreToken } from "../redux/emailStore/emailStoreSlice";
 
-const Header = () => {
-	const token = getCookie("authorizationToken");
+const Header = () => { 
 	const userName = getCookie("userName");
 	const dispatch = useAppDispatch();
 	const userSelector = useSelector(emailStoreSelectore).userName
+	const token = useSelector(emailStoreSelectore).token
 	const router = useRouter();
 	const [toggleDropdown, SetToggleDropdown] = useState(false);
 	const [currentUserName, SetCurrentUserName] = useState("");
@@ -42,7 +42,7 @@ const Header = () => {
 		deleteCookie("authorizationToken");
 		deleteCookie("userName");
 		deleteCookie("loggedEmail");
-		router.push("/");
+		dispatch(handleStoreToken(''))
 	};
 
 	return (

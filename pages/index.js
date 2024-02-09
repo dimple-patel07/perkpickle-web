@@ -2,8 +2,9 @@ import Image from "next/image";
 import { images } from "../component/Images";
 import { handleOpenSignUpModal } from "../redux/modal/modalSlice";
 import { useAppDispatch } from "../redux/store";
+import withAuth from "../utils/withAuth";
 
-export default function Login() {
+const Login = () => {
   const dispatch = useAppDispatch();
   return (
     <>
@@ -44,3 +45,5 @@ export default function Login() {
     </>
   );
 }
+
+export default withAuth(Login, false);

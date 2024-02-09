@@ -99,6 +99,8 @@ const SignUpOtpModal = () => {
 				dispatch(handleOpenSignUpFormModal(true));
 			}
 		} catch (error) {
+			setOtp(["", "", "", "", "", ""]);
+			inputRefs[0]?.current?.focus();
 			console.error(error);
 		}
 	};

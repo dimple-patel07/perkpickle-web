@@ -5,6 +5,7 @@ const INITIAL_STATE = {
   forgotPasswordEmail: "",
   signUpEmail: "",
   userName: "",
+  token: "",
 };
 
 const emailStoreSlice = createSlice({
@@ -23,12 +24,20 @@ const emailStoreSlice = createSlice({
       ...state,
       userName: payload,
     }),
+    handleStoreToken: (state, { payload }) => ({
+      ...state,
+      token: payload,
+    }),
   },
 });
 
 export const emailStoreSelectore = (state) => state?.EmailStore;
 
-export const { handleStoreForgotPasswordEmail, handleStoreSignUpEmail, handleStoreUserName } =
-  emailStoreSlice.actions;
+export const {
+  handleStoreForgotPasswordEmail,
+  handleStoreSignUpEmail,
+  handleStoreUserName,
+  handleStoreToken,
+} = emailStoreSlice.actions;
 
 export default emailStoreSlice.reducer;

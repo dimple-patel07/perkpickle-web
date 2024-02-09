@@ -1,5 +1,6 @@
 import React from "react";
 import PageBanner from "../../component/pageBanner";
+import commonRoute from "../../utils/commonRoute";
 
 const PrivacyPolicy = () => {
   return (
@@ -16,4 +17,4 @@ const PrivacyPolicy = () => {
   );
 };
 
-export default PrivacyPolicy;
+export default commonRoute(PrivacyPolicy);

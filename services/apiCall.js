@@ -30,7 +30,7 @@ const handleAxiosError = (err, dispatch, router) => {
 				deleteCookie("authorizationToken");
 				deleteCookie("userName");
 				deleteCookie("loggedEmail");
-				router.replace("/");
+				// router.replace("/");
 			}
 			errorMessage = err.response.data.error;
 		}

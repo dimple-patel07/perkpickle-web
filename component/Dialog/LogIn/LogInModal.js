@@ -16,7 +16,7 @@ import { useFormik } from "formik";
 import * as yup from "yup";
 import TextInput from "../../TextInput";
 import { postCall } from "../../../services/apiCall";
-import { handleStoreUserName } from "../../../redux/emailStore/emailStoreSlice";
+import { handleStoreToken, handleStoreUserName } from "../../../redux/emailStore/emailStoreSlice";
 
 const LoginModal = () => {
 	const ModalState = useSelector(modalSelector);
@@ -61,6 +61,7 @@ const LoginModal = () => {
 					setCookie("authorizationToken", response?.token);
 					setCookie("userName", response?.userName);
 					setCookie("loggedEmail", response?.email);
+					dispatch(handleStoreToken(response?.token))
 					router.replace("/dashboard");
 					dispatch(handleCloseAllModal());
 				}

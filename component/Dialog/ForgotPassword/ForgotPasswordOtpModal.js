@@ -25,7 +25,9 @@ const ForgotPasswordOtpModal = () => {
 
 	useEffect(() => {
 		setOtp(["", "", "", "", "", ""]);
-		inputRefs[0]?.current?.focus();
+		setTimeout(() => {
+			inputRefs[0]?.current?.focus();
+		}, 500);
 	}, []);
 
 	const handleInputChange = (index, event) => {
@@ -66,11 +68,13 @@ const ForgotPasswordOtpModal = () => {
 				},
 				dispatch
 			);
-			if (response?.email) {
+			if (response.email) {
 				closeModal();
 				dispatch(handleOpenResetPasswordModal(true));
 			}
 		} catch (error) {
+			setOtp(["", "", "", "", "", ""]);
+			inputRefs[0]?.current?.focus();
 			console.error(error);
 		}
 	};

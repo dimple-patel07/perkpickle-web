@@ -15,12 +15,12 @@ export default function App({ Component, pageProps }) {
     <Providers>
       <div className={poppins.className}>
         <Loader />
-        <Header />
+        {/* <Header /> */}
         <CommonDialog />
         <WarnModal />
         <ToastContainer theme="colored" />
         <Component {...pageProps} />
-        <Footer />
+        {/* <Footer /> */}
       </div>
     </Providers>
   );

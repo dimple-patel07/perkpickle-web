@@ -13,6 +13,7 @@ import { postCall } from "../../services/apiCall";
 import { useRouter } from "next/router";
 import { setCookie } from "cookies-next";
 import { handleStoreUserName } from "../../redux/emailStore/emailStoreSlice";
+import withAuth from "../../utils/withAuth";
 
 const Profile = () => {
 	const dispatch = useAppDispatch();
@@ -178,4 +179,4 @@ const Profile = () => {
 	);
 };
 
-export default Profile;
+export default withAuth(Profile);
