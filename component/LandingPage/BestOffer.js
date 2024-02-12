@@ -13,7 +13,7 @@ const BestOffer = ({ bestOfferCards, allCards }) => {
 			}
 		}
 		setSuggestedCards(bestCards);
-	}, []);
+	}, [bestOfferCards]);
 	return (
 		suggestedCards.length > 0 && (
 			<section className="best-offer-section mb">
@@ -38,9 +38,9 @@ const BestOffer = ({ bestOfferCards, allCards }) => {
 													<ul>
 														<li className="py-1">
 															<div>
-																<span>Reward rate</span>
+																<span>Rewards rate</span>
 																<strong>
-																	{card.earnMultiplier} <i>(Points)</i>
+																	{card.earnMultiplier} <i>Points</i>
 																</strong>
 															</div>
 														</li>

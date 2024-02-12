@@ -55,31 +55,33 @@ const Home = () => {
 	// get spend bonus category list
 	const getSpendBonusCategoryList = async () => {
 		try {
-			const categoryGroupList = await postCall("spendBonusCategoryList", {}, dispatch, router);
-			const result = categoryGroupList
-				?.map(({ spendBonusCategoryGroup, spendBonusSubcategoryGroup }) => {
-					const groupChildrenList = spendBonusSubcategoryGroup
-						.filter((subGroupData) => subGroupData.spendBonusCategory?.length > 0)
-						.map(({ spendBonusSubcategoryGroup, spendBonusCategory }) => ({
-							label: spendBonusSubcategoryGroup,
-							value: spendBonusSubcategoryGroup,
+			const categoryGroupList = await postCall("spendBonusCategoryList", {}, dispatch, router, false);
+			if (categoryGroupList?.length > 0) {
+				const result = categoryGroupList
+					?.map(({ spendBonusCategoryGroup, spendBonusSubcategoryGroup }) => {
+						const groupChildrenList = spendBonusSubcategoryGroup
+							.filter((subGroupData) => subGroupData.spendBonusCategory?.length > 0)
+							.map(({ spendBonusSubcategoryGroup, spendBonusCategory }) => ({
+								label: spendBonusSubcategoryGroup,
+								value: spendBonusSubcategoryGroup,
 
-							categoryChildrenList: spendBonusCategory.map((categoryData) => ({
-								label: categoryData.spendBonusCategoryName,
-								value: categoryData.spendBonusCategoryId,
-							})),
-						}));
+								categoryChildrenList: spendBonusCategory.map((categoryData) => ({
+									label: categoryData.spendBonusCategoryName,
+									value: categoryData.spendBonusCategoryId,
+								})),
+							}));
 
-					return (
-						groupChildrenList.length > 0 && {
-							label: spendBonusCategoryGroup,
-							value: spendBonusCategoryGroup,
-							options: groupChildrenList,
-						}
-					);
-				})
-				.filter(Boolean);
-			setspendBonusCategoryList(result);
+						return (
+							groupChildrenList.length > 0 && {
+								label: spendBonusCategoryGroup,
+								value: spendBonusCategoryGroup,
+								options: groupChildrenList,
+							}
+						);
+					})
+					.filter(Boolean);
+				setspendBonusCategoryList(result);
+			}
 		} catch (error) {
 			console.error(error);
 		}
@@ -108,6 +110,6 @@ const Home = () => {
 			)}
 		</>
 	);
-}
+};
 
-export default withAuth(Home)
+export default withAuth(Home);

@@ -1,14 +1,13 @@
 import React, { useEffect, useState } from "react";
 import Image from "next/image";
 import { FaTrash } from "react-icons/fa";
-import Select from "react-select";
+import Select, { components } from "react-select";
 import { IoSearch } from "react-icons/io5";
 import { useAppDispatch } from "../../redux/store";
-import { getLoggedEmail, defaultMessageObj } from "../../utils/config";
+import { getLoggedEmail } from "../../utils/config";
 import DeleteModel from "../WarnModal/deleteModal";
-import { handleStartLoading, handleStopLoading, showMessage } from "../../redux/loader/loaderSlice";
+import { handleStartLoading, handleStopLoading } from "../../redux/loader/loaderSlice";
 import { postCall } from "../../services/apiCall";
-import DropdownWithCheckbox from "./DropdownWithCheckbox";
 import { useRouter } from "next/router";
 
 const Savecard = ({ cardDataList, onSavedCards }) => {
@@ -56,26 +55,25 @@ const Savecard = ({ cardDataList, onSavedCards }) => {
 		}
 	};
 	// on save cards
-	const onSave = async (isUpdateUserCall = true, savedSelectionList) => {
+	const onSave = async (isUpdateUserCall = true, savedOrAddedList) => {
 		try {
 			if (isUpdateUserCall) {
 				dispatch(handleStartLoading());
-				savedSelectionList = selAvailableCards;
 			}
 			let result = [];
-			for (const selCard of savedSelectionList) {
-				const response = await postCall("cardDetailByCardKey", { cardKey: selCard.value }, dispatch, router);
+			for (const selCard of savedOrAddedList) {
+				const response = await postCall("cardDetailByCardKey", { cardKey: selCard.value }, dispatch, router, false);
 				if (response?.length > 0) {
 					// if (response[0].baseSpendAmount && response[0].baseSpendEarnCurrency) {
 					result.push({ ...response[0], ...selCard });
 					// }
 				}
 			}
-			// setSelAvailableCards([]);
-			setSelSavedCards(result);
-			onSavedCards(result);
-			if (result.length > 0 && isUpdateUserCall) {
-				const cardKeys = result.map((card) => card.value);
+			const mergedResult = [...selSavedCards, ...result];
+			setSelSavedCards(mergedResult);
+			onSavedCards(mergedResult);
+			if (mergedResult.length > 0 && isUpdateUserCall) {
+				const cardKeys = mergedResult.map((card) => card.value);
 				await updateUserCards(cardKeys.join(","));
 			}
 			dispatch(handleStopLoading());
@@ -84,18 +82,10 @@ const Savecard = ({ cardDataList, onSavedCards }) => {
 		}
 	};
 	// on available card selection
-	const onAvailableCardSelection = (selDataList) => {
-		if (selDataList.length > selectionLimit) {
-			dispatch(
-				showMessage({
-					...defaultMessageObj,
-					type: "error",
-					messageText: `Max ${selectionLimit} selection allow`,
-				})
-			);
-		} else {
-			setSelAvailableCards(selDataList);
-		}
+	const onAvailableCardSelection = async (selDataList) => {
+		dispatch(handleStartLoading());
+		setSelAvailableCards(selDataList);
+		onSave(true, [selDataList[selDataList.length - 1]]);
 	};
 	// remove specific card
 	const removeUserCard = async () => {
@@ -104,10 +94,14 @@ const Savecard = ({ cardDataList, onSavedCards }) => {
 		const filterSavedCards = selSavedCards.filter((card) => card.cardKey !== deleteCardId);
 		setSelSavedCards(filterSavedCards);
 		onSavedCards(filterSavedCards);
-		const filterAvailableCards = selAvailableCards.filter((card) => card.value !== deleteCardId);
-		setSelAvailableCards(filterAvailableCards);
-		const cardKeys = filterAvailableCards.map((card) => card.value);
-		await updateUserCards(cardKeys.join(","), true);
+		setSelAvailableCards(filterSavedCards);
+		const selCardFound = selSavedCards.find((card) => card.cardKey === deleteCardId);
+		if (selCardFound) {
+			const cardKeys = filterSavedCards.map((card) => card.value);
+			await updateUserCards(cardKeys.join(","), true);
+		} else {
+			dispatch(handleStopLoading());
+		}
 	};
 
 	// cardKeys = cardKey(s) - either one or multiple keys will be update
@@ -128,28 +122,58 @@ const Savecard = ({ cardDataList, onSavedCards }) => {
 			console.error(error);
 		}
 	};
+	// hide close icon from selected dropdown value
+	const multiSelectDropdownStyles = {
+		multiValueRemove: (styles, { data }) => ({
+			...styles,
+			display: "none",
+		}),
+		multiSelectDropdownStyles: () => {
+			display: "block";
+		},
+	};
+
+	const ValueContainer = ({ children, ...props }) => {
+		let [values, input] = children;
+
+		if (Array.isArray(values)) {
+			const plural = values.length === 1 ? "" : "s";
+			values = `${values.length} card${plural} saved${values.length === 10 ? "." : "..."}`;
+		}
+
+		return (
+			<components.ValueContainer {...props}>
+				{values}
+				{input}
+			</components.ValueContainer>
+		);
+	};
+
 	return (
 		<>
 			<section className="savecard-section mb mt-5">
 				<div className="container">
 					<div className="text-center">
-						<h3 className="title">Your Saved Cards</h3>
+						<h3 className="title">{selSavedCards.length > 0 ? "Your Saved Cards" : "Add Your Cards"}</h3>
 						<p className="subtitle">
 							Manage more cards so we can find <br /> best offers for you
 						</p>
 					</div>
 					<div className="savecard-inn">
 						<div className="row">
-							<div className="col-12 col-sm-12 col-md-12 col-lg-10">
+							<div className="col-12 col-sm-12 col-md-12 col-lg-12">
 								<Select
 									isMulti
-									name="colors"
+									name="multiSelectCardsDropdown"
 									options={cardDataList}
 									className="basic-multi-select"
 									classNamePrefix="select"
 									onChange={onAvailableCardSelection}
 									value={selAvailableCards}
+									styles={multiSelectDropdownStyles} // hide close from selected value
 									isOptionDisabled={() => selAvailableCards.length >= selectionLimit}
+									components={{ ClearIndicator: () => null, ValueContainer }} // hide clear indicator
+									backspaceRemovesValue={false} // prevent backspace & delete key
 									placeholder={
 										<>
 											<IoSearch />
@@ -157,13 +181,12 @@ const Savecard = ({ cardDataList, onSavedCards }) => {
 										</>
 									}
 								/>
-								{/* <DropdownWithCheckbox items={cardDataList} selAvailableCards={selAvailableCards} selectionLimit={selectionLimit} onAvailableCardSelection={onAvailableCardSelection} /> */}
 							</div>
-							<div className="col-12 col-sm-12 col-md-12 col-lg-2 text-center">
+							{/* <div className="col-12 col-sm-12 col-md-12 col-lg-2 text-center">
 								<button type="button" className="btn" onClick={() => onSave()}>
 									Save Cards
 								</button>
-							</div>
+							</div> */}
 						</div>
 						{/* Save Card Show */}
 						<div className="save-card-show">

@@ -33,7 +33,7 @@ const AvailableOffer = ({ availableOffers, savedCardList }) => {
 									<strong>Credit Card</strong>
 								</p>
 								<p className="m-0">
-									<strong>Rewards rate (Points / Currency)</strong>
+									<strong>Rewards rate</strong>
 								</p>
 								<span>
 									<strong>Description</strong>
