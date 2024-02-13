@@ -103,7 +103,7 @@ const SignUpModal = () => {
 										<TextInput controlId="emailGroup" value={values?.email} inputRef={firstInputRef} onChange={handleChange} onBlur={handleBlur} touched={touched?.email} errors={errors?.email} formGroupClassName="pt-3" placeholder={"Email Address*"} type="email" name="email" restProps={{ "aria-describedby": "E-mail address" }} />
 									</div>
 									<button type="submit" className="btn cls-btn">
-										Send OTP
+										Continue
 									</button>
 									<div className="account">
 										<p>

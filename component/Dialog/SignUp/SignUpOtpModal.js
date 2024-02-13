@@ -66,7 +66,7 @@ const SignUpOtpModal = () => {
 	const resendOtp = async () => {
 		try {
 			dispatch(handleStartLoading());
-			const response = await postCall("resendOtp", { email: emailStore?.signUpEmail }, dispatch);
+			const response = await postCall("resendOtp", { email: emailStore?.signUpEmail, isUserCreation: true }, dispatch);
 			if (response.email) {
 				setOtp(["", "", "", "", "", ""]);
 				dispatch(

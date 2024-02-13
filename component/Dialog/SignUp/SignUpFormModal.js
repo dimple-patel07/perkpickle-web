@@ -74,7 +74,7 @@ const SignUpFormModal = () => {
 						showMessage({
 							...defaultMessageObj,
 							type: "success",
-							messageText: response.message,
+							messageText: "signup process successfully completed",
 						})
 					);
 				}
