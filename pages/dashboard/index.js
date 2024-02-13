@@ -29,25 +29,27 @@ const Home = () => {
 	const getAllCards = async () => {
 		try {
 			const cardList = await postCall("getAllCards", {}, dispatch, router, false);
-			setAllCards(cardList);
-			const cardIssuerList = Array.from(new Set(cardList.map((card) => card.cardIssuer)));
-			const cardGrouping = cardIssuerList.reduce((acc, cardIssuer) => {
-				const associatedCards = cardList.filter((card) => card.cardIssuer === cardIssuer);
-				const options = associatedCards.map((card) => ({
-					label: card.card_name,
-					value: card.card_key,
-					card_image_url: card.card_image_url, // will be use in SaveCard.js
-				}));
+			if (cardList?.length > 0) {
+				setAllCards(cardList);
+				const cardIssuerList = Array.from(new Set(cardList.map((card) => card.cardIssuer)));
+				const cardGrouping = cardIssuerList.reduce((acc, cardIssuer) => {
+					const associatedCards = cardList.filter((card) => card.cardIssuer === cardIssuer);
+					const options = associatedCards.map((card) => ({
+						label: card.card_name,
+						value: card.card_key,
+						card_image_url: card.card_image_url, // will be use in SaveCard.js
+					}));
 
-				acc.push({
-					label: cardIssuer,
-					value: cardIssuer,
-					options: options,
-				});
-				return acc;
-			}, []);
-			setCardDataList(cardGrouping);
-			await getSpendBonusCategoryList();
+					acc.push({
+						label: cardIssuer,
+						value: cardIssuer,
+						options: options,
+					});
+					return acc;
+				}, []);
+				setCardDataList(cardGrouping);
+				await getSpendBonusCategoryList();
+			}
 		} catch (error) {
 			console.error(error);
 		}

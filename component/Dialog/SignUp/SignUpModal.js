@@ -47,7 +47,7 @@ const SignUpModal = () => {
 			try {
 				dispatch(handleStartLoading());
 				const response = await postCall("newUserSignup", { email: val.email }, dispatch);
-				if (response.email) {
+				if (response?.email) {
 					dispatch(
 						showMessage({
 							...defaultMessageObj,

@@ -61,7 +61,7 @@ const LoginModal = () => {
 					setCookie("authorizationToken", response?.token);
 					setCookie("userName", response?.userName);
 					setCookie("loggedEmail", response?.email);
-					dispatch(handleStoreToken(response?.token))
+					dispatch(handleStoreToken(response?.token));
 					router.replace("/dashboard");
 					dispatch(handleCloseAllModal());
 				}
