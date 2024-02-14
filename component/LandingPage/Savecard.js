@@ -2,21 +2,22 @@ import React, { useEffect, useState } from "react";
 import Image from "next/image";
 import { FaTrash } from "react-icons/fa";
 import Select, { components } from "react-select";
-import { IoSearch } from "react-icons/io5";
 import { useAppDispatch } from "../../redux/store";
 import { getLoggedEmail } from "../../utils/config";
 import DeleteModel from "../WarnModal/deleteModal";
-import { handleStartLoading, handleStopLoading } from "../../redux/loader/loaderSlice";
+import { handleStartLoading, handleStopLoading, showMessage } from "../../redux/loader/loaderSlice";
 import { postCall } from "../../services/apiCall";
 import { useRouter } from "next/router";
+import { defaultMessageObj } from "../../utils/config";
+import { images } from "../Images";
 
 const Savecard = ({ cardDataList, onSavedCards }) => {
 	const dispatch = useAppDispatch();
 	const router = useRouter();
 	const selectionLimit = 10; // card selection limit
+	const searchIcon = <Image src={images.SearchIcon} height={20} width={20} alt="search.." />;
 	const [selAvailableCards, setSelAvailableCards] = useState([]);
 	const [selSavedCards, setSelSavedCards] = useState([]);
-	const [userData, setUserData] = useState();
 	const [isShowDeleteModel, setIsShowDeleteModel] = useState();
 	const [deleteCardId, setDeleteCardId] = useState();
 	useEffect(() => {
@@ -29,7 +30,6 @@ const Savecard = ({ cardDataList, onSavedCards }) => {
 		try {
 			const response = await postCall("getUserByEmail", { email: getLoggedEmail() }, dispatch, router, false);
 			if (response) {
-				setUserData(response);
 				// set saved cards
 				if (response.card_keys && cardDataList[0].options?.length > 0) {
 					const cardKeys = response.card_keys.split(",");
@@ -75,6 +75,16 @@ const Savecard = ({ cardDataList, onSavedCards }) => {
 			if (mergedResult.length > 0 && isUpdateUserCall) {
 				const cardKeys = mergedResult.map((card) => card.value);
 				await updateUserCards(cardKeys.join(","));
+			}
+
+			if (isUpdateUserCall) {
+				dispatch(
+					showMessage({
+						...defaultMessageObj,
+						type: "success",
+						messageText: "card saved successfully",
+					})
+				);
 			}
 			dispatch(handleStopLoading());
 		} catch (error) {
@@ -128,22 +138,18 @@ const Savecard = ({ cardDataList, onSavedCards }) => {
 			...styles,
 			display: "none",
 		}),
-		multiSelectDropdownStyles: () => {
-			display: "block";
-		},
 	};
 
 	const ValueContainer = ({ children, ...props }) => {
 		let [values, input] = children;
-
 		if (Array.isArray(values)) {
 			const plural = values.length === 1 ? "" : "s";
-			values = `${values.length} card${plural} saved${values.length === 10 ? "." : "..."}`;
+			values = searchIcon;
 		}
-
+		const style = { cursor: "pointer" };
 		return (
 			<components.ValueContainer {...props}>
-				{values}
+				<span style={style}>{values}</span>
 				{input}
 			</components.ValueContainer>
 		);
@@ -160,6 +166,13 @@ const Savecard = ({ cardDataList, onSavedCards }) => {
 						</p>
 					</div>
 					<div className="savecard-inn">
+						{selSavedCards.length > 0 && (
+							<div className="row">
+								<p>
+									saved card{selSavedCards.length === 1 ? "" : "s"} {selSavedCards.length}
+								</p>
+							</div>
+						)}
 						<div className="row">
 							<div className="col-12 col-sm-12 col-md-12 col-lg-12">
 								<Select
@@ -174,14 +187,10 @@ const Savecard = ({ cardDataList, onSavedCards }) => {
 									isOptionDisabled={() => selAvailableCards.length >= selectionLimit}
 									components={{ ClearIndicator: () => null, ValueContainer }} // hide clear indicator
 									backspaceRemovesValue={false} // prevent backspace & delete key
-									placeholder={
-										<>
-											<IoSearch />
-											&nbsp; Search Card Here
-										</>
-									}
+									placeholder={searchIcon}
 								/>
 							</div>
+
 							{/* <div className="col-12 col-sm-12 col-md-12 col-lg-2 text-center">
 								<button type="button" className="btn" onClick={() => onSave()}>
 									Save Cards
