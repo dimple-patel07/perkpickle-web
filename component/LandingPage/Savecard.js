@@ -42,7 +42,9 @@ const Savecard = ({ cardDataList, onSavedCards }) => {
 					}
 					if (savedSelectionList.length > 0) {
 						setSelAvailableCards(savedSelectionList);
-						onSave(false, savedSelectionList);
+						// setSelSavedCards(savedSelectionList);
+						// dispatch(handleStopLoading());
+						await onSave(false, savedSelectionList);
 					} else {
 						dispatch(handleStopLoading());
 					}
@@ -54,12 +56,9 @@ const Savecard = ({ cardDataList, onSavedCards }) => {
 			console.error(error);
 		}
 	};
-	// on save cards
-	const onSave = async (isUpdateUserCall = true, savedOrAddedList) => {
-		try {
-			if (isUpdateUserCall) {
-				dispatch(handleStartLoading());
-			}
+	// get saved cards
+	const getSavedCards = async (savedOrAddedList) => {
+		return new Promise(async (resolve) => {
 			let result = [];
 			for (const selCard of savedOrAddedList) {
 				const response = await postCall("cardDetailByCardKey", { cardKey: selCard.value }, dispatch, router, false);
@@ -69,6 +68,18 @@ const Savecard = ({ cardDataList, onSavedCards }) => {
 					// }
 				}
 			}
+			if (savedOrAddedList.length === result.length) {
+				resolve(result);
+			}
+		});
+	};
+	// on save cards
+	const onSave = async (isUpdateUserCall = true, savedOrAddedList) => {
+		try {
+			if (isUpdateUserCall) {
+				dispatch(handleStartLoading());
+			}
+			let result = await getSavedCards(savedOrAddedList);
 			const mergedResult = [...selSavedCards, ...result];
 			setSelSavedCards(mergedResult);
 			onSavedCards(mergedResult);
@@ -208,16 +219,16 @@ const Savecard = ({ cardDataList, onSavedCards }) => {
 													<div className="best-offer-main">
 														<div className="best-card-box">
 															<div className="card-box">
-																<Image src={card.card_image_url} alt="N/A" fill />
+																<Image src={card.card_image_url ? card.card_image_url : images.NoImageAvailable} alt="N/A" fill />
 															</div>
 															<div className="card-content">
-																<h4>{card.cardName}</h4>
+																<h4>{card.card_name}</h4>
 															</div>
 															<div
 																className="card-box remove-icon"
 																onClick={() => {
 																	setIsShowDeleteModel(true);
-																	setDeleteCardId(card.cardKey);
+																	setDeleteCardId(card.card_key);
 																}}>
 																<FaTrash />
 															</div>

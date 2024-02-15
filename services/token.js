@@ -42,12 +42,11 @@ export const removeUser = () => {
 	localStorage.removeItem("user");
 };
 
-export const tokenExpired = (dispatch) => {
+export const tokenExpired = (dispatch, router) => {
 	deleteCookie("authorizationToken");
 	deleteCookie("userName");
 	deleteCookie("loggedEmail");
 	deleteCookie("loggedTime");
-	dispatch(handleStoreToken(""));
 	dispatch(handleCloseAllModal());
 	dispatch(handleStopLoading());
 	dispatch(
@@ -57,4 +56,6 @@ export const tokenExpired = (dispatch) => {
 			messageText: "session expired",
 		})
 	);
+	dispatch(handleStoreToken(""));
+	router.replace("/");
 };

@@ -9,6 +9,8 @@ import { useRouter } from "next/router";
 import { postCall } from "../../services/apiCall";
 import { handleStartLoading } from "../../redux/loader/loaderSlice";
 import withAuth from "../../utils/withAuth";
+import { useSelector } from "react-redux";
+import { emailStoreSelectore } from "../../redux/emailStore/emailStoreSlice";
 
 const Home = () => {
 	const dispatch = useAppDispatch();
@@ -34,10 +36,13 @@ const Home = () => {
 				const cardIssuerList = Array.from(new Set(cardList.map((card) => card.cardIssuer)));
 				const cardGrouping = cardIssuerList.reduce((acc, cardIssuer) => {
 					const associatedCards = cardList.filter((card) => card.cardIssuer === cardIssuer);
+					// ...card ; will be use in SaveCard.js
 					const options = associatedCards.map((card) => ({
-						label: card.card_name,
-						value: card.card_key,
-						card_image_url: card.card_image_url, // will be use in SaveCard.js
+						...{
+							label: card.card_name,
+							value: card.card_key,
+						},
+						...card,
 					}));
 
 					acc.push({
@@ -94,13 +99,15 @@ const Home = () => {
 		setBestOfferCards([]);
 		setIsOfferChecked(false);
 	};
+	const token = useSelector(emailStoreSelectore).token;
 	return (
 		<>
 			<BannerSection />
 			{/* <BannerBottom /> */}
 			{/* saved cards */}
-			<Savecard cardDataList={cardDataList} onSavedCards={(val) => handleSavedCards(val)} />
-			{savedCardList.length > 0 && (
+			{token && <Savecard cardDataList={cardDataList} onSavedCards={(val) => handleSavedCards(val)} />}
+
+			{token && savedCardList.length > 0 && (
 				<>
 					{/* explore offers */}
 					<ExploreOffer spendBonusCategoryList={spendBonusCategoryList} savedCardList={savedCardList} onAvailableOffers={(val) => setAvailableOffers(val)} onBestOffers={(val) => setBestOfferCards(val)} onOffersChecked={(val) => setIsOfferChecked(val)} allCards={allCards} />

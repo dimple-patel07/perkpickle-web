@@ -16,4 +16,5 @@ export const images = {
 	ContactIcon: require("../assets/images/Contact-icon.png"),
 	LocationIcon: require("../assets/images/Location.png"),
 	SearchIcon: require("../assets/images/SearchIcon.svg"),
+	NoImageAvailable: require("../assets/images/NoImageAvailable.jpeg"),
 };

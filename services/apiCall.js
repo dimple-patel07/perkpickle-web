@@ -34,7 +34,7 @@ export const postCall = async (apiName, requestBody = {}, dispatch, router, isSt
 			return response.data;
 		} else {
 			// idle time limit over
-			tokenExpired(dispatch);
+			tokenExpired(dispatch, router);
 		}
 	} catch (errorResponse) {
 		return handleAxiosError(errorResponse, dispatch, router);
@@ -47,7 +47,7 @@ const handleAxiosError = (err, dispatch, router) => {
 	if (axios.isAxiosError(err)) {
 		if (err?.response && err?.response?.data && err?.response?.data?.error) {
 			if (err.response.status === 401) {
-				tokenExpired(dispatch);
+				tokenExpired(dispatch, router);
 			}
 			errorMessage = err.response.data.error;
 		}
