@@ -1,12 +1,30 @@
 @import "../styles/variable/variable.scss";
 
 .savecard-section {
-
+    
+    .search-icon  {
+        .select__control .select__value-container span {
+            position: absolute;
+            top: 16px;
+            left: 15px;
+        }
+    }
     .savecard-inn {
         padding: 40px 10px 60px 10px;
         background: $white;
         border-radius: 15px;
         box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
+
+    .row:first-child p {
+            border: solid 1px #8de58d;
+            border-radius: 5px;
+            margin: 0 auto 7px;
+            width: auto;
+            padding: 5px 20px;
+            background: #d1ffd1;
+            font-weight: 400;
+            text-transform: capitalize;
+        }    
 
         // .card-in{
         //     cursor: pointer;
@@ -89,6 +107,7 @@
             min-height: 60px;
             height: auto;
             overflow-y: scroll;
+            padding-left: 50px;
         }
 
         .select__indicators {

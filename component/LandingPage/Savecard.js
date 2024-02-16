@@ -190,7 +190,7 @@ const Savecard = ({ cardDataList, onSavedCards }) => {
 									isMulti
 									name="multiSelectCardsDropdown"
 									options={cardDataList}
-									className="basic-multi-select"
+									className="basic-multi-select search-icon"
 									classNamePrefix="select"
 									onChange={onAvailableCardSelection}
 									value={selAvailableCards}
