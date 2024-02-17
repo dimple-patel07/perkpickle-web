@@ -99,9 +99,9 @@ const Home = () => {
 		setIsOfferChecked(false);
 		if (savedCardList.length === 0) {
 			// initial - on page load
-			setSavedCardList(val);
+			setSavedCardList(JSON.parse(JSON.stringify(val)));
 		}
-		constructSavedCards(val);
+		constructSavedCards(JSON.parse(JSON.stringify(val)));
 	};
 	// constructSavedCards - get/reset card details in background to prevent loading time
 	// savedCardList - applicable when selected-type's associated card not added in saved list

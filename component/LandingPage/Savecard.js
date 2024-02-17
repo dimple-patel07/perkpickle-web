@@ -30,6 +30,7 @@ const Savecard = ({ cardDataList, onSavedCards }) => {
 		try {
 			const response = await postCall("getUserByEmail", { email: getLoggedEmail() }, dispatch, router, false);
 			if (response) {
+				dispatch(handleStopLoading());
 				// set saved cards
 				if (response.card_keys && cardDataList[0].options?.length > 0) {
 					const cardKeys = response.card_keys.split(",");
@@ -44,9 +45,9 @@ const Savecard = ({ cardDataList, onSavedCards }) => {
 						setSelAvailableCards(savedSelectionList);
 						setSelSavedCards(savedSelectionList);
 						onSavedCards(savedSelectionList); // callback to parent to construct available offers
-						dispatch(handleStopLoading());
+						// dispatch(handleStopLoading());
 					} else {
-						dispatch(handleStopLoading());
+						// dispatch(handleStopLoading());
 					}
 				} else {
 					dispatch(handleStopLoading());
