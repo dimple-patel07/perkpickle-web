@@ -3,7 +3,7 @@ import Image from "next/image";
 import { FaTrash } from "react-icons/fa";
 import Select, { components } from "react-select";
 import { useAppDispatch } from "../../redux/store";
-import { getLoggedEmail } from "../../utils/config";
+import { getCardImage, getLoggedEmail } from "../../utils/config";
 import DeleteModel from "../WarnModal/deleteModal";
 import { handleStartLoading, handleStopLoading, showMessage } from "../../redux/loader/loaderSlice";
 import { postCall } from "../../services/apiCall";
@@ -42,9 +42,9 @@ const Savecard = ({ cardDataList, onSavedCards }) => {
 					}
 					if (savedSelectionList.length > 0) {
 						setSelAvailableCards(savedSelectionList);
-						// setSelSavedCards(savedSelectionList);
-						// dispatch(handleStopLoading());
-						await onSave(false, savedSelectionList);
+						setSelSavedCards(savedSelectionList);
+						onSavedCards(savedSelectionList); // callback to parent to construct available offers
+						dispatch(handleStopLoading());
 					} else {
 						dispatch(handleStopLoading());
 					}
@@ -74,29 +74,25 @@ const Savecard = ({ cardDataList, onSavedCards }) => {
 		});
 	};
 	// on save cards
-	const onSave = async (isUpdateUserCall = true, savedOrAddedList) => {
+	const onSave = async (savedOrAddedList) => {
 		try {
-			if (isUpdateUserCall) {
-				dispatch(handleStartLoading());
-			}
+			dispatch(handleStartLoading());
 			let result = await getSavedCards(savedOrAddedList);
-			const mergedResult = [...selSavedCards, ...result];
+			const mergedResult = [...selSavedCards, ...result]; // merged & current selection
 			setSelSavedCards(mergedResult);
-			onSavedCards(mergedResult);
-			if (mergedResult.length > 0 && isUpdateUserCall) {
+			onSavedCards(mergedResult); // callback to parent to construct available offers
+			if (mergedResult.length > 0) {
 				const cardKeys = mergedResult.map((card) => card.value);
-				await updateUserCards(cardKeys.join(","));
+				await updateUserCards(cardKeys.join(",")); // update user associated cards
 			}
-
-			if (isUpdateUserCall) {
-				dispatch(
-					showMessage({
-						...defaultMessageObj,
-						type: "success",
-						messageText: "card saved successfully",
-					})
-				);
-			}
+			// card saved success msg
+			dispatch(
+				showMessage({
+					...defaultMessageObj,
+					type: "success",
+					messageText: "card saved successfully",
+				})
+			);
 			dispatch(handleStopLoading());
 		} catch (error) {
 			console.error(error);
@@ -106,18 +102,19 @@ const Savecard = ({ cardDataList, onSavedCards }) => {
 	const onAvailableCardSelection = async (selDataList) => {
 		dispatch(handleStartLoading());
 		setSelAvailableCards(selDataList);
-		onSave(true, [selDataList[selDataList.length - 1]]);
+		onSave([selDataList[selDataList.length - 1]]);
 	};
 	// remove specific card
 	const removeUserCard = async () => {
 		setIsShowDeleteModel(false);
 		dispatch(handleStartLoading());
-		const filterSavedCards = selSavedCards.filter((card) => card.cardKey !== deleteCardId);
-		setSelSavedCards(filterSavedCards);
-		onSavedCards(filterSavedCards);
-		setSelAvailableCards(filterSavedCards);
-		const selCardFound = selSavedCards.find((card) => card.cardKey === deleteCardId);
+
+		const selCardFound = selSavedCards.find((card) => card.card_key === deleteCardId);
 		if (selCardFound) {
+			const filterSavedCards = selSavedCards.filter((card) => card.card_key !== deleteCardId);
+			setSelSavedCards(filterSavedCards);
+			onSavedCards(filterSavedCards);
+			setSelAvailableCards(filterSavedCards);
 			const cardKeys = filterSavedCards.map((card) => card.value);
 			await updateUserCards(cardKeys.join(","), true);
 		} else {
@@ -130,7 +127,7 @@ const Savecard = ({ cardDataList, onSavedCards }) => {
 		try {
 			const params = { email: getLoggedEmail(), cardKeys: cardKeys };
 			const response = await postCall("updateUserCards", params, dispatch, router);
-			if (response.email) {
+			if (response?.email) {
 				console.log("card updated successfully");
 			}
 			if (isDeleted) {
@@ -154,7 +151,7 @@ const Savecard = ({ cardDataList, onSavedCards }) => {
 	const ValueContainer = ({ children, ...props }) => {
 		let [values, input] = children;
 		if (Array.isArray(values)) {
-			const plural = values.length === 1 ? "" : "s";
+			// const plural = values.length === 1 ? "" : "s";
 			values = searchIcon;
 		}
 		const style = { cursor: "pointer" };
@@ -201,12 +198,6 @@ const Savecard = ({ cardDataList, onSavedCards }) => {
 									placeholder={searchIcon}
 								/>
 							</div>
-
-							{/* <div className="col-12 col-sm-12 col-md-12 col-lg-2 text-center">
-								<button type="button" className="btn" onClick={() => onSave()}>
-									Save Cards
-								</button>
-							</div> */}
 						</div>
 						{/* Save Card Show */}
 						<div className="save-card-show">
@@ -219,7 +210,7 @@ const Savecard = ({ cardDataList, onSavedCards }) => {
 													<div className="best-offer-main">
 														<div className="best-card-box">
 															<div className="card-box">
-																<Image src={card.card_image_url ? card.card_image_url : images.NoImageAvailable} alt="N/A" fill />
+																<Image src={getCardImage(card)} alt="N/A" fill />
 															</div>
 															<div className="card-content">
 																<h4>{card.card_name}</h4>
@@ -230,7 +221,7 @@ const Savecard = ({ cardDataList, onSavedCards }) => {
 																	setIsShowDeleteModel(true);
 																	setDeleteCardId(card.card_key);
 																}}>
-																<FaTrash />
+																<FaTrash title="Remove Card" />
 															</div>
 														</div>
 													</div>

@@ -1,5 +1,6 @@
 import React from "react";
 import Image from "next/image";
+import { getCardImage } from "../../utils/config";
 
 const AvailableOffer = ({ availableOffers, savedCardList }) => {
 	const getCurrency = (card) => {
@@ -51,7 +52,7 @@ const AvailableOffer = ({ availableOffers, savedCardList }) => {
 										<div key={index}>
 											<li key={`${index}`}>
 												<div className="available-card-img">
-													<Image src={card.card_image_url} alt="N/A" width="50" height="50" />
+													<Image src={getCardImage(card)} alt="N/A" width="50" height="50" />
 												</div>
 												<p className="m-0">{card.cardName}</p>
 												<p className="m-0">
@@ -65,29 +66,37 @@ const AvailableOffer = ({ availableOffers, savedCardList }) => {
 									);
 								})}
 							</ul>
-						) : (
-							// when offers not available on selected cards
-							<ul>
-								{savedCardList.map((card, index) => {
-									return (
-										<div key={index}>
-											<li>
-												<div className="available-card-img">
-													<Image src={card.card_image_url} alt="N/A" width="50" height="50" />
-												</div>
-												<p className="m-0">{card.cardName}</p>
-												<p className="m-0">
-													{getCurrency(card)}
-													{/* {card.baseSpendEarnCashValue} ({card.baseSpendAmount} / {card.baseSpendEarnCurrency}) */}
-												</p>
-												<span>{card.signupBonusDesc ? card.signupBonusDesc : card.baseSpendAmount ? "-" : "No offer available on selected card"}</span>
+						) : // when offers not available on selected cards - default offers of all added cards
+						savedCardList.length > 0 ? (
+							<ul key="defaultCardOffers">
+								<>
+									{savedCardList.map((card, index) => {
+										return (
+											<div key={index}>
+												<li>
+													<div className="available-card-img">
+														<Image src={getCardImage(card)} alt="N/A" width="50" height="50" />
+													</div>
+													<p className="m-0">{card.card_name}</p>
+													<p className="m-0">
+														{getCurrency(card)}
+														{/* {card.baseSpendEarnCashValue} ({card.baseSpendAmount} / {card.baseSpendEarnCurrency}) */}
+													</p>
+													<span>{card.signupBonusDesc ? card.signupBonusDesc : card.baseSpendAmount ? "-" : "No offer available on selected card"}</span>
+													<hr />
+												</li>
 												<hr />
-											</li>
-											<hr />
-										</div>
-									);
-								})}
+											</div>
+										);
+									})}
+								</>
 							</ul>
+						) : (
+							// loader
+							<>
+								<span className="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+								<span className="sr-only ms-2">Checking...</span>
+							</>
 						)}
 					</div>
 				</div>

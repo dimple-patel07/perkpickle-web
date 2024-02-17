@@ -59,7 +59,7 @@ const ExploreOffer = ({ spendBonusCategoryList, savedCardList, onAvailableOffers
 				dispatch,
 				router
 			);
-			if (response.length > 0) {
+			if (response?.length > 0) {
 				categoryWiseCards = response;
 			}
 		} catch (error) {

@@ -34,7 +34,7 @@ const Profile = () => {
 			const params = { email: getLoggedEmail() };
 			const response = await postCall("getUserByEmail", params, dispatch, router);
 			firstInputRef?.current?.focus();
-			if (response.email) {
+			if (response?.email) {
 				setUserData(response);
 			}
 		} catch (error) {
@@ -76,7 +76,7 @@ const Profile = () => {
 			try {
 				dispatch(handleStartLoading());
 				const response = await postCall("updateUser", params, dispatch, router);
-				if (response.email) {
+				if (response?.email) {
 					getUserByEmail();
 					dispatch(handleStoreUserName(userName));
 					setCookie("userName", userName);

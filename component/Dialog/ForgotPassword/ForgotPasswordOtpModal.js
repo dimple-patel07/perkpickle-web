@@ -68,7 +68,7 @@ const ForgotPasswordOtpModal = () => {
 				},
 				dispatch
 			);
-			if (response.email) {
+			if (response?.email) {
 				closeModal();
 				dispatch(handleOpenResetPasswordModal(true));
 			}

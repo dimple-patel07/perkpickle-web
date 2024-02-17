@@ -5,8 +5,7 @@ import Image from "next/image";
 import { handleCloseAllModal, handleOpenLoginModal, handleOpenSignUpFormModal, handleOpenSignUpModal, modalSelector } from "../../../redux/modal/modalSlice";
 import { useAppDispatch } from "../../../redux/store";
 import { useSelector } from "react-redux";
-import axios from "axios";
-import { config, defaultMessageObj } from "../../../utils/config";
+import { defaultMessageObj } from "../../../utils/config";
 import { emailStoreSelectore } from "../../../redux/emailStore/emailStoreSlice";
 import { handleStartLoading, showMessage } from "../../../redux/loader/loaderSlice";
 import { FaArrowLeft } from "react-icons/fa6";
@@ -94,7 +93,7 @@ const SignUpOtpModal = () => {
 				dispatch
 			);
 
-			if (response.email) {
+			if (response?.email) {
 				dispatch(handleCloseAllModal());
 				dispatch(handleOpenSignUpFormModal(true));
 			}

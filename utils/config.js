@@ -1,4 +1,5 @@
 import { getCookie } from "cookies-next";
+import { images } from "../component/Images";
 
 export const config = {
 	apiURL: process.env.REACT_APP_API_URL,
@@ -32,4 +33,8 @@ export const decryptStr = (encryptedStr) => {
 
 export const getLoggedEmail = () => {
 	return getCookie("loggedEmail");
+};
+
+export const getCardImage = (card) => {
+	return card && card.card_image_url && card.card_image_url !== "undefined" && card.card_image_url !== "null" ? card.card_image_url : images.NoImageAvailable;
 };

@@ -1,5 +1,6 @@
 import Image from "next/image";
 import React, { useEffect, useState } from "react";
+import { getCardImage } from "../../utils/config";
 
 const BestOffer = ({ bestOfferCards, allCards }) => {
 	const [suggestedCards, setSuggestedCards] = useState([]);
@@ -30,7 +31,7 @@ const BestOffer = ({ bestOfferCards, allCards }) => {
 										<div className="best-offer-main">
 											<div className="best-card-box">
 												<div className="card-box">
-													<Image src={card.card_image_url} alt="N/A" fill />
+													<Image src={getCardImage(card)} alt="N/A" fill />
 												</div>
 
 												<div className="card-content">
