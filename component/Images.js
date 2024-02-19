@@ -1,6 +1,6 @@
 export const images = {
 	// logo: require("../assets/images/Perkpickle.png"),
-	logo: require("../assets/images/Perkpickle Logo_E2.png"),
+	logo: require("../assets/images/PerkpickleLogo_E2.png"),
 	profile: require("../assets/images/placeholder.png"),
 	bannerImg: require("../assets/images/Banner-img.png"),
 	Cardone: require("../assets/images/card-one.png"),
