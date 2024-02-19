@@ -131,7 +131,7 @@ const LoginModal = () => {
 								</div>
 								<div className="col-12">
 									<button type="submit" className="cls-btn btn">
-										Sign In
+										LOGIN
 									</button>
 								</div>
 								<div className="account">
