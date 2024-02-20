@@ -6,7 +6,7 @@ import * as yup from "yup";
 import TextInput from "../../component/TextInput";
 import { Form } from "react-bootstrap";
 import PageBanner from "../../component/pageBanner";
-import { config } from "../../utils/config";
+import { config, getLoggedEmail } from "../../utils/config";
 import axios from "axios";
 import { useAppDispatch } from "../../redux/store";
 import { handleStartLoading, showMessage } from "../../redux/loader/loaderSlice";
@@ -14,12 +14,14 @@ import { defaultMessageObj } from "../../utils/config";
 import { postCall } from "../../services/apiCall";
 import { useRouter } from "next/router";
 import commonRoute from "../../utils/commonRoute";
+import { useSelector } from "react-redux";
+import { emailStoreSelectore } from "../../redux/emailStore/emailStoreSlice";
 
 const ContactUs = () => {
 	const firstInputRef = useRef(null);
 	const dispatch = useAppDispatch();
 	const router = useRouter();
-
+	const token = useSelector(emailStoreSelectore)?.token;
 	useEffect(() => {
 		setTimeout(() => {
 			firstInputRef?.current?.focus();
@@ -28,16 +30,21 @@ const ContactUs = () => {
 
 	const initialFormData = {
 		name: "",
-		email: "",
+		email: token ? getLoggedEmail() : "",
 		subject: "",
 		message: "",
 	};
 
 	const signInFormValidation = () =>
 		yup.object().shape({
-			name: yup.string().required("Please Enter Your Name"),
-			email: yup.string().required("Please Enter Email").email("Please Enter Valid Email"),
-			subject: yup.string().required("Please Enter Subject"),
+			name: yup
+				.string()
+				.required("please enter your name")
+				.trim()
+				.matches(/^[A-Za-z ]*$/, "please enter valid name")
+				.max(30),
+			email: yup.string().required("please enter email").trim().email("please enter valid email").max(30),
+			subject: yup.string().required("please enter subject").trim().max(30),
 		});
 
 	const { handleChange, handleSubmit, handleBlur, values, touched, errors, resetForm } = useFormik({
@@ -87,9 +94,8 @@ const ContactUs = () => {
 											<Image src={images.ContactIcon} alt="contact-icn" />
 										</div>
 										<div className="contact-description">
-											<strong>Email & Phone</strong>
-											<p>asdsda@gmail.com</p>
-											<p>+91 34 343 34343</p>
+											<strong>Email</strong>
+											<p>support@perkpickle.com</p>
 										</div>
 									</div>
 								</div>
@@ -137,6 +143,7 @@ const ContactUs = () => {
 												touched={touched?.email}
 												errors={errors?.email}
 												// formGroupClassName="mb-4 pt-3 pb-3"
+												disabled={token ? true : false}
 												placeholder={"Email Address*"}
 												type="text"
 												name="email"
