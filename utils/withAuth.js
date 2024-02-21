@@ -20,7 +20,7 @@ const withAuth = (WrappedComponent, requireAuth = true) => {
 						setCookie("loggedTime", Date.now()); // set time to check idle time
 					} else {
 						let minutes = 0;
-						const IDLE_SESSION_TIME = 1; // MINUTES
+						const IDLE_SESSION_TIME = 15; // MINUTES
 						if (getCookie("loggedTime")) {
 							const diff = Date.now() - getCookie("loggedTime");
 							minutes = Math.floor(diff / 1000 / 60) % 60;
