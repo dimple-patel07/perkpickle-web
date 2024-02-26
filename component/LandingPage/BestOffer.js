@@ -1,9 +1,16 @@
 import Image from "next/image";
 import React, { useEffect, useState } from "react";
-import { getCardImage } from "../../utils/config";
+import { formatCardCurrency, getCardImage } from "../../utils/config";
+import { postCall } from "../../services/apiCall";
+import { useAppDispatch } from "../../redux/store";
+import { useRouter } from "next/router";
 
 const BestOffer = ({ bestOfferCards, allCards }) => {
 	const [suggestedCards, setSuggestedCards] = useState([]);
+	const [isMore, setIsMore] = useState(true);
+	const dispatch = useAppDispatch();
+	const router = useRouter();
+	const displayLimit = 10;
 	useEffect(() => {
 		let bestCards = [];
 		for (const offerCard of bestOfferCards) {
@@ -11,10 +18,22 @@ const BestOffer = ({ bestOfferCards, allCards }) => {
 			if (foundCard) {
 				// expecting value should be found
 				bestCards.push({ ...offerCard, ...foundCard });
+			} else {
+				// get & add - not found card from master table
+				addCardDetail(offerCard, bestCards);
 			}
 		}
 		setSuggestedCards(bestCards);
 	}, [bestOfferCards]);
+	// add card detail
+	const addCardDetail = async (offerCard, bestCards) => {
+		const addedCard = await postCall("addCardDetail", { card_key: offerCard.cardKey }, dispatch, router);
+		if (addedCard && addedCard.card_key) {
+			allCards.push(addedCard);
+			bestCards.push({ ...addedCard, ...addedCard.card_detail });
+			setSuggestedCards(bestCards);
+		}
+	};
 	return (
 		suggestedCards.length > 0 && (
 			<section className="best-offer-section mb">
@@ -25,7 +44,7 @@ const BestOffer = ({ bestOfferCards, allCards }) => {
 
 					<div className="best-offer-inn">
 						<div className="row gy-4">
-							{suggestedCards.map((card, index) => {
+							{suggestedCards.slice(0, isMore ? displayLimit : suggestedCards.length).map((card, index) => {
 								return (
 									<div className="col-12 col-sm-12 col-md-12 col-lg-6" key={index}>
 										<div className="best-offer-main">
@@ -35,20 +54,18 @@ const BestOffer = ({ bestOfferCards, allCards }) => {
 												</div>
 
 												<div className="card-content">
-													<h4>{card.cardName}</h4>
+													<h4>{card.cardName ? card.cardName : card.card_name}</h4>
 													<ul>
 														<li className="py-1">
 															<div>
 																<span>Rewards rate</span>
-																<strong>
-																	{card.earnMultiplier} <i>Points</i>
-																</strong>
+																<strong>{formatCardCurrency(card.earnMultiplier ? card.earnMultiplier : card.baseSpendAmount, card.spendType ? card.spendType : card.baseSpendEarnCurrency)}</strong>
 															</div>
 														</li>
 														<li>
 															<div>
 																<span>Description</span>
-																<strong>{card.spendBonusDesc}</strong>
+																<strong>{card.spendBonusDesc ? card.spendBonusDesc : card.signupBonusDesc ? card.signupBonusDesc : "No offer available on selected category"}</strong>
 															</div>
 														</li>
 													</ul>
@@ -59,6 +76,13 @@ const BestOffer = ({ bestOfferCards, allCards }) => {
 								);
 							})}
 						</div>
+						{suggestedCards.length > 10 && (
+							<div className="row gy-4">
+								<a href="#" onClick={() => setIsMore(!isMore)}>
+									{isMore ? "All" : "Top 10"}
+								</a>
+							</div>
+						)}
 					</div>
 				</div>
 			</section>

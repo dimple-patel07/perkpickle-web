@@ -57,34 +57,17 @@ const Savecard = ({ cardDataList, onSavedCards }) => {
 			console.error(error);
 		}
 	};
-	// get saved cards
-	const getSavedCards = async (savedOrAddedList) => {
-		return new Promise(async (resolve) => {
-			let result = [];
-			for (const selCard of savedOrAddedList) {
-				const response = await postCall("cardDetailByCardKey", { cardKey: selCard.value }, dispatch, router, false);
-				if (response?.length > 0) {
-					// if (response[0].baseSpendAmount && response[0].baseSpendEarnCurrency) {
-					result.push({ ...response[0], ...selCard });
-					// }
-				}
-			}
-			if (savedOrAddedList.length === result.length) {
-				resolve(result);
-			}
-		});
-	};
 	// on save cards
 	const onSave = async (savedOrAddedList) => {
 		try {
 			dispatch(handleStartLoading());
-			let result = await getSavedCards(savedOrAddedList);
-			const mergedResult = [...selSavedCards, ...result]; // merged & current selection
+			const mergedResult = [...selSavedCards, ...savedOrAddedList]; // merged & current selection
 			setSelSavedCards(mergedResult);
-			onSavedCards(mergedResult); // callback to parent to construct available offers
+			// onSavedCards(mergedResult); // callback to parent to construct available offers
 			if (mergedResult.length > 0) {
 				const cardKeys = mergedResult.map((card) => card.value);
 				await updateUserCards(cardKeys.join(",")); // update user associated cards
+				getCardDetail(savedOrAddedList[0], mergedResult);
 			}
 			// card saved success msg
 			dispatch(
@@ -104,6 +87,18 @@ const Savecard = ({ cardDataList, onSavedCards }) => {
 		dispatch(handleStartLoading());
 		setSelAvailableCards(selDataList);
 		onSave([selDataList[selDataList.length - 1]]);
+	};
+	// get card detail by card key - get specific card detail & conditionally store master card db
+	const getCardDetail = async (selCard, mergedResult) => {
+		const params = { card_key: selCard.card_key };
+		const response = await postCall("getCardDetail", params, dispatch, router);
+		if (response?.card_key) {
+			const found = mergedResult.find((card) => card.card_key === response.card_key);
+
+			found.card_detail = response.card_detail;
+			onSavedCards(mergedResult); // callback to parent to construct available offers
+			cardDataList;
+		}
 	};
 	// remove specific card
 	const removeUserCard = async () => {
@@ -201,6 +196,7 @@ const Savecard = ({ cardDataList, onSavedCards }) => {
 							</div>
 						</div>
 						{/* Save Card Show */}
+						<p className="save-card-note">Maximum 10 Cards should be save </p>
 						<div className="save-card-show">
 							{selSavedCards.length > 0 ? (
 								<>

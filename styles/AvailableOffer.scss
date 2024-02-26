@@ -1,7 +1,9 @@
 @import "../styles/variable/variable.scss";
 
 .available-offer{
+
     ul{
+        text-align: center;
         li{
             display: flex;
             justify-content: space-between;
@@ -10,11 +12,15 @@
             }
             span{
                 flex: 50%;
-                text-align: right;
             }
         }
     }
 }
 .available-card-img{
     margin-right: 5px;
+    img{
+        width: auto;
+        height: auto;
+        border-radius: 4px;
+    }
 }

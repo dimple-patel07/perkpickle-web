@@ -22,6 +22,7 @@ const Home = () => {
 	const [availableOffers, setAvailableOffers] = useState([]);
 	const [bestOfferCards, setBestOfferCards] = useState([]);
 	const [isOfferChecked, setIsOfferChecked] = useState(false);
+	const token = useSelector(emailStoreSelectore).token;
 
 	useEffect(() => {
 		dispatch(handleStartLoading());
@@ -93,60 +94,25 @@ const Home = () => {
 			console.error(error);
 		}
 	};
-	const handleSavedCards = (val) => {
+	const handleSavedCards = async (val) => {
 		setAvailableOffers([]);
 		setBestOfferCards([]);
 		setIsOfferChecked(false);
-		if (savedCardList.length === 0) {
-			// initial - on page load
-			setSavedCardList(JSON.parse(JSON.stringify(val)));
-		}
-		constructSavedCards(JSON.parse(JSON.stringify(val)));
+		setSavedCardList(JSON.parse(JSON.stringify(val)));
 	};
-	// constructSavedCards - get/reset card details in background to prevent loading time
-	// savedCardList - applicable when selected-type's associated card not added in saved list
-	// in this case showing discount of added cards & not for specific selected category
-	const constructSavedCards = async (savedOrAddedList) => {
-		let result = [];
-		for (const selCard of savedOrAddedList) {
-			if (selCard.cardKey) {
-				// recently saved
-				result.push(selCard);
-			} else {
-				let found;
-				if (savedCardList.length > 0) {
-					found = savedCardList.find((card) => card.cardKey === selCard.value);
-				}
-				if (found) {
-					// already added
-					result.push(found);
-				} else {
-					// get card details - applicable when initial callback from savedCard
-					const response = await postCall("cardDetailByCardKey", { cardKey: selCard.value }, dispatch, router, false);
-					if (response?.length > 0) {
-						result.push({ ...response[0], ...selCard });
-					}
-				}
-			}
-		}
-		if (savedOrAddedList.length === result.length) {
-			setSavedCardList(JSON.parse(JSON.stringify(result)));
-		}
-	};
-	const token = useSelector(emailStoreSelectore).token;
 	return (
 		<>
 			<BannerSection />
 			{/* <BannerBottom /> */}
 			{/* saved cards */}
-			{token && <Savecard cardDataList={cardDataList} onSavedCards={(val) => handleSavedCards(val)} />}
+			{token && <Savecard cardDataList={cardDataList} onSavedCards={async (val) => await handleSavedCards(val)} />}
 
 			{token && savedCardList.length > 0 && spendBonusCategoryList?.length > 0 && (
 				<>
 					{/* explore offers */}
 					<ExploreOffer spendBonusCategoryList={spendBonusCategoryList} savedCardList={savedCardList} onAvailableOffers={(val) => setAvailableOffers(val)} onBestOffers={(val) => setBestOfferCards(val)} onOffersChecked={(val) => setIsOfferChecked(val)} allCards={allCards} />
 					{/* available offers */}
-					{isOfferChecked && (availableOffers.length > 0 || savedCardList.length > 0) && <AvailableOffer availableOffers={availableOffers} savedCardList={savedCardList} />}
+					{isOfferChecked && availableOffers.length > 0 && <AvailableOffer availableOffers={availableOffers} />}
 					{/* best offers */}
 					{isOfferChecked && bestOfferCards.length > 0 && <BestOffer bestOfferCards={bestOfferCards} allCards={allCards} />}
 				</>

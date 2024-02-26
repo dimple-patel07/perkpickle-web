@@ -38,3 +38,17 @@ export const getLoggedEmail = () => {
 export const getCardImage = (card) => {
 	return card && card.card_image_url && card.card_image_url !== "undefined" && card.card_image_url !== "null" ? card.card_image_url : images.NoImageAvailable;
 };
+
+export const formatCardCurrency = (amount, currency) => {
+	let result = "-";
+	if (amount) {
+		if (currency === "miles" || currency === "points") {
+			result = `X ${amount} ${currency}`;
+		} else if (currency === "cashback") {
+			result = `${amount} %`;
+		} else {
+			result = `${amount} ${currency}`;
+		}
+	}
+	return result;
+};

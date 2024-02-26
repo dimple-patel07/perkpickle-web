@@ -1,8 +1,7 @@
 import { config, defaultMessageObj } from "../utils/config";
 import axios from "axios";
-import { deleteCookie, getCookie, setCookie } from "cookies-next";
+import { getCookie } from "cookies-next";
 import { handleStopLoading, showMessage } from "../redux/loader/loaderSlice";
-import { handleStoreToken } from "../redux/emailStore/emailStoreSlice";
 import { tokenExpired } from "./token";
 
 export const postCall = async (apiName, requestBody = {}, dispatch, router, isStopLoader = true) => {

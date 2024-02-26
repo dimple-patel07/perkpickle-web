@@ -11,6 +11,20 @@ const ExploreOffer = ({ spendBonusCategoryList, savedCardList, onAvailableOffers
 	const dispatch = useAppDispatch();
 	const router = useRouter();
 
+	const customStyles = {
+		menu: (provided, state) => ({
+			...provided,
+			margin: 0,
+			marginLeft: -10,
+
+			// Remove margin for the dropdown menu
+		}),
+		menuList: (provided, state) => ({
+			...provided,
+			padding: 0, // Remove padding for the dropdown menu list
+		}),
+	};
+
 	// on group changed
 	const onGroupChanged = (val) => {
 		setSelCategory(null);
@@ -39,6 +53,24 @@ const ExploreOffer = ({ spendBonusCategoryList, savedCardList, onAvailableOffers
 				}
 			}
 		}
+		// club result - saved & category associated cards
+		if (savedCardList.length > 0 && foundCards.length !== savedCardList.length) {
+			let result = [];
+			console.log("found---", foundCards);
+			console.log("saved----", savedCardList);
+			for (const card of savedCardList) {
+				const found = foundCards.find((foundCard) => foundCard.cardKey === card.card_key);
+				if (found) {
+					// found from category api
+					result.push(found);
+				} else {
+					// saved
+					result.push({ ...card, ...card.card_detail });
+				}
+			}
+			foundCards = result;
+		}
+
 		// sorting on descending to order to show highest discount on top in the list
 		foundCards = foundCards.sort((a, b) => (a.earnMultiplier < b.earnMultiplier ? 1 : -1));
 		notFoundCards = notFoundCards.sort((a, b) => (a.earnMultiplier < b.earnMultiplier ? 1 : -1));
@@ -87,10 +119,10 @@ const ExploreOffer = ({ spendBonusCategoryList, savedCardList, onAvailableOffers
 							<Select name="checkoffer" options={spendBonusCategoryList} className="form-select" onChange={(val) => onGroupChanged(val)} classNamePrefix="select" placeholder={"Select Group"} />
 						</div>
 						<div className="col-12 col-sm-6 col-md-6 col-lg-7">
-							<Select name="checkoffer" options={groupCatagories} className="form-select" onChange={onCategoryChanged} value={selCategory} classNamePrefix="select" placeholder={"Check Category"} isDisabled={groupCatagories.length === 0} />
+							<Select name="checkoffer" options={groupCatagories} className="form-select" styles={customStyles} onChange={onCategoryChanged} value={selCategory} classNamePrefix="select" placeholder={"Check Category"} isDisabled={groupCatagories.length === 0} />
 						</div>
 						<div className="col-12 col-sm-12 col-md-12 col-lg-2  text-center">
-							<button type="button" className="btn" onClick={getCardOffers}>
+							<button type="button" className="btn" onClick={getCardOffers} disabled={!selCategory}>
 								Check Offer
 							</button>
 						</div>

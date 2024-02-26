@@ -1,7 +1,7 @@
 @import "../styles/variable/variable.scss";
 
 .savecard-section {
-    
+
     .search-icon  {
         .select__control .select__value-container span {
             position: absolute;
@@ -24,7 +24,7 @@
             background: #d1ffd1;
             font-weight: 400;
             text-transform: capitalize;
-        }    
+        }
 
         // .card-in{
         //     cursor: pointer;
@@ -92,7 +92,14 @@
     .css-1u9des2-indicatorSeparator {
         width: 0 !important;
     }
-
+    .save-card-note {
+        color: #b9b9b9;
+        font-size: 18px;
+        padding: 5px 0 0 3px;
+        margin: 0;
+        font-weight: 500;
+        // text-align: right;
+    }
     .select__control {
         height: auto;
         border: none;
