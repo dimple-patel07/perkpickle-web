@@ -77,10 +77,20 @@ const BestOffer = ({ bestOfferCards, allCards }) => {
 							})}
 						</div>
 						{suggestedCards.length > 10 && (
+							// <div className="row gy-4">
+							// 	<a href="#" onClick={() => setIsMore(!isMore)}>
+							// 		{isMore ? "Load More" : "Top 10"}
+							// 	</a>
+							// </div>
+
 							<div className="row gy-4">
-								<a href="#" onClick={() => setIsMore(!isMore)}>
-									{isMore ? "All" : "Top 10"}
+								<div className="col-md-10"></div>
+								<div className="col-md-2 text-end mt-5 pe-4">
+								<a href="#" className="loadmore" onClick={() => setIsMore(!isMore)}>
+									{isMore ? "Load More" : "Top 10"}
 								</a>
+								</div>
+								
 							</div>
 						)}
 					</div>
