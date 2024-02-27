@@ -18,9 +18,21 @@
 }
 .available-card-img{
     margin-right: 5px;
+    width: auto;
+        height: auto;
+        border-radius: 4px;
     img{
         width: auto;
         height: auto;
         border-radius: 4px;
+    }
+}
+
+.table-blue
+{
+    background-color: transparent !important;
+    tr td {
+        padding: 10px;
+        vertical-align: top;
     }
 }

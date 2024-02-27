@@ -12,42 +12,52 @@ const AvailableOffer = ({ availableOffers }) => {
 					</p>
 				</div>
 				<div className="available-inn">
-					<div className="heading">
-						<ul>
-							<li>
-								<p className="m-0">
-									<strong>Credit Card</strong>
-								</p>
-								<p className="m-0">
-									<strong>Rewards rate</strong>
-								</p>
-								<span>
-									<strong>Description</strong>
-								</span>
-							</li>
-							<hr />
-						</ul>
-					</div>
+					{/* <div className="heading">
+						<div className="row mb-3 pb-2 border-bottom">
+							<div className="col-md-1 col-sm-12"></div>
+							<div className="col-md-3 text-center col-sm-12"><b>Credit Card</b></div>
+							<div className="col-md-4 text-center col-sm-12"><b>Rewards rate</b></div>
+							<div className="col-md-4 text-center col-sm-12"><b>Description</b></div>
+						</div>
+					</div> */}
 					<div className="list">
 						{availableOffers.length > 0 && (
 							// offers available on selected cards
-							<ul key="availableOfferList">
+							<table  key="availableOfferList" className="table-blue">
 								{availableOffers.map((card, index) => {
-									return (
-										<div key={index}>
-											<li key={`${index}`}>
-												<div className="available-card-img">
-													<Image src={getCardImage(card)} alt="N/A" width="50" height="50" className="available-card-img" />
-												</div>
-												<p className="m-0">{card.card_name}</p>
-												<p className="m-0">{formatCardCurrency(card.earnMultiplier ? card.earnMultiplier : card.baseSpendAmount, card.spendType ? card.spendType : card.baseSpendEarnCurrency)}</p>
-												<span>{card.spendBonusDesc ? card.spendBonusDesc : card.signupBonusDesc ? card.signupBonusDesc : "No offer available on selected category"}</span>
-											</li>
-											<hr />
-										</div>
-									);
+
+													if(index === 0) {
+														return (
+										
+															<tr key={index} className="border-bottom">
+																
+																	<td className="mb-2 mt-2 me-0" width="10%">
+																		
+																	</td>
+																	<td className="text-center text-wrap table-blue" width="30%"><b>Credit Card</b></td>
+																	<td className="text-center text-wrap table-blue" width="20%"><b>Rewards rate</b></td>
+																	<td className="text-center text-wrap" width="40%"><b>Description</b></td>
+																
+															</tr>
+														);
+													} else{
+														return (
+										
+															<tr key={index} className="border-bottom">
+																
+																	<td className="mb-2 mt-2 me-0">
+																		<Image src={getCardImage(card)} alt="N/A" width="50" height="50" className="available-card-img" />
+																	</td>
+																	<td className="text-center text-wrap">{card.card_name}</td>
+																	<td className="text-center text-wrap">{formatCardCurrency(card.earnMultiplier ? card.earnMultiplier : card.baseSpendAmount, card.spendType ? card.spendType : card.baseSpendEarnCurrency)}</td>
+																	<td className="text-center text-wrap">{card.spendBonusDesc ? card.spendBonusDesc : card.signupBonusDesc ? card.signupBonusDesc : "No offer available on selected category"}</td>
+																
+															</tr>
+														);
+													}
+									
 								})}
-							</ul>
+							</table>
 						)}
 					</div>
 				</div>
