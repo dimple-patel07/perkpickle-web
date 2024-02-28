@@ -100,7 +100,7 @@ const ContactUs = () => {
 									</div>
 								</div>
 
-								<div className="contact-text-box mt-4">
+								{/* <div className="contact-text-box mt-4">
 									<div className="contact-text-inn">
 										<div className="contact-icon">
 											<Image src={images.LocationIcon} alt="loc-icon" />
@@ -110,7 +110,7 @@ const ContactUs = () => {
 											<p>762 Durgan Road, Lake Enidchester, TN 14712</p>
 										</div>
 									</div>
-								</div>
+								</div> */}
 							</div>
 						</div>
 						<div className="col-12 col-sm-12 col-md-6 col-lg-6">
