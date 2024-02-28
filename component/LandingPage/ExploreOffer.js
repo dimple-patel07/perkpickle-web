@@ -35,7 +35,7 @@ const ExploreOffer = ({ spendBonusCategoryList, savedCardList, onAvailableOffers
 		setSelCategory(selData);
 	};
 
-	// get card offers
+	// get card offers - club available offers & default offers to show all saved cards.
 	const getCardOffers = async () => {
 		dispatch(handleStartLoading());
 		const categoryWiseCards = await spendBonusCategoryCard(selCategory.value);
@@ -47,32 +47,31 @@ const ExploreOffer = ({ spendBonusCategoryList, savedCardList, onAvailableOffers
 				const dbCard = allCards.find((ac) => ac.card_key === cardKey);
 				const found = savedCardList.find((card) => card.value === cardKey);
 				if (found) {
-					foundCards.push({ ...cardCategoryData, ...found, ...dbCard });
+					foundCards.push({ ...cardCategoryData, ...dbCard });
 				} else {
 					notFoundCards.push({ ...cardCategoryData, ...dbCard });
 				}
 			}
 		}
-		// club result - saved & category associated cards
-		if (savedCardList.length > 0 && foundCards.length !== savedCardList.length) {
-			let result = [];
-			console.log("found---", foundCards);
-			console.log("saved----", savedCardList);
-			for (const card of savedCardList) {
-				const found = foundCards.find((foundCard) => foundCard.cardKey === card.card_key);
-				if (found) {
-					// found from category api
-					result.push(found);
-				} else {
-					// saved
-					result.push({ ...card, ...card.card_detail });
-				}
-			}
-			foundCards = result;
-		}
-
 		// sorting on descending to order to show highest discount on top in the list
 		foundCards = foundCards.sort((a, b) => (a.earnMultiplier < b.earnMultiplier ? 1 : -1));
+
+		// club result - saved & category associated cards
+		if (savedCardList.length > 0 && foundCards.length !== savedCardList.length) {
+			const foundCardKeys = foundCards.map((fcard) => fcard.card_key);
+
+			let filterSavedCards = savedCardList.filter((scard) => !foundCardKeys.includes(scard.card_key));
+
+			// sorting on descending to order to show highest discount on top in the list
+			filterSavedCards = filterSavedCards.sort((a, b) => (a.baseSpendAmount < b.baseSpendAmount ? 1 : -1));
+
+			let result = [];
+			for (const card of filterSavedCards) {
+				// saved
+				result.push({ ...card, ...card.card_detail });
+			}
+			foundCards = [...foundCards, ...result];
+		}
 		notFoundCards = notFoundCards.sort((a, b) => (a.earnMultiplier < b.earnMultiplier ? 1 : -1));
 		onOffersChecked(true);
 		onAvailableOffers(foundCards);

@@ -13,6 +13,7 @@ const BestOffer = ({ bestOfferCards, allCards }) => {
 	const displayLimit = 10;
 	useEffect(() => {
 		let bestCards = [];
+		let notAvailableCards = [];
 		for (const offerCard of bestOfferCards) {
 			const foundCard = allCards.find((card) => card.card_key === offerCard.cardKey);
 			if (foundCard) {
@@ -20,25 +21,50 @@ const BestOffer = ({ bestOfferCards, allCards }) => {
 				bestCards.push({ ...offerCard, ...foundCard });
 			} else {
 				// get & add - not found card from master table
-				addCardDetail(offerCard, bestCards);
+				bestCards.push(offerCard);
+				notAvailableCards.push(offerCard);
 			}
 		}
 		setSuggestedCards(bestCards);
+		addCardDetail(notAvailableCards, bestCards);
 	}, [bestOfferCards]);
 	// add card detail
-	const addCardDetail = async (offerCard, bestCards) => {
-		const addedCard = await postCall("addCardDetail", { card_key: offerCard.cardKey }, dispatch, router);
-		if (addedCard && addedCard.card_key) {
-			allCards.push(addedCard);
-			bestCards.push({ ...addedCard, ...addedCard.card_detail });
-			setSuggestedCards(bestCards);
+	const addCardDetail = async (notAvailableCards, bestCards) => {
+		let newAddedCards = [];
+		for (const offerCard of notAvailableCards) {
+			const addedCard = await postCall("addCardDetail", { card_key: offerCard.cardKey }, dispatch, router);
+			if (addedCard && addedCard.card_key) {
+				allCards.push(addedCard);
+				newAddedCards.push(addedCard);
+			}
+			// append card-image
+			if (newAddedCards.length === notAvailableCards.length) {
+				let dataList = [];
+				for (const bestCard of bestCards) {
+					const foundCard = allCards.find((card) => card.card_key === bestCard.cardKey);
+					if (foundCard) {
+						dataList.push({ ...bestCard, ...foundCard });
+					} else {
+						dataList.push(bestCard);
+					}
+				}
+				setSuggestedCards(JSON.parse(JSON.stringify(dataList)));
+			}
 		}
+	};
+	// best offer list toggle - top 10/ show all
+	const handleListToggle = () => {
+		setIsMore(!isMore);
+		const savedCardOfferTitle = document.getElementById("savedCardOfferTitle");
+		setTimeout(() => {
+			window.scrollTo({ top: savedCardOfferTitle.offsetTop, left: savedCardOfferTitle.offsetTop, behavior: "smooth" });
+		}, 10);
 	};
 	return (
 		suggestedCards.length > 0 && (
 			<section className="best-offer-section mb">
 				<div className="container">
-					<div className="text-center">
+					<div id="bestOffersTitle" className="text-center">
 						<h3 className="title">Best Offers From Our Partners</h3>
 					</div>
 
@@ -65,7 +91,7 @@ const BestOffer = ({ bestOfferCards, allCards }) => {
 														<li>
 															<div>
 																<span>Description</span>
-																<strong>{card.spendBonusDesc ? card.spendBonusDesc : card.signupBonusDesc ? card.signupBonusDesc : "No offer available on selected category"}</strong>
+																<strong>{card.spendBonusDesc ? card.spendBonusDesc : "-"}</strong>
 															</div>
 														</li>
 													</ul>
@@ -76,21 +102,14 @@ const BestOffer = ({ bestOfferCards, allCards }) => {
 								);
 							})}
 						</div>
-						{suggestedCards.length > 10 && (
-							// <div className="row gy-4">
-							// 	<a href="#" onClick={() => setIsMore(!isMore)}>
-							// 		{isMore ? "Load More" : "Top 10"}
-							// 	</a>
-							// </div>
-
+						{suggestedCards.length > displayLimit && (
 							<div className="row gy-4">
 								<div className="col-md-10"></div>
 								<div className="col-md-2 text-end mt-5 pe-4">
-								<a href="#" className="loadmore" onClick={() => setIsMore(!isMore)}>
-									{isMore ? "Load More" : "Top 10"}
-								</a>
+									<a href="#" className="loadmore" onClick={() => handleListToggle()}>
+										{isMore ? "Load More" : `Top ${displayLimit}`}
+									</a>
 								</div>
-								
 							</div>
 						)}
 					</div>

@@ -5,7 +5,7 @@ const AvailableOffer = ({ availableOffers }) => {
 	return (
 		<section className="available-offer mb">
 			<div className="container">
-				<div className="text-center">
+				<div id="savedCardOfferTitle" className="text-center">
 					<h3 className="title">Saved Card Offers</h3>
 					<p className="subtitle">
 						Select your offer <br /> for different categories
@@ -23,40 +23,33 @@ const AvailableOffer = ({ availableOffers }) => {
 					<div className="list">
 						{availableOffers.length > 0 && (
 							// offers available on selected cards
-							<table  key="availableOfferList" className="table-blue">
-								{availableOffers.map((card, index) => {
-
-													if(index === 0) {
-														return (
-										
-															<tr key={index} className="border-bottom">
-																
-																	<td className="mb-2 mt-2 me-0" width="10%">
-																		
-																	</td>
-																	<td className="text-center text-wrap table-blue" width="30%"><b>Credit Card</b></td>
-																	<td className="text-center text-wrap table-blue" width="20%"><b>Rewards rate</b></td>
-																	<td className="text-center text-wrap" width="40%"><b>Description</b></td>
-																
-															</tr>
-														);
-													} else{
-														return (
-										
-															<tr key={index} className="border-bottom">
-																
-																	<td className="mb-2 mt-2 me-0">
-																		<Image src={getCardImage(card)} alt="N/A" width="50" height="50" className="available-card-img" />
-																	</td>
-																	<td className="text-center text-wrap">{card.card_name}</td>
-																	<td className="text-center text-wrap">{formatCardCurrency(card.earnMultiplier ? card.earnMultiplier : card.baseSpendAmount, card.spendType ? card.spendType : card.baseSpendEarnCurrency)}</td>
-																	<td className="text-center text-wrap">{card.spendBonusDesc ? card.spendBonusDesc : card.signupBonusDesc ? card.signupBonusDesc : "No offer available on selected category"}</td>
-																
-															</tr>
-														);
-													}
-									
-								})}
+							<table key="availableOfferList" className="table-blue">
+								<tbody>
+									<tr key="header" className="border-bottom">
+										<td className="mb-2 mt-2 me-0" width="10%"></td>
+										<td className="text-center text-wrap table-blue" width="30%">
+											<b>Credit Card</b>
+										</td>
+										<td className="text-center text-wrap table-blue" width="20%">
+											<b>Rewards rate</b>
+										</td>
+										<td className="text-center text-wrap" width="40%">
+											<b>Description</b>
+										</td>
+									</tr>
+									{availableOffers.map((card, index) => {
+										return (
+											<tr key={index} className="border-bottom">
+												<td className="mb-2 mt-2 me-0">
+													<Image src={getCardImage(card)} alt="N/A" width="50" height="50" className="available-card-img" />
+												</td>
+												<td className="text-center text-wrap">{card.card_name}</td>
+												<td className="text-center text-wrap">{formatCardCurrency(card.earnMultiplier ? card.earnMultiplier : card.baseSpendAmount, card.spendType ? card.spendType : card.baseSpendEarnCurrency)}</td>
+												<td className="text-center text-wrap">{card.spendBonusDesc ? card.spendBonusDesc : card.signupBonusDesc ? card.signupBonusDesc : "No offer available on selected category"}</td>
+											</tr>
+										);
+									})}
+								</tbody>
 							</table>
 						)}
 					</div>
