@@ -45,7 +45,7 @@ const AvailableOffer = ({ availableOffers }) => {
 												</td>
 												<td className="text-center text-wrap">{card.card_name}</td>
 												<td className="text-center text-wrap">{formatCardCurrency(card.earnMultiplier ? card.earnMultiplier : card.baseSpendAmount, card.spendType ? card.spendType : card.baseSpendEarnCurrency)}</td>
-												<td className="text-center text-wrap">{card.spendBonusDesc ? card.spendBonusDesc : card.signupBonusDesc ? card.signupBonusDesc : "No offer available on selected category"}</td>
+												<td className="text-center text-wrap">{card.spendBonusDesc ? card.spendBonusDesc : card.signupBonusDesc ? card.signupBonusDesc : "-"}</td>
 											</tr>
 										);
 									})}

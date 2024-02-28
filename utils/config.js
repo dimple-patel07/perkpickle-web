@@ -41,10 +41,11 @@ export const getCardImage = (card) => {
 
 export const formatCardCurrency = (amount, currency) => {
 	let result = "-";
-	if (amount) {
+	if (amount && currency) {
+		currency = currency.toLowerCase();
 		if (currency === "miles" || currency === "points") {
 			result = `X ${amount} ${currency}`;
-		} else if (currency === "cashback") {
+		} else if (currency === "cashback" || currency === "cash") {
 			result = `${amount} %`;
 		} else {
 			result = `${amount} ${currency}`;
