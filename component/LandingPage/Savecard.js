@@ -146,10 +146,11 @@ const Savecard = ({ cardDataList, onSavedCards }) => {
 
 	const ValueContainer = ({ children, ...props }) => {
 		let [values, input] = children;
-		if (Array.isArray(values)) {
-			// const plural = values.length === 1 ? "" : "s";
-			values = searchIcon;
-		}
+		// if (Array.isArray(values)) {
+		// 	// const plural = values.length === 1 ? "" : "s";
+		// 	values = searchIcon;
+		// }
+		values = searchIcon;
 		const style = { cursor: "pointer" };
 		return (
 			<components.ValueContainer {...props}>
@@ -186,7 +187,7 @@ const Savecard = ({ cardDataList, onSavedCards }) => {
 									className="basic-multi-select search-icon"
 									classNamePrefix="select"
 									onChange={onAvailableCardSelection}
-									value={selAvailableCards?.length > 0 ? selAvailableCards : searchIcon}
+									value={selAvailableCards}
 									styles={multiSelectDropdownStyles} // hide close from selected value
 									isOptionDisabled={() => selAvailableCards.length >= selectionLimit}
 									components={{ ClearIndicator: () => null, ValueContainer }} // hide clear indicator
