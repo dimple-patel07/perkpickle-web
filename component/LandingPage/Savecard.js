@@ -186,7 +186,7 @@ const Savecard = ({ cardDataList, onSavedCards }) => {
 									className="basic-multi-select search-icon"
 									classNamePrefix="select"
 									onChange={onAvailableCardSelection}
-									value={selAvailableCards}
+									value={selAvailableCards?.length > 0 ? selAvailableCards : searchIcon}
 									styles={multiSelectDropdownStyles} // hide close from selected value
 									isOptionDisabled={() => selAvailableCards.length >= selectionLimit}
 									components={{ ClearIndicator: () => null, ValueContainer }} // hide clear indicator

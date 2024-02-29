@@ -12,8 +12,13 @@ const BestOffer = ({ bestOfferCards, allCards }) => {
 	const router = useRouter();
 	const displayLimit = 10;
 	useEffect(() => {
+		constructBestOfferCards(bestOfferCards);
+	}, [bestOfferCards]);
+
+	// construct best offer cards
+	const constructBestOfferCards = async (bestOfferCards) => {
 		let bestCards = [];
-		let notAvailableCards = [];
+		let newCards = [];
 		for (const offerCard of bestOfferCards) {
 			const foundCard = allCards.find((card) => card.card_key === offerCard.cardKey);
 			if (foundCard) {
@@ -22,35 +27,14 @@ const BestOffer = ({ bestOfferCards, allCards }) => {
 			} else {
 				// get & add - not found card from master table
 				bestCards.push(offerCard);
-				notAvailableCards.push(offerCard);
+				newCards.push(offerCard);
 			}
+		}
+		if (newCards?.length > 0) {
+			// add new cards which not found from active card list
+			postCall("addNewCards", newCards, dispatch, router);
 		}
 		setSuggestedCards(bestCards);
-		addCardDetail(notAvailableCards, bestCards);
-	}, [bestOfferCards]);
-	// add card detail
-	const addCardDetail = async (notAvailableCards, bestCards) => {
-		let newAddedCards = [];
-		for (const offerCard of notAvailableCards) {
-			const addedCard = await postCall("addCardDetail", { card_key: offerCard.cardKey }, dispatch, router);
-			if (addedCard && addedCard.card_key) {
-				allCards.push(addedCard);
-				newAddedCards.push(addedCard);
-			}
-			// append card-image
-			if (newAddedCards.length === notAvailableCards.length) {
-				let dataList = [];
-				for (const bestCard of bestCards) {
-					const foundCard = allCards.find((card) => card.card_key === bestCard.cardKey);
-					if (foundCard) {
-						dataList.push({ ...bestCard, ...foundCard });
-					} else {
-						dataList.push(bestCard);
-					}
-				}
-				setSuggestedCards(JSON.parse(JSON.stringify(dataList)));
-			}
-		}
 	};
 	// best offer list toggle - top 10/ show all
 	const handleListToggle = () => {
