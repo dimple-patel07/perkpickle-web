@@ -43,48 +43,88 @@ const Login = () => {
         </div>
 
       </section>
-      <h2>Travel Light</h2>
-      <p>
-      The world has advanced to a technological age; you no longer need to move around with all your credit cards. All you have to do is select the credit card with more rewards to offer and make your purchases.
-      </p>
-      <h2>Access Your Credit Cards Without Compromising Your Privacy</h2>
-      <p>
-      Maintaining the safety and privacy of our clients is our top priority here at PerkPickle. You do not need to give out any delicate information. 
-      </p>
-      <p>We will never ask you;</p>
-      <ul>
-        <li>To link your card via your bank or ask for any of your bank credentials. </li>
-        <li>CVV number </li>
-        <li>Card number (16 digits)</li>
-      </ul>
-<p>We use high-tech encryption to ensure that all imputed data maintains a high level of privacy. </p>
-<p>
+      <div className="text-contain">
+      <div className="row">
+        <div className="col-md-12 mt-5 text-center">
+        <span className="header-title" >Travel Light</span>
+        </div>
+      </div>
+      <div className="row justify-content-center">
+        <div className="col-md-10 mt-3">
+          <span className="normal-txt"> The world has advanced to a technological age; you no longer need to move around with all your credit cards. All you have to do is select the credit card with more rewards to offer and make your purchases.</span>
+        </div>
+      </div>
+      <div className="row">
+        <div className="col-md-12 mt-5 mb-4 text-center">
+        <span className="header-title" >Access Your Credit Cards Without Compromising Your Privacy</span>
+        </div>
+      </div>
+      <div className="row justify-content-center">
+        <div className="col-md-10 mt-3">
+            <div className="row">
+                  <div className="col-md-6">
+                  <Image src={images.homeImg} alt="Home" width="500" />
+                  </div>
+                  <div className="col-md-6">
+                  <p className="normal-txt">
+                    Maintaining the safety and privacy of our clients is our top priority here at PerkPickle. You do not need to give out any delicate information. 
+                    </p>
+                    <p className="normal-txt fs-4">We will never ask you;</p>
+                    <div className="w-100">
+                    <ul className="ul-txt ms-5">
+                    <li>To link your card via your bank or ask for any of your bank credentials. </li>
+                    <li>CVV number </li>
+                    <li>Card number (16 digits)</li>
+                  </ul>
+                    </div>
+                    <div className="w-100 mt-4">
+                    <p className="normal-txt">We use high-tech encryption to ensure that all imputed data maintains a high level of privacy. </p>
+<p className="normal-txt mt-4">
 At PerkPickle, we pride ourselves on maintaining your financial privacy. All your private bank information and credentials are solely for you. We will never ask for it. 
 </p>
-<h3>Our services</h3>
-<ul>
-  <li>
-  Organize your credit cards based on their rewards.
-We will help you organize your credit cards according to their available cash back, from the highest points to the lowest points.
-  </li>
-  <li>
-  Point out the cards with the highest rewards
-Take advantage of earning while spending. You no longer need to guess the card with the highest payback or the card with the best reward for a particular product or service. We will help you point out the right card for the right purpose.
-  </li>
-  <li>
-  Provide you with the best credit card options. 
-If there are other cards better than the ones you have, trust us to provide you with the best alternatives with higher rewards.
-  </li>
-</ul>
-<div>
-                    <button
-                      type="button"
-                      className="btn register"
-                      onClick={() => dispatch(handleOpenSignUpModal(true))}
-                    >
-                      Register With Us
-                    </button>
+                    </div>
                   </div>
+            </div>
+        </div>
+      </div>
+      <div className="row">
+        <div className="col-md-12 mt-5 mb-5 text-center">
+        <span className="header-title" >Our services</span>
+        </div>
+      </div>
+      <div className="row justify-content-center">
+        <div className="col-md-10 mt-3 list-type5">
+        <ol>
+          <li>
+          <a>Organize your credit cards based on their rewards.
+        We will help you organize your credit cards according to their available cash back, from the highest points to the lowest points.</a>
+          </li>
+          <li>
+          Point out the cards with the highest rewards
+        Take advantage of earning while spending. You no longer need to guess the card with the highest payback or the card with the best reward for a particular product or service. We will help you point out the right card for the right purpose.
+          </li>
+          <li>
+          Provide you with the best credit card options. 
+        If there are other cards better than the ones you have, trust us to provide you with the best alternatives with higher rewards.
+          </li>
+          
+        </ol>
+        </div>
+      </div>
+      
+      <div className="row text-center">
+        <div className="col-md-12 mt-4 mb-4">
+        <button
+                    type="button"
+                    className="btn btn-success"
+                    onClick={() => dispatch(handleOpenSignUpModal(true))}
+                  >
+                    Register With Us
+                  </button>
+        </div>
+      </div>      
+      
+      </div>
     </>
   );
 }

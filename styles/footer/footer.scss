@@ -45,7 +45,7 @@ footer {
         }
     }
     .footer-nav {
-        padding-bottom: 60px;
+        padding-bottom: 30px;
         .footer-menu {
             display: flex;
 
@@ -69,9 +69,11 @@ footer {
             }
         }
         .social-icons {
+           
             ul {
-                display: flex;
+                display: flex;                
                 gap: 15px;
+                margin-top: -20px;
                 li {
                     background: $white;
                     padding: 5px;
@@ -101,7 +103,9 @@ footer {
         }
     }
 }
-
+.copywrite{
+    color:#f4f8ff;
+}
 @media (max-width: 991px) {
     footer {
         .footer-logo {

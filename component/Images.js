@@ -18,6 +18,7 @@ export const images = {
 	LocationIcon: require("../assets/images/Location.png"),
 	SearchIcon: require("../assets/images/SearchIcon.svg"),
 	NoImageAvailable: require("../assets/images/NoImageAvailable.jpeg"),
+	homeImg:require("../assets/images/homeimg.jpg"),
 
 
 };
