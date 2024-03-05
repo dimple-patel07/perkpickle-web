@@ -1,4 +1,6 @@
 import BannerSection from "../../component/LandingPage/BannerSection";
+import BannerSection2 from "../../component/LandingPage/BannerSection2";
+import BannerSection3 from "../../component/LandingPage/BannerSection3";
 import Savecard from "../../component/LandingPage/Savecard";
 import ExploreOffer from "../../component/LandingPage/ExploreOffer";
 import BestOffer from "../../component/LandingPage/BestOffer";
@@ -11,6 +13,7 @@ import { handleStartLoading } from "../../redux/loader/loaderSlice";
 import withAuth from "../../utils/withAuth";
 import { useSelector } from "react-redux";
 import { emailStoreSelectore } from "../../redux/emailStore/emailStoreSlice";
+import Carousel from 'react-bootstrap/Carousel';
 
 const Home = () => {
 	const dispatch = useAppDispatch();
@@ -103,9 +106,33 @@ const Home = () => {
 	};
 	return (
 		<>
-			<BannerSection />
+			{/* <BannerSection /> */}
 			{/* <BannerBottom /> */}
 			{/* saved cards */}
+<Carousel interval={5000}>
+
+<Carousel.Item>
+   <BannerSection />
+	<Carousel.Caption>		
+	</Carousel.Caption>
+</Carousel.Item>
+
+<Carousel.Item>	
+<BannerSection2 />
+	<Carousel.Caption>
+
+	</Carousel.Caption>
+</Carousel.Item>
+
+<Carousel.Item>
+	<BannerSection3 />
+	<Carousel.Caption>
+		
+	</Carousel.Caption>
+</Carousel.Item>
+
+</Carousel>
+
 			{token && <Savecard cardDataList={cardDataList} onSavedCards={async (val) => await handleSavedCards(val)} />}
 
 			{token && savedCardList.length > 0 && spendBonusCategoryList?.length > 0 && (

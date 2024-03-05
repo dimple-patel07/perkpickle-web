@@ -12,8 +12,12 @@ const Footer = () => {
         <div className="row">
           <div className="col-12 col-sm-12 col-md-12 col-lg-6">
             <div className="footer-logo">
-              <Image src={images.FooterLogo} alt="logo"/>
-              <p>lorem ipsum dummy text lorem ipsum dummy lorem ipsum dummy</p>
+            <Link href="/">
+							<div className="logo">
+								<Image src={images.logo} alt="logo" />
+							</div>
+						</Link>
+              {/* <p>We have around 3800 different credit card databases, and you will find your credit card on our platform.</p> */}
             </div>
           </div>
           {/* <strong>Subscribe to Our NewsLetter</strong> for now commented */}
@@ -40,15 +44,18 @@ const Footer = () => {
         </div>
         <div className="footer-nav">
           <div className="row">
-            <div className="col-12 col-sm-12 col-md-12 col-lg-8">
+            <div className="col-12 col-sm-12 col-md-12 col-lg-11">
               <ul className="footer-menu">
                 <li><Link href={"/"}>Home</Link></li>
                 <li><Link href={"/about-us"}>About Us</Link></li>
                 <li><Link href={"/contact-us"}>Contact Us</Link></li>
+                <li><Link href={"/cookie-policy"}>Cookie Policy</Link></li>
                 <li><Link href={"/privacy-policy"}>Privacy Policy</Link></li>
+                <li><Link href={"/terms-and-condition"}>Terms & Conditions</Link></li>
+
               </ul>
             </div>
-            <div className="col-12 col-sm-12 col-md-12 col-lg-4">
+            <div className="col-12 col-sm-12 col-md-12 col-lg-1">
               <div className="social-icons">
                 <ul>
                   <li>

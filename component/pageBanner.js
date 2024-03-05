@@ -12,9 +12,7 @@ const PageBanner = ({ title }) => {
               <div className="banner-text">
                 <h1>{title}</h1>
                 <p>
-                  lorem ipsum getiing dummy data lorem ipsum getiing dummy
-                  datalorem ipsum getiing dummy datalorem ipsum getiing dummy
-                  datalorem
+                PerkPickle provides cutting-edge solutions to individuals looking to maximize their earnings while spending. Each credit card comes with its reward, and we aim to ensure that you earn as many points as possible.
                 </p>
               </div>
             </div>
