@@ -1,9 +1,21 @@
 import React from "react";
-import BannerSection from "../../component/LandingPage/BannerSection";
 import PageBanner from "../../component/pageBanner";
 import commonRoute from "../../utils/commonRoute";
-
+import { useSelector } from "react-redux";
+import { emailStoreSelectore } from "../../redux/emailStore/emailStoreSlice";
+import { handleOpenSignUpModal } from "../../redux/modal/modalSlice";
+import { useAppDispatch } from "../../redux/store";
 const AboutUs = () => {
+	const token = useSelector(emailStoreSelectore).token;
+	const dispatch = useAppDispatch();
+	// open signup modal & scroll up
+	const openSignup = () => {
+		const headerTag = document.getElementsByTagName("header");
+		setTimeout(() => {
+			window.scrollTo({ top: headerTag[0].offsetTop, left: headerTag[0].offsetTop, behavior: "smooth" });
+		}, 10);
+		dispatch(handleOpenSignUpModal(true));
+	};
 	return (
 		<>
 			<PageBanner title={"About Us"} />
@@ -22,9 +34,15 @@ const AboutUs = () => {
 
 						<p>How we operate is quite easy. All you need to do is log into your account with us and choose the spending category you are going for. We will then show you all your cards organized according to their available points, ranging from the highest to the lowest points. This will enable you to pick the right one and save you from the stress of searching through a series of cards and wasting your time.</p>
 						<p>Register with us now to access an organized arrangement of your credit cards.</p>
-						<span>
-							Click here to <a>sign up.</a>
-						</span>
+						{/* signup link - should not be logged in */}
+						{!token && (
+							<span>
+								Click here to
+								<a className="anchor-with-underline" onClick={() => openSignup()}>
+									sign up.
+								</a>
+							</span>
+						)}
 						<p>
 							Kindly <a> log in</a> if you already have an account with us.
 						</p>
