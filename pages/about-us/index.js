@@ -37,9 +37,9 @@ const AboutUs = () => {
 						{/* signup link - should not be logged in */}
 						{!token && (
 							<span>
-								Click here to &nbsp;
+								Click here to 
 								<a className="anchor-with-underline" onClick={() => openSignup()}>
-									 sign up.
+                &nbsp;sign up.
 								</a>
 							</span>
 						)}
