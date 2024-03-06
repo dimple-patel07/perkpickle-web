@@ -117,7 +117,13 @@
             }
         }
     }
+    .mb-40
+    {    margin-bottom: 40px;
+    }
 }
+
+
+// Comman CSS
 .text-contain{
     width: 99%;
 }
@@ -128,9 +134,16 @@
     line-height: 1.1em;
     text-align: center;
 }
+.header-title-1
+{
+line-height: 4opx;
+font-size: 40px;
+color: #1d4289;
+font-weight: 700;
+}
 .normal-txt{
     color: #2E2E2E;
-    font-size: 18px;
+    font-size: 20px;
     font-weight: normal;
     line-height: 26px;    
 }
@@ -138,7 +151,8 @@
     list-style-type: square;
     list-style-position: outside;
     list-style-image: none;
-    padding-left: 10px;
+    // padding-left: 10px;
+    margin-bottom: 10px;
 }
 .list-type5{
     width:80%;
@@ -158,12 +172,13 @@
     padding: 0.5em;
     background-color:#cae8d3 ;// #F0D756;
     padding-left: 58px;
+    border-radius: 8px;
     }
     
     .list-type5 a{
     text-decoration:none;
     color:black;
-    font-size:15px;
+    font-size:20px;
     font-family: 'Raleway', sans-serif;
     }
     
@@ -193,3 +208,20 @@
     content: counter(li-counter);
     counter-increment: li-counter;
     }
+
+    .resize-15{
+        width: 15px;
+        height: 15px;
+    }
+
+    .al-center{
+        align-items: center;
+      }
+      .section-home{
+        background-color: #fff;
+      }
+      .list-group-item
+      {
+        font-size: 20px;
+
+      }
