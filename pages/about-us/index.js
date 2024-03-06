@@ -4,56 +4,35 @@ import PageBanner from "../../component/pageBanner";
 import commonRoute from "../../utils/commonRoute";
 
 const AboutUs = () => {
-  return (
-    <>
-      <PageBanner title={"About Us"} />
-      <section className="contact-us-section">
-        <div className="container">
-          <div className="row align-items-center justify-content-center gx-5">
-            <h3>Who we are</h3>
-       <p>   PerkPickle is a fintech company dedicated to revolutionizing the financial landscape. We are a product of passion, hard work, and commitment. PerkPickle is made up of a team of experts working tirelessly to ensure that our clients gain access to the different available opportunities to maximize their earnings while making expenses. 
-</p>
-<h3>Meet our CEO</h3>
-<p>
-(Add a photo of the CEO)
-Mr Krunal Patel, CEO of Perkpickle
-</p>
-<p>
-Krunal Patel is an experienced software developer. He has previously handled several tech-related projects, but his dream has always been to own his own fintech company. 
-Aside from being a software developer for seven years and still counting, Krunal has great experience in the financial industry.
-The foundation of Perkpickle was built based on passion, experience, determination, and commitment to have positive financial impacts on the lives of others through technology. 
+	return (
+		<>
+			<PageBanner title={"About Us"} />
+			<section className="contact-us-section">
+				<div className="container">
+					<div className="row align-items-center justify-content-center gx-5">
+						<h3>Who we are</h3>
+						<p> PerkPickle is a fintech company dedicated to revolutionizing the financial landscape. We are a product of passion, hard work, and commitment. PerkPickle is made up of a team of experts working tirelessly to ensure that our clients gain access to the different available opportunities to maximize their earnings while making expenses. </p>
+						<h3>Meet our CEO</h3>
+						<p>(Add a photo of the CEO) Mr Krunal Patel, CEO of Perkpickle</p>
+						<p>Krunal Patel is an experienced software developer. He has previously handled several tech-related projects, but his dream has always been to own his own fintech company.  Aside from being a software developer for seven years and still counting, Krunal has great experience in the financial industry. The foundation of Perkpickle was built based on passion, experience, determination, and commitment to have positive financial impacts on the lives of others through technology. </p>
+						<h3>What we do</h3>
+						<p>Keeping track of all points in your different cards can be overwhelming, and sometimes, you may even end up mixing them up. This is where we come in.</p>
 
-</p>
-<h3>
-What we do</h3>
-<p>
-Keeping track of all points in your different cards can be overwhelming, and sometimes, you may even end up mixing them up. This is where we come in.
-</p>
+						<p>PerkPickle will help you keep track of all your available points and also help you earn more points.</p>
 
-<p>PerkPickle will help you keep track of all your available points and also help you earn more points.</p>
-
-<p>
-How we operate is quite easy. All you need to do is log into your account with us and choose the spending category you are going for. We will then show you all your cards organized according to their available points, ranging from the highest to the lowest points. This will enable you to pick the right one and save you from the stress of searching through a series of cards and wasting your time.
-
-</p>
-<p>
-Register with us now to access an organized arrangement of your credit cards.
-
-</p>
-<span>
-Click here to <a>sign up.</a>
-
-</span>
-<p>
-Kindly <a> log in</a> if you already have an account with us.
-
-</p>
-
-         </div>
-        </div>
-      </section>
-    </>
-  );
+						<p>How we operate is quite easy. All you need to do is log into your account with us and choose the spending category you are going for. We will then show you all your cards organized according to their available points, ranging from the highest to the lowest points. This will enable you to pick the right one and save you from the stress of searching through a series of cards and wasting your time.</p>
+						<p>Register with us now to access an organized arrangement of your credit cards.</p>
+						<span>
+							Click here to <a>sign up.</a>
+						</span>
+						<p>
+							Kindly <a> log in</a> if you already have an account with us.
+						</p>
+					</div>
+				</div>
+			</section>
+		</>
+	);
 };
 
 export default commonRoute(AboutUs);
