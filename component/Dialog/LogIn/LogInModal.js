@@ -85,9 +85,10 @@ const LoginModal = () => {
 				<div className="row align-items-center">
 					<div className="col-12 col-sm-12 col-md-6 col-lg-5">
 						<div className="login-left">
-							<h2>LOGIN</h2>
+							<h2>Login</h2>
 							<p>
-								JOIN WITH US TO UNLOCK <br /> MORE OFFERS
+							    Join us to save more on <br />  your spending
+								{/* JOIN WITH US TO UNLOCK <br /> MORE OFFERS */}
 							</p>
 							<Image src={images.ModalBannerImg} className="img-fluid" alt="banner-img" />
 						</div>
@@ -131,7 +132,7 @@ const LoginModal = () => {
 								</div>
 								<div className="col-12">
 									<button type="submit" className="cls-btn btn">
-										LOGIN
+									Login
 									</button>
 								</div>
 								<div className="account">

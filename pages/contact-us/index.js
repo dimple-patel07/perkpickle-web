@@ -86,7 +86,7 @@ const ContactUs = () => {
 						<div className="col-12 col-sm-12 col-md-6 col-lg-5">
 							<div className="contact-text">
 								<h4>How Can We Help You?</h4>
-								<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut et massa mi. Aliquam in hendrerit urna. Pellentesque sit amet </p>
+								<p>Please fill up the form with all the details and our support team will reach out to you as soon as possible.</p>
 
 								<div className="contact-text-box">
 									<div className="contact-text-inn">

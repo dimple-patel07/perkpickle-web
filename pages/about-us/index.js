@@ -39,12 +39,12 @@ const AboutUs = () => {
 							<span>
 								Click here to 
 								<a className="anchor-with-underline" onClick={() => openSignup()}>
-                &nbsp;sign up.
+                &nbsp;Sign Up.
 								</a>
 							</span>
 						)}
 						<p>
-							Kindly <a> log in</a> if you already have an account with us.
+							Kindly <a> Login</a> if you already have an account with us.
 						</p>
 					</div>
 				</div>
