@@ -11,7 +11,7 @@ const BannerSection = () => {
 						<div className="row align-items-center">
 							<div className="col-12 col-sm-12 col-md-12 col-lg-6 order-1 order-sm-1 order-md-1 order-lg-0">
 								<div className="banner-text">
-									<h3>TRANSPARENCY AT IT'S PEAK</h3>
+									<h3>Transparency at it's peak</h3>
 									<p>Our core strength lies in maintaining a trusted relationship between our clients and us. We will never ask for any of your private financial credentials. </p>
 					
 									<p>We are;</p>
