@@ -5,7 +5,7 @@ import commonRoute from "../../utils/commonRoute";
 const PrivacyPolicy = () => {
   return (
     <>
-      <PageBanner title={"Cookie Policy"} description={"Learn more about how we use cookies to enhance your browsing experience by reviewing our Cookie Policy.Please take a moment to read our Cookie Policy to understand how we utilize cookies to improve site functionality and provide you with a more personalized online experience."} />
+      <PageBanner title={"Cookie Policy"} description={"Learn more about how we use cookies to enhance your browsing experience by reviewing our Cookie Policy. Please take a moment to read our Cookie Policy to understand how we utilize cookies to improve site functionality and provide you with a more personalized online experience."} />
       <section className="contact-us-section">
         <div className="container showbullets">
           <div className="row align-items-center justify-content-center gx-5">
