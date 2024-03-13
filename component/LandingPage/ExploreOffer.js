@@ -53,25 +53,24 @@ const ExploreOffer = ({ spendBonusCategoryList, savedCardList, onAvailableOffers
 				}
 			}
 		}
-		// sorting on descending to order to show highest discount on top in the list
-		foundCards = foundCards.sort((a, b) => (a.earnMultiplier < b.earnMultiplier ? 1 : -1));
-
+		for (const card of foundCards) {
+			card.offerAmount = card.earnMultiplier ? card.earnMultiplier : 0;
+		}
 		// club result - saved & category associated cards
 		if (savedCardList.length > 0 && foundCards.length !== savedCardList.length) {
 			const foundCardKeys = foundCards.map((fcard) => fcard.card_key);
 
 			let filterSavedCards = savedCardList.filter((scard) => !foundCardKeys.includes(scard.card_key));
-
-			// sorting on descending to order to show highest discount on top in the list
-			filterSavedCards = filterSavedCards.sort((a, b) => (a.baseSpendAmount < b.baseSpendAmount ? 1 : -1));
-
 			let result = [];
 			for (const card of filterSavedCards) {
 				// saved
+				card.offerAmount = card.card_detail.baseSpendAmount ? card.card_detail.baseSpendAmount : 0;
 				result.push({ ...card, ...card.card_detail });
 			}
 			foundCards = [...foundCards, ...result];
 		}
+		// sorting on descending to order to show highest discount on top in the list
+		foundCards = foundCards.sort((a, b) => (a.offerAmount < b.offerAmount ? 1 : -1)); // sort club list (offer + default cards)
 		notFoundCards = notFoundCards.sort((a, b) => (a.earnMultiplier < b.earnMultiplier ? 1 : -1));
 		onOffersChecked(true);
 		onAvailableOffers(foundCards);
@@ -107,7 +106,6 @@ const ExploreOffer = ({ spendBonusCategoryList, savedCardList, onAvailableOffers
 					<p className="subtitle">
 						{/* Select your cards to unlock more offers for different categories */}
 						Select spending category to see the <br /> maximum rewards you can earn
-
 					</p>
 				</div>
 				{/* Offer Input Start */}

@@ -14,8 +14,6 @@ const withAuth = (WrappedComponent, requireAuth = true) => {
 		useEffect(() => {
 			if (requireAuth && token && typeof window !== "undefined") {
 				window.addEventListener("visibilitychange", () => {
-					console.log(document.hidden ? "Out" : "In");
-
 					if (document.hidden) {
 						setCookie("loggedTime", Date.now()); // set time to check idle time
 					} else {

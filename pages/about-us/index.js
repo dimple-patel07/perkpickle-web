@@ -3,22 +3,26 @@ import PageBanner from "../../component/pageBanner";
 import commonRoute from "../../utils/commonRoute";
 import { useSelector } from "react-redux";
 import { emailStoreSelectore } from "../../redux/emailStore/emailStoreSlice";
-import { handleOpenSignUpModal } from "../../redux/modal/modalSlice";
+import { handleOpenLoginModal, handleOpenSignUpModal } from "../../redux/modal/modalSlice";
 import { useAppDispatch } from "../../redux/store";
 const AboutUs = () => {
 	const token = useSelector(emailStoreSelectore).token;
 	const dispatch = useAppDispatch();
 	// open signup modal & scroll up
-	const openSignup = () => {
+	const openSigninOrSignup = (flag) => {
 		const headerTag = document.getElementsByTagName("header");
 		setTimeout(() => {
 			window.scrollTo({ top: headerTag[0].offsetTop, left: headerTag[0].offsetTop, behavior: "smooth" });
 		}, 10);
-		dispatch(handleOpenSignUpModal(true));
+		if (flag === "login") {
+			dispatch(handleOpenLoginModal(true));
+		} else {
+			// signup
+			dispatch(handleOpenSignUpModal(true));
+		}
 	};
 	return (
 		<>
-		
 			<PageBanner title={"About Us"} description={"PerkPickle provides cutting-edge solutions to individuals looking to maximize their earnings while spending. Each credit card comes with its reward, and we aim to ensure that you earn as many points as possible."} />
 			<section className="contact-us-section">
 				<div className="container">
@@ -37,16 +41,23 @@ const AboutUs = () => {
 						<p>Register with us now to access an organized arrangement of your credit cards.</p>
 						{/* signup link - should not be logged in */}
 						{!token && (
-							<span>
-								Click here to 
-								<a className="anchor-with-underline" onClick={() => openSignup()}>
-                &nbsp;Sign Up.
-								</a>
-							</span>
+							<>
+								<span>
+									Click here to
+									<a className="anchor-with-underline" onClick={() => openSigninOrSignup("signup")}>
+										&nbsp;Sign Up.
+									</a>
+								</span>
+
+								<p>
+									Kindly
+									<a className="anchor-with-underline" onClick={() => openSigninOrSignup("login")}>
+										&nbsp;Login&nbsp;
+									</a>
+									if you already have an account with us.
+								</p>
+							</>
 						)}
-						<p>
-							Kindly <a> Login</a> if you already have an account with us.
-						</p>
 					</div>
 				</div>
 			</section>
