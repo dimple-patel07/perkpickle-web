@@ -38,17 +38,23 @@ const Footer = () => {
         <div className="col-md-4">
               <div className="social-icons">
                 <ul>
-                  <li>
+                  {/* <li>
                     <TfiFacebook />
-                  </li>
+                  </li> */}
                   <li>
+                    <a target="_blank" href="https://www.instagram.com/theperkpickle?igsh=NXA5MW55MHAyOXJk&utm_source=qr">
                     <FaInstagram />
+                     </a>
                   </li>
                   <li>
-                    <TfiLinkedin />
+                  <a target="_blank" href="https://www.linkedin.com/in/perkpickle-inc-85a94b2b9">
+                  <TfiLinkedin />
+                     </a>
                   </li>
                   <li>
-                    <FaTwitter />
+                  <a target="_blank" href="https://twitter.com/theperkpickle">
+                  <FaTwitter />
+                     </a>          
                   </li>
                 </ul>
               </div>

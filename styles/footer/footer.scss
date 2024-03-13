@@ -48,6 +48,7 @@ footer {
         padding-bottom: 30px;
         .footer-menu {
             display: flex;
+            justify-content: center;
             flex-direction: row;
             flex-wrap: wrap;
 
@@ -76,6 +77,7 @@ footer {
                 display: flex;                
                 gap: 15px;
                 margin-top: -20px;
+                justify-content: center;
                 li {
                     background: $white;
                     padding: 5px;
@@ -104,10 +106,12 @@ footer {
             font-weight: 400;
         }
     }
+    .copywrite{
+        color:#f4f8ff;
+        text-align: center;
+    }
 }
-.copywrite{
-    color:#f4f8ff;
-}
+
 @media (max-width: 991px) {
     footer {
         .footer-logo {
@@ -145,10 +149,7 @@ footer {
             }
         }
     }
-    .copywrite{
-        color:#f4f8ff;
-        text-align: center;
-    }
+  
 
 }
 
@@ -161,10 +162,7 @@ footer {
             }
         }
     }
-    .copywrite{
-        color:#f4f8ff;
-        text-align: center;
-    }
+  
 }
 
 @media (max-width: 575px) {
@@ -211,8 +209,5 @@ footer {
             min-width: 250px;
         }
     }
-    .copywrite{
-        color:#f4f8ff;
-        text-align: center;
-    }
+   
 }
