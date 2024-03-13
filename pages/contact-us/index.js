@@ -77,7 +77,7 @@ const ContactUs = () => {
 	return (
 		<>
 			{/* Banner Section  */}
-			<PageBanner title={"Contact Us"} />
+			<PageBanner title={"Contact Us"} description={"We're Here to Help Feel free to contact us for any inquiries, feedback, or assistance you may need. We welcome your questions and comments. Please connect with our support team and let us assist you promptly."}/>
 
 			{/* Contact Form Start */}
 			<section className="contact-us-section">

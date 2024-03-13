@@ -19,7 +19,7 @@ const AboutUs = () => {
 	return (
 		<>
 		
-			<PageBanner title={"About Us"} />
+			<PageBanner title={"About Us"} description={"PerkPickle provides cutting-edge solutions to individuals looking to maximize their earnings while spending. Each credit card comes with its reward, and we aim to ensure that you earn as many points as possible."} />
 			<section className="contact-us-section">
 				<div className="container">
 					<div className="row align-items-center justify-content-center gx-5">

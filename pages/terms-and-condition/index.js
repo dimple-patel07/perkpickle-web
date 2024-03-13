@@ -5,7 +5,7 @@ import commonRoute from "../../utils/commonRoute";
 const PrivacyPolicy = () => {
   return (
     <>
-      <PageBanner title={"Terms & Conditions"} />
+      <PageBanner title={"Terms & Conditions"} description={"Before proceeding, we recommend reviewing our Terms & Conditions to understand the rules and guidelines governing your use of our services."} />
       <section className="contact-us-section">
         <div className="container showbullets">
           <div className="row align-items-center justify-content-center gx-5">

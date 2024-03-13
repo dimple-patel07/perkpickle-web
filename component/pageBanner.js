@@ -2,7 +2,7 @@ import Image from "next/image";
 import React from "react";
 import { images } from "./Images";
 
-const PageBanner = ({ title }) => {
+const PageBanner = ({ title, description }) => {
   return (
     <section className="banner-section">
       <div className="container">
@@ -12,7 +12,8 @@ const PageBanner = ({ title }) => {
               <div className="banner-text">
                 <h1>{title}</h1>
                 <p>
-                PerkPickle provides cutting-edge solutions to individuals looking to maximize their earnings while spending. Each credit card comes with its reward, and we aim to ensure that you earn as many points as possible.
+                {/* PerkPickle provides cutting-edge solutions to individuals looking to maximize their earnings while spending. Each credit card comes with its reward, and we aim to ensure that you earn as many points as possible. */}
+                {description}
                 </p>
               </div>
             </div>

@@ -5,7 +5,7 @@ import commonRoute from "../../utils/commonRoute";
 const PrivacyPolicy = () => {
   return (
     <>
-      <PageBanner title={"Privacy Policy"} />
+      <PageBanner title={"Privacy Policy"} description={"Please take a moment to review our Privacy Policy to understand how we handle and protect your personal information.By using our services, you acknowledge that you have read and agree to the terms outlined in our Privacy Policy."} />
       <section className="contact-us-section">
         <div className="container showbullets">
           <div className="row align-items-center justify-content-center gx-5">
