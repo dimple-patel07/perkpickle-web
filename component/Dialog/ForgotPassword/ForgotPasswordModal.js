@@ -74,7 +74,7 @@ const ForgotPasswordModal = () => {
 					<div className="row align-items-center">
 						<div className="col-12 col-sm-12 col-md-5 col-lg-5 height">
 							<div className="login-left">
-								<h2>Forgot Password</h2>
+								<h2>Forgot Password?</h2>
 								<p>
 									Enter your registered email <br /> to get OTP
 								</p>

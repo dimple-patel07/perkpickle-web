@@ -139,7 +139,7 @@ const ChangePasswordOtpModal = () => {
 											onBlur={handleBlur}
 											touched={touched?.currentPassword}
 											errors={errors?.currentPassword}
-											placeholder={"Change Password*"}
+											placeholder={"Current Password*"}
 											type={currentPasswordToggle ? "text" : "password"}
 											name="currentPassword"
 											inputClassName="placeholder-no-fix input-password text-box single-line password"
