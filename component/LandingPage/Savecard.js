@@ -168,7 +168,7 @@ const Savecard = ({ cardDataList, onSavedCards }) => {
 						<h3 className="title">{selSavedCards.length > 0 ? "Your Saved Cards" : "Add Your Cards"}</h3>
 						<p className="subtitle">
 							{/* Manage more cards so we can find  best offers for you */}
-							Add all your cards to get the maximum  <br /> rewards for your purchase”
+							Add all your cards to get the maximum  <br /> rewards for your purchase
 						</p>
 					</div>
 					<div className="savecard-inn">
