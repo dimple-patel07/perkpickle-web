@@ -62,7 +62,7 @@ const Footer = () => {
         </div> 
         <div className="row footer-nav justify-content-md-center">
         <div className="col-md-4 copywrite">
-                Copyright © 2024 by perkpickle
+                Copyright © 2024 by Perkpickle
         </div>
       </div>      
       </div>
