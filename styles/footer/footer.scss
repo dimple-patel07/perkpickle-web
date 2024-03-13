@@ -48,6 +48,8 @@ footer {
         padding-bottom: 30px;
         .footer-menu {
             display: flex;
+            flex-direction: row;
+            flex-wrap: wrap;
 
             li {
                 font-size: 25px;
@@ -143,6 +145,11 @@ footer {
             }
         }
     }
+    .copywrite{
+        color:#f4f8ff;
+        text-align: center;
+    }
+
 }
 
 @media (max-width:768px){
@@ -153,6 +160,10 @@ footer {
                 font-size: 19px;
             }
         }
+    }
+    .copywrite{
+        color:#f4f8ff;
+        text-align: center;
     }
 }
 
@@ -182,10 +193,26 @@ footer {
                 }
             }
         }
+
+       
+
         .bottom-footer{
             p{
                 font-size: 17px;
             }
         }
+        .w-150
+        {
+            min-width: 200px;
+            
+        }
+        .w-180
+        {
+            min-width: 250px;
+        }
+    }
+    .copywrite{
+        color:#f4f8ff;
+        text-align: center;
     }
 }

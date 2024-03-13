@@ -24,12 +24,12 @@ const Footer = () => {
         <div className="row">
           <div className="col-md-12 footer-nav">
           <ul className="footer-menu">
-                <li><Link href={"/"}>Home</Link></li>
-                <li><Link href={"/about-us"}>About Us</Link></li>
-                <li><Link href={"/contact-us"}>Contact Us</Link></li>
-                <li><Link href={"/cookie-policy"}>Cookie Policy</Link></li>
-                <li><Link href={"/privacy-policy"}>Privacy Policy</Link></li>
-                <li><Link href={"/terms-and-condition"}>Terms & Conditions</Link></li>
+                <li ><Link href={"/"}>Home</Link></li>
+                <li ><Link href={"/about-us"}>About Us</Link></li>
+                <li ><Link href={"/contact-us"}>Contact Us</Link></li>
+                <li ><Link href={"/cookie-policy"}>Cookie Policy</Link></li>
+                <li ><Link href={"/privacy-policy"}>Privacy Policy</Link></li>
+                <li ><Link href={"/terms-and-condition"}>Terms & Conditions</Link></li>
 
               </ul>
           </div>
