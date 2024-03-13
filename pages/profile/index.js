@@ -121,7 +121,7 @@ const Profile = () => {
 									<h1>
 										Edit Your <br /> Profile Details
 									</h1>
-									<p>lorem ipsum getiing dummy data lorem ipsum getiing dummy datalorem ipsum getiing dummy datalorem ipsum getiing dummy datalorem</p>
+									<p>Update your profile to tailor your experience, manage your information for a seamless and customized user journey.</p>
 								</div>
 							</div>
 							<div className="col-12 col-sm-12 col-md-12 col-lg-6">

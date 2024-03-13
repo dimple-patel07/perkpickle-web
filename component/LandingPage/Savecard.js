@@ -167,15 +167,16 @@ const Savecard = ({ cardDataList, onSavedCards }) => {
 					<div className="text-center">
 						<h3 className="title">{selSavedCards.length > 0 ? "Your Saved Cards" : "Add Your Cards"}</h3>
 						<p className="subtitle">
-							Manage more cards so we can find <br /> best offers for you
+							{/* Manage more cards so we can find  best offers for you */}
+							Add all your cards to get the maximum  <br /> rewards for your purchase”
 						</p>
 					</div>
 					<div className="savecard-inn">
 						{selSavedCards.length > 0 && (
 							<div className="row">
-								<p>
+								{/* <p>
 									saved card{selSavedCards.length === 1 ? "" : "s"} {selSavedCards.length}
-								</p>
+								</p> */}
 							</div>
 						)}
 						<div className="row">
@@ -197,7 +198,7 @@ const Savecard = ({ cardDataList, onSavedCards }) => {
 							</div>
 						</div>
 						{/* Save Card Show */}
-						<p className="save-card-note">Maximum 10 Cards should be save </p>
+						<p className="save-card-note">Save up to 10 cards</p>
 						<div className="save-card-show">
 							{selSavedCards.length > 0 ? (
 								<>

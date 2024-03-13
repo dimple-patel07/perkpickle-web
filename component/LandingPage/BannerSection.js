@@ -11,7 +11,7 @@ const BannerSection = () => {
 						<div className="row align-items-center">
 							<div className="col-12 col-sm-12 col-md-12 col-lg-6 order-1 order-sm-1 order-md-1 order-lg-0">
 								<div className="banner-text">
-									<h3>EARN AS YOU SPEND!</h3>
+									<h3>Earn as you spend!</h3>
 									<p>Our aim is to ensure that you earn as many points as possible. Get ready to turn your spending into a fun and rewarding experience!</p>
 									
 								</div>

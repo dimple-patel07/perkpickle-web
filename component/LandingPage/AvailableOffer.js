@@ -7,10 +7,11 @@ const AvailableOffer = ({ availableOffers }) => {
 			<div className="container">
 				<div id="savedCardOfferTitle" className="text-center">
 					<h3 className="title">Saved Card Offers</h3>
-					<p className="subtitle">
+					{/* <p className="subtitle">
 						Select your offer <br /> for different categories
-					</p>
+					</p> */}
 				</div>
+				<br/>
 				<div className="available-inn">
 					{/* <div className="heading">
 						<div className="row mb-3 pb-2 border-bottom">

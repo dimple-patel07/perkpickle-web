@@ -105,7 +105,9 @@ const ExploreOffer = ({ spendBonusCategoryList, savedCardList, onAvailableOffers
 				<div className="text-center">
 					<h3 className="title">Explore Offers</h3>
 					<p className="subtitle">
-						Select your cards to unlock more offers <br /> for different categories
+						{/* Select your cards to unlock more offers for different categories */}
+						Select spending category to see the <br /> maximum rewards you can earn
+
 					</p>
 				</div>
 				{/* Offer Input Start */}
