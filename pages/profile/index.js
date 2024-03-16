@@ -2,7 +2,7 @@ import React, { useEffect, useRef, useState } from "react";
 import InputMask from "react-input-mask";
 import { images } from "../../component/Images";
 import Image from "next/image";
-import { getLoggedEmail, defaultMessageObj } from "../../utils/config";
+import { getLoggedEmail, defaultMessageObj, setLocalStorage } from "../../utils/config";
 import { useAppDispatch } from "../../redux/store";
 import { handleStartLoading, showMessage } from "../../redux/loader/loaderSlice";
 import { useFormik } from "formik";
@@ -11,7 +11,6 @@ import TextInput from "../../component/TextInput";
 import { FloatingLabel, Form } from "react-bootstrap";
 import { postCall } from "../../services/apiCall";
 import { useRouter } from "next/router";
-import { setCookie } from "cookies-next";
 import { handleStoreUserName } from "../../redux/emailStore/emailStoreSlice";
 import withAuth from "../../utils/withAuth";
 
@@ -79,7 +78,7 @@ const Profile = () => {
 				if (response?.email) {
 					getUserByEmail();
 					dispatch(handleStoreUserName(userName));
-					setCookie("userName", userName);
+					setLocalStorage("userName", userName);
 					dispatch(
 						showMessage({
 							...defaultMessageObj,

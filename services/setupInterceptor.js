@@ -1,7 +1,8 @@
-import { getCookie } from "cookies-next";
+import { getLocalStorage } from "../utils/config";
+
 // NOT IN USED
 const onRequest = (config) => {
-	const token = getCookie("authorizationToken");
+	const token = getLocalStorage("authorizationToken");
 	if (config.headers && token) {
 		config.headers.Authorization = token;
 	}

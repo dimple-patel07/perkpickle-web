@@ -4,7 +4,7 @@ import { store, useAppDispatch } from "../redux/store";
 import Header from "../component/header";
 import Footer from "../component/footer";
 import { tokenExpired } from "../services/token";
-import { getCookie, setCookie } from "cookies-next";
+import { getLocalStorage, setLocalStorage } from "./config";
 
 const withAuth = (WrappedComponent, requireAuth = true) => {
 	const AuthComponent = (props) => {
@@ -15,18 +15,18 @@ const withAuth = (WrappedComponent, requireAuth = true) => {
 			if (requireAuth && token && typeof window !== "undefined") {
 				window.addEventListener("visibilitychange", () => {
 					if (document.hidden) {
-						setCookie("loggedTime", Date.now()); // set time to check idle time
+						setLocalStorage("loggedTime", Date.now()); // set time to check idle time
 					} else {
 						let minutes = 0;
 						const IDLE_SESSION_TIME = 15; // MINUTES
-						if (getCookie("loggedTime")) {
-							const diff = Date.now() - getCookie("loggedTime");
+						if (getLocalStorage("loggedTime")) {
+							const diff = Date.now() - getLocalStorage("loggedTime");
 							minutes = Math.floor(diff / 1000 / 60) % 60;
 
 							if (minutes > IDLE_SESSION_TIME) {
 								tokenExpired(dispatch, router);
 							} else {
-								setCookie("loggedTime", Date.now()); // set time to check idle time
+								setLocalStorage("loggedTime", Date.now()); // set time to check idle time
 							}
 						}
 					}

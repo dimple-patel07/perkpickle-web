@@ -1,8 +1,7 @@
-import { deleteCookie } from "cookies-next";
 import { handleStoreToken } from "../redux/emailStore/emailStoreSlice";
 import { handleStopLoading, showMessage } from "../redux/loader/loaderSlice";
 import { handleCloseAllModal } from "../redux/modal/modalSlice";
-import { defaultMessageObj } from "../utils/config";
+import { clearLocalStorage, defaultMessageObj } from "../utils/config";
 
 export const getLocalRefreshToken = () => {
 	const userData = localStorage.getItem("user");
@@ -43,10 +42,7 @@ export const removeUser = () => {
 };
 
 export const tokenExpired = (dispatch, router) => {
-	deleteCookie("authorizationToken");
-	deleteCookie("userName");
-	deleteCookie("loggedEmail");
-	deleteCookie("loggedTime");
+	clearLocalStorage();
 	dispatch(handleCloseAllModal());
 	dispatch(handleStopLoading());
 	dispatch(

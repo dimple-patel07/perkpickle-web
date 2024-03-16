@@ -6,19 +6,19 @@ import Nav from "react-bootstrap/Nav";
 import Navbar from "react-bootstrap/Navbar";
 import NavDropdown from "react-bootstrap/NavDropdown";
 import Link from "next/link";
-import Dropdown from "react-bootstrap/Dropdown";
-import { RxHamburgerMenu } from "react-icons/rx";
+// import Dropdown from "react-bootstrap/Dropdown";
+// import { RxHamburgerMenu } from "react-icons/rx";
 import { IoMdLogIn } from "react-icons/io";
 import { FaRegUserCircle, FaUserAlt } from "react-icons/fa";
 import { useAppDispatch } from "../redux/store";
 import { handleOpenChangePasswordModal, handleOpenLoginModal, handleOpenResetPasswordModal, handleOpenSignUpModal } from "../redux/modal/modalSlice";
-import { deleteCookie, getCookie } from "cookies-next";
 import { useRouter } from "next/router";
 import { useSelector } from "react-redux";
 import { emailStoreSelectore, handleStoreToken } from "../redux/emailStore/emailStoreSlice";
+import { clearLocalStorage, getLocalStorage } from "../utils/config";
 
 const Header = () => {
-	const userName = getCookie("userName");
+	const userName = getLocalStorage("userName");
 	const dispatch = useAppDispatch();
 	const userSelector = useSelector(emailStoreSelectore).userName;
 	const token = useSelector(emailStoreSelectore).token;
@@ -37,12 +37,9 @@ const Header = () => {
 	const handleToggle = () => {
 		SetToggleDropdown(!toggleDropdown);
 	};
-
+	// logout
 	const logoutProcess = () => {
-		deleteCookie("authorizationToken");
-		deleteCookie("userName");
-		deleteCookie("loggedEmail");
-		deleteCookie("loggedTime");
+		clearLocalStorage();
 		dispatch(handleStoreToken(""));
 	};
 

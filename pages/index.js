@@ -69,15 +69,15 @@ const Login = () => {
 									<p className="normal-txt fs-4">We will never ask you;</p>
 									<div className="w-100">
 										<ul className="ul-txt ms-2">
-											<li class="list-group-item">
+											<li className="list-group-item">
 												<Image src={images.homeIcon} className="resize-15 me-3" />
 												To link your card via your bank or ask for any of your bank credentials.{" "}
 											</li>
-											<li class="list-group-item">
+											<li className="list-group-item">
 												<Image src={images.homeIcon} className="resize-15 me-3" />
 												CVV number 
 											</li>
-											<li class="list-group-item">
+											<li className="list-group-item">
 												<Image src={images.homeIcon} className="resize-15 me-3" />
 												Card number (16 digits)
 											</li>

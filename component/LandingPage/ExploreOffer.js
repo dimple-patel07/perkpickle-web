@@ -4,8 +4,16 @@ import { postCall } from "../../services/apiCall";
 import { useAppDispatch } from "../../redux/store";
 import { useRouter } from "next/router";
 import { handleStartLoading, handleStopLoading } from "../../redux/loader/loaderSlice";
+// conditional view
+import { BrowserView, MobileView, isBrowser, isMobile } from "react-device-detect";
 
 const ExploreOffer = ({ spendBonusCategoryList, savedCardList, onAvailableOffers, onBestOffers, onOffersChecked, allCards }) => {
+	if (isMobile) {
+		console.log("is mobile-----");
+	}
+	if (isBrowser) {
+		console.log("is browser----");
+	}
 	const [groupCatagories, setGroupCatagories] = useState([]);
 	const [selCategory, setSelCategory] = useState();
 	const dispatch = useAppDispatch();
@@ -122,7 +130,8 @@ const ExploreOffer = ({ spendBonusCategoryList, savedCardList, onAvailableOffers
 						</div>
 						<div className="col-12 col-sm-12 col-md-12 col-lg-2  text-center">
 							<button type="button" className="btn" onClick={getCardOffers} disabled={!selCategory}>
-								Check Offer
+								<BrowserView>Check Offer</BrowserView>
+								<MobileView>Let's Check Offer</MobileView>
 							</button>
 						</div>
 					</div>

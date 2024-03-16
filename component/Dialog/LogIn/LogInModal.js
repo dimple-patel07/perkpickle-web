@@ -5,8 +5,7 @@ import Image from "next/image";
 import { useSelector } from "react-redux";
 import { handleCloseAllModal, handleOpenForgotPasswordModal, handleOpenSignUpModal, modalSelector } from "../../../redux/modal/modalSlice";
 import { useAppDispatch } from "../../../redux/store";
-import { encryptStr } from "../../../utils/config";
-import { setCookie } from "cookies-next";
+import { encryptStr, setLocalStorage } from "../../../utils/config";
 import { useRouter } from "next/router";
 import { handleStartLoading } from "../../../redux/loader/loaderSlice";
 
@@ -58,9 +57,9 @@ const LoginModal = () => {
 				const response = await postCall("login", { key: encryptedKey }, dispatch, router);
 				if (response?.token) {
 					dispatch(handleStoreUserName(response?.userName));
-					setCookie("authorizationToken", response?.token);
-					setCookie("userName", response?.userName);
-					setCookie("loggedEmail", response?.email);
+					setLocalStorage("authorizationToken", response?.token);
+					setLocalStorage("userName", response?.userName);
+					setLocalStorage("loggedEmail", response?.email);
 					dispatch(handleStoreToken(response?.token));
 					router.replace("/dashboard");
 					dispatch(handleCloseAllModal());
@@ -87,7 +86,7 @@ const LoginModal = () => {
 						<div className="login-left">
 							<h2>Login</h2>
 							<p>
-							    Join us to save more on <br />  your spending
+								Join us to save more on <br /> your spending
 								{/* JOIN WITH US TO UNLOCK <br /> MORE OFFERS */}
 							</p>
 							<Image src={images.ModalBannerImg} className="img-fluid" alt="banner-img" />
@@ -132,7 +131,7 @@ const LoginModal = () => {
 								</div>
 								<div className="col-12">
 									<button type="submit" className="cls-btn btn">
-									Login
+										Login
 									</button>
 								</div>
 								<div className="account">

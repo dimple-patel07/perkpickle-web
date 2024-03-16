@@ -1,4 +1,3 @@
-import { getCookie } from "cookies-next";
 import { images } from "../component/Images";
 
 export const config = {
@@ -32,7 +31,7 @@ export const decryptStr = (encryptedStr) => {
 };
 
 export const getLoggedEmail = () => {
-	return getCookie("loggedEmail");
+	return getLocalStorage("loggedEmail");
 };
 
 export const getCardImage = (card) => {
@@ -52,4 +51,20 @@ export const formatCardCurrency = (amount, currency) => {
 		}
 	}
 	return result;
+};
+// set key-value in local storage
+export const setLocalStorage = (key, val, isStr = true) => {
+	localStorage.setItem(key, val);
+};
+// get key from the local storage
+export const getLocalStorage = (key, isStr = true) => {
+	return localStorage.getItem(key);
+};
+// remove key from the local storage
+export const removeLocalStorage = (key) => {
+	return localStorage.removeItem(key);
+};
+// clear local storage
+export const clearLocalStorage = () => {
+	return localStorage.clear();
 };
