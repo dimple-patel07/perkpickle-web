@@ -16,7 +16,6 @@ li {
 {
     li{
         list-style-type: disc;
-    margin-left: 30px;
     }
 
 }
@@ -226,6 +225,10 @@ textarea {
 
 .carousel-indicators {
     bottom: -5px;
+}
+.word-break
+{
+    word-break: break-all;
 }
 
 
