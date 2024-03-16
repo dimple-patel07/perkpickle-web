@@ -59,9 +59,9 @@ const PrivacyPolicy = () => {
 							</ul>
 						</BrowserView>
 						<MobileView>
-							<p>1. Microsoft Edge: https://support.microsoft.com/en-us/office/delete-cookies-in-microsoft- edge-63947406-40ac-c3b8-57b9-2a946a29ae09?ui=en-us&amp;rs=en-us&amp;ad=us</p>
+							<p className="word-break">1. Microsoft Edge: https://support.microsoft.com/en-us/office/delete-cookies-in-microsoft- edge-63947406-40ac-c3b8-57b9-2a946a29ae09?ui=en-us&amp;rs=en-us&amp;ad=us</p>
 
-							<p>2. Firefox: https://support.mozilla.org/en-US/kb/clear-cookies-and-site-data-firefox</p>
+							<p className="word-break">2. Firefox: https://support.mozilla.org/en-US/kb/clear-cookies-and-site-data-firefox</p>
 
 							<p className="word-break">3. Chrome: https://support.google.com/chrome/answer/95647?hl=en</p>
 
