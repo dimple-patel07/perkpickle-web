@@ -110,7 +110,7 @@ textarea {
         width: 0;
         height: 0;
         right: 300px;
-        border: 40px solid $main-bg;
+        border: 50px solid $main-bg;
         border-right-color: transparent;
         border-top-color: transparent;
         border-left-color: transparent;
@@ -223,3 +223,9 @@ textarea {
     // border-bottom: 1px solid green;
     cursor: pointer;
 }
+
+.carousel-indicators {
+    bottom: -5px;
+}
+
+
