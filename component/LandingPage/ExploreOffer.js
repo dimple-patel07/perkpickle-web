@@ -71,7 +71,7 @@ const ExploreOffer = ({ spendBonusCategoryList, savedCardList, onAvailableOffers
 			let result = [];
 			for (const card of filterSavedCards) {
 				// saved
-				card.offerAmount = card.card_detail.baseSpendAmount ? card.card_detail.baseSpendAmount : 0;
+				card.offerAmount = card.card_detail?.baseSpendAmount ? card.card_detail.baseSpendAmount : 0;
 				result.push({ ...card, ...card.card_detail });
 			}
 			foundCards = [...foundCards, ...result];
@@ -129,7 +129,7 @@ const ExploreOffer = ({ spendBonusCategoryList, savedCardList, onAvailableOffers
 						</div>
 						<div className="col-12 col-sm-12 col-md-12 col-lg-2  text-center">
 							<button type="button" className="btn" onClick={getCardOffers} disabled={!selCategory}>
-									Check Offer
+								Check Offer
 							</button>
 						</div>
 					</div>
