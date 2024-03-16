@@ -26,7 +26,7 @@ const AboutUs = () => {
 			<PageBanner title={"About Us"} description={"PerkPickle provides cutting-edge solutions to individuals looking to maximize their earnings while spending. Each credit card comes with its reward, and we aim to ensure that you earn as many points as possible."} />
 			<section className="contact-us-section">
 				<div className="container">
-					<div className="row align-items-center justify-content-center gx-5">
+					<div className="row">
 						<h3>Who we are</h3>
 						<p> PerkPickle is a fintech company dedicated to revolutionizing the financial landscape. We are a product of passion, hard work, and commitment. PerkPickle is made up of a team of experts working tirelessly to ensure that our clients gain access to the different available opportunities to maximize their earnings while making expenses. </p>
 						<h3>Meet our CEO</h3>

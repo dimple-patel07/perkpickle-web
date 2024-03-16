@@ -77,12 +77,12 @@ const ContactUs = () => {
 	return (
 		<>
 			{/* Banner Section  */}
-			<PageBanner title={"Contact Us"} description={"We're Here to Help Feel free to contact us for any inquiries, feedback, or assistance you may need. We welcome your questions and comments. Please connect with our support team and let us assist you promptly."}/>
+			<PageBanner title={"Contact Us"} description={"We're Here to Help Feel free to contact us for any inquiries, feedback, or assistance you may need. We welcome your questions and comments. Please connect with our support team and let us assist you promptly."} />
 
 			{/* Contact Form Start */}
 			<section className="contact-us-section">
 				<div className="container">
-					<div className="row align-items-center justify-content-center gx-5">
+					<div className="row">
 						<div className="col-12 col-sm-12 col-md-6 col-lg-5">
 							<div className="contact-text">
 								<h4>How Can We Help You?</h4>
