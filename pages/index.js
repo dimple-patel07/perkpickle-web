@@ -15,8 +15,8 @@ const Login = () => {
 						<div className="row align-items-center">
 							<div className="col-12 col-sm-12 col-md-12 col-lg-6 order-md-1 order-lg-0">
 								<div className="banner-text">
-									<h2>Gain Easy Access To All Your Credit Cards Reward</h2>
-									<p>With PerkPickle, you will no longer miss out on a credit card reward. Access all your credit cards from any location with ease. We have around 3800 different credit card databases, and you will find your credit card on our platform.</p>
+									<h2>Gain Easy Access To All Your Credit Cards Rewards</h2>
+									<p>With PerkPickle, you will no longer miss out on a single reward again. Access all your credit cards from any location with ease. With over 3,800 credit card databases, finding your card is a breeze on our platform.</p>
 
 									<div>
 										<button type="button" className="btn register" onClick={() => dispatch(handleOpenSignUpModal(true))}>
@@ -32,7 +32,7 @@ const Login = () => {
 					</div>
 				</div>
 			</section>
-			<div className="container">
+			{/* <div className="container">
 				<div className="row mt-5">
 					<div className="col-md-12 mt-5 text-center">
 						<span className="header-title-1">Travel Light</span>
@@ -47,12 +47,12 @@ const Login = () => {
 						</span>
 					</div>
 				</div>
-			</div>
-			<section className="mt-5 section-home">
+			</div> */}
+			<section className="mt-5">
 				<div className="container">
 					<div className="row">
 						<div className="col-md-12 mt-5  text-center">
-							<span className="header-title-1">Why We Are?</span>
+							<span className="header-title-1">Why Perkpickle?</span>
 						</div>
 						<div className="col-md-12 mt-5 mb-40  text-center">
 							<span className="header-title">Access Your Credit Cards Without Compromising Your Privacy</span>
@@ -65,7 +65,7 @@ const Login = () => {
 									<Image src={images.homeImg} alt="Home" className="img-fluid" />
 								</div>
 								<div className="col-md-6 ">
-									<p className="normal-txt">Maintaining the safety and privacy of our clients is our top priority here at PerkPickle. You do not need to give out any delicate information. </p>
+									<p className="normal-txt">Maintaining the safety and privacy of our users is our top priority here at PerkPickle. You do not need to give out any delicate information. </p>
 									<p className="normal-txt fs-4">We will never ask you;</p>
 									<div className="w-100">
 										<ul className="ul-txt ms-2">
@@ -79,12 +79,12 @@ const Login = () => {
 											</li>
 											<li className="list-group-item">
 												<Image src={images.homeIcon} className="resize-15 me-3" />
-												Card number (16 digits)
+												Card number
 											</li>
 										</ul>
 									</div>
 									<div className="w-100 mt-4">
-										<p className="normal-txt">We use high-tech encryption to ensure that all imputed data maintains a high level of privacy. </p>
+										{/* <p className="normal-txt">We use high-tech encryption to ensure that all imputed data maintains a high level of privacy. </p> */}
 										<p className="normal-txt mt-4">At PerkPickle, we pride ourselves on maintaining your financial privacy. All your private bank information and credentials are solely for you. We will never ask for it. </p>
 									</div>
 								</div>
@@ -96,7 +96,7 @@ const Login = () => {
 			<div className="container">
 				<div className="row">
 					<div className="col-md-12 mt-5 mb-5 text-center">
-						<span className="header-title-1">Our services</span>
+						<span className="header-title-1">Our Services</span>
 					</div>
 				</div>
 				<div className="row justify-content-center">

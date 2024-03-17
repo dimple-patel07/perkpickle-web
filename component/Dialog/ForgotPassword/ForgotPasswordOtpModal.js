@@ -110,9 +110,10 @@ const ForgotPasswordOtpModal = () => {
 					<div className="row align-items-center">
 						<div className="col-12 col-sm-12 col-md-5 col-lg-5">
 							<div className="login-left">
-								<h2>FORGOT PASSWORD</h2>
+								<h2>Forgot Password?</h2>
 								<p>
-									Enter otp to Verify your <br /> email address
+									Enter your registered email <br />
+									to get OT
 								</p>
 								<Image src={images.ModalBannerImg} className="img-fluid" alt="banner-img" />
 							</div>
@@ -142,7 +143,7 @@ const ForgotPasswordOtpModal = () => {
 										</button>
 									</div>
 									<button type="button" disabled={numberString < 6} onClick={verifyUser} className="btn cls-btn mb-5">
-										Reset Password
+										Continue
 									</button>
 								</form>
 							</div>
