@@ -7,7 +7,7 @@ import { useAppDispatch } from "../../../redux/store";
 import { handleCloseAllModal, handleOpenForgotPasswordOtpModal, modalSelector } from "../../../redux/modal/modalSlice";
 import { useSelector } from "react-redux";
 
-import { PASSWORD_REGEX, encryptStr, getLoggedEmail, defaultMessageObj } from "../../../utils/config";
+import { PASSWORD_REGEX, encryptStr, getLoggedEmail, defaultMessageObj, PASSWORD_ERROR_MSG } from "../../../utils/config";
 // import { emailStoreSelectore } from "../../../redux/emailStore/emailStoreSlice";
 import { handleStartLoading, showMessage } from "../../../redux/loader/loaderSlice";
 import { useFormik } from "formik";
@@ -49,7 +49,7 @@ const ChangePasswordOtpModal = () => {
 				newPassword: yup
 					.string()
 					.required("Please Enter New Password")
-					.matches(PASSWORD_REGEX, "Password must contain more than 8 characters, 1 upper case letter, and 1 special character")
+					.matches(PASSWORD_REGEX, PASSWORD_ERROR_MSG)
 					.notOneOf([yup.ref("currentPassword"), null], "Current password and new password should be different."),
 				repeatPassword: yup
 					.string()

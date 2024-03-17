@@ -47,12 +47,12 @@ const LoginModal = () => {
 		initialValues: initialFormData,
 		validationSchema: loginEmailValidation,
 		onSubmit: async (val) => {
-			const loginCred = {
-				email: val?.email,
-				password: val?.password,
-			};
 			try {
 				dispatch(handleStartLoading());
+				const loginCred = {
+					email: val?.email,
+					password: val?.password,
+				};
 				const encryptedKey = encryptStr(JSON.stringify(loginCred));
 				const response = await postCall("login", { key: encryptedKey }, dispatch, router);
 				if (response?.token) {
