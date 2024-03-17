@@ -17,33 +17,11 @@ const BannerSection2 = () => {
 					<div className="banner-main">
 						<div className="row align-items-center">
 							<div className="col-12 col-sm-12 col-md-12 col-lg-6 order-1 order-sm-1 order-md-1 order-lg-0">
-								<BrowserView>
-									<div className="banner-text">
-										<h3>
-											<small>Track Your Rewards On </small> <br /> Different Types Of Programs With Ease.
-										</h3>
-										<ul>
-											<li>Credit cards</li>
-											<li>Plane tickets</li>
-											<li>Hotels</li>
-											<li>Dinings</li>
-											<li>Train tickets</li>
-											<li>Entertainment</li>
-										</ul>
+								<div className="banner-text">
+									<h3>Track Your Rewards With Ease</h3>
 
-										<p>We can make the process super easy for you by organizing the programs and finding the best ways to access the rewards.</p>
-									</div>
-								</BrowserView>
-
-								<MobileView>
-									<div className="banner-text">
-										<h3>
-											<small>Track Your Rewards On </small> <br /> Different Types Of Programs With Ease.
-										</h3>
-
-										<p>We can make the process super easy for you by organizing the programs and finding the best ways to access the rewards.</p>
-									</div>
-								</MobileView>
+									<p>We can make the process super easy for you by organizing your cards and finding the best ways to access the rewards.</p>
+								</div>
 							</div>
 							<div className="col-12 col-sm-12 col-md-12 col-lg-6 text-center">
 								<Image src={images.bannerImg} className="img-fluid" alt="banner-img" />
