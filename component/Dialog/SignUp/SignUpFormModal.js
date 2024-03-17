@@ -97,7 +97,7 @@ const SignUpFormModal = () => {
 							<div className="login-left">
 								<h2>Sign Up</h2>
 								<p className="order-1">
-									JOIN WITH US TO UNLOCK <br /> MORE OFFERS
+									Join us to save more on <br /> your spending
 								</p>
 								<Image src={images.ModalBannerImg} className="img-fluid" alt="banner-img" />
 							</div>
@@ -174,7 +174,7 @@ const SignUpFormModal = () => {
 														dispatch(handleCloseAllModal());
 														dispatch(handleOpenLoginModal(true));
 													}}>
-													&nbsp;Signin
+													&nbsp;Login
 												</button>
 											</p>
 										</div>

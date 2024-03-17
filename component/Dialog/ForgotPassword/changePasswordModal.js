@@ -112,7 +112,9 @@ const ChangePasswordOtpModal = () => {
 							<div className="login-left">
 								<h2>Change Password</h2>
 								<p>
-									Enter new and confirm password <br /> to reset your password
+									{/* Enter new and confirm password to reset your password */}
+									Please enter your current password <br />
+									along with your new password
 								</p>
 								<Image src={images.ModalBannerImg} className="img-fluid" alt="banner-img" />
 							</div>

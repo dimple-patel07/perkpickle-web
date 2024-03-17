@@ -167,7 +167,7 @@ const ContactUs = () => {
 											/>
 										</div>
 										<div className="col-12 col-sm-12 col-md-12 col-lg-12 mb-3">
-											<textarea type="text" placeholder="Address" className="form-control" value={values?.message} onChange={handleChange} onBlur={handleBlur} name="message" />
+											<textarea type="text" placeholder="Description" className="form-control" value={values?.message} onChange={handleChange} onBlur={handleBlur} name="message" />
 										</div>
 
 										<div className="col-12 col-sm-12 col-md-12 col-lg-12 text-center">

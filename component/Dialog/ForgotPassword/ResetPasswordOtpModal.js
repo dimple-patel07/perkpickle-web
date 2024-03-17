@@ -96,10 +96,8 @@ const ResetPasswordOtpModal = () => {
 					<div className="row align-items-center">
 						<div className="col-12 col-sm-12 col-md-6 col-lg-5">
 							<div className="login-left">
-								<h2>RESET PASSWORD</h2>
-								<p>
-									Enter new and confirm password <br /> to reset your password
-								</p>
+								<h2>Reset Password</h2>
+								<p>Enter new password</p>
 								<Image src={images.ModalBannerImg} className="img-fluid" alt="banner-img" />
 							</div>
 						</div>
