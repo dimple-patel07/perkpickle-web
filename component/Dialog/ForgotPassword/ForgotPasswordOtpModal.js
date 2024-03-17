@@ -89,7 +89,8 @@ const ForgotPasswordOtpModal = () => {
 				},
 				dispatch
 			);
-			if (response?.data?.email) {
+			if (response?.email) {
+				setOtp(["", "", "", "", "", ""]);
 				dispatch(
 					showMessage({
 						...defaultMessageObj,

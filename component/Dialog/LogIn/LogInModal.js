@@ -56,11 +56,11 @@ const LoginModal = () => {
 				const encryptedKey = encryptStr(JSON.stringify(loginCred));
 				const response = await postCall("login", { key: encryptedKey }, dispatch, router);
 				if (response?.token) {
+					dispatch(handleStoreToken(response?.token));
 					dispatch(handleStoreUserName(response?.userName));
 					setLocalStorage("authorizationToken", response?.token);
 					setLocalStorage("userName", response?.userName);
 					setLocalStorage("loggedEmail", response?.email);
-					dispatch(handleStoreToken(response?.token));
 					router.replace("/dashboard");
 					dispatch(handleCloseAllModal());
 				}

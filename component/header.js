@@ -18,21 +18,15 @@ import { emailStoreSelectore, handleStoreToken } from "../redux/emailStore/email
 import { clearLocalStorage, getLocalStorage } from "../utils/config";
 
 const Header = () => {
-	const userName = getLocalStorage("userName");
 	const dispatch = useAppDispatch();
-	const userSelector = useSelector(emailStoreSelectore).userName;
+	const userName = getLocalStorage("userName");
 	const token = useSelector(emailStoreSelectore).token;
 	const router = useRouter();
 	const [toggleDropdown, SetToggleDropdown] = useState(false);
-	const [currentUserName, SetCurrentUserName] = useState("");
 
 	useEffect(() => {
 		SetToggleDropdown(false);
 	}, [router.pathname]);
-
-	useEffect(() => {
-		SetCurrentUserName(userName);
-	}, [userName]);
 
 	const handleToggle = () => {
 		SetToggleDropdown(!toggleDropdown);
@@ -62,7 +56,7 @@ const Header = () => {
 											<div className="profile">
 												{/* <Image src={images.profile} /> */}
 												<FaUserAlt />
-												<span className="profile-name">{userSelector}</span>
+												<span className="profile-name">{userName}</span>
 											</div>
 										}
 										show={toggleDropdown}

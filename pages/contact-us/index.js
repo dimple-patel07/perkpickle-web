@@ -6,7 +6,7 @@ import * as yup from "yup";
 import TextInput from "../../component/TextInput";
 import { Form } from "react-bootstrap";
 import PageBanner from "../../component/pageBanner";
-import { EMAIL_REGEX, config, getLoggedEmail } from "../../utils/config";
+import { EMAIL_REGEX, NAME_REGEX, config, getLoggedEmail, getLoggedUserName } from "../../utils/config";
 import axios from "axios";
 import { useAppDispatch } from "../../redux/store";
 import { handleStartLoading, showMessage } from "../../redux/loader/loaderSlice";
@@ -29,7 +29,7 @@ const ContactUs = () => {
 	}, []);
 
 	const initialFormData = {
-		name: "",
+		name: token ? getLoggedUserName() : "",
 		email: token ? getLoggedEmail() : "",
 		subject: "",
 		message: "",
@@ -37,14 +37,10 @@ const ContactUs = () => {
 
 	const contactUsFormValidation = () =>
 		yup.object().shape({
-			name: yup
-				.string()
-				.required("please enter your name")
-				.trim()
-				.matches(/^[A-Za-z ]*$/, "please enter valid name")
-				.max(30),
+			name: yup.string().required("please enter your name").trim().matches(NAME_REGEX, "please enter valid name").max(30),
 			email: yup.string().required("Please enter email").matches(EMAIL_REGEX, "Please enter valid email").max(30),
 			subject: yup.string().required("please enter subject").trim().max(30),
+			message: yup.string().required("please enter message").trim(),
 		});
 
 	const { handleChange, handleSubmit, handleBlur, values, touched, errors, resetForm } = useFormik({
@@ -127,6 +123,7 @@ const ContactUs = () => {
 												touched={touched?.name}
 												errors={errors?.name}
 												// formGroupClassName="mb-4 pt-3 pb-3"
+												disabled={token ? true : false}
 												placeholder={"Your Name*"}
 												type="text"
 												name="name"
@@ -166,9 +163,9 @@ const ContactUs = () => {
 												restProps={{ "aria-describedby": "subject" }}
 											/>
 										</div>
-										{/* description */}
+										{/* message */}
 										<div className="col-12 col-sm-12 col-md-12 col-lg-12 mb-3">
-											<textarea type="text" placeholder="Description" className="form-control" value={values?.message} onChange={handleChange} onBlur={handleBlur} name="message" />
+											<TextInput controlId="message" value={values?.message} onChange={handleChange} onBlur={handleBlur} touched={touched?.message} errors={errors?.message} inputType="textarea" placeholder="Message*" type="text" name="message" maxLength={250} restProps={{ "aria-describedby": "message" }} />
 										</div>
 
 										<div className="col-12 col-sm-12 col-md-12 col-lg-12 text-center">

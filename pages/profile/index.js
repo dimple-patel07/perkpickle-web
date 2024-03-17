@@ -2,7 +2,7 @@ import React, { useEffect, useRef, useState } from "react";
 import InputMask from "react-input-mask";
 import { images } from "../../component/Images";
 import Image from "next/image";
-import { getLoggedEmail, defaultMessageObj, setLocalStorage } from "../../utils/config";
+import { getLoggedEmail, defaultMessageObj, setLocalStorage, NAME_REGEX, DIGIT_REGEX } from "../../utils/config";
 import { useAppDispatch } from "../../redux/store";
 import { handleStartLoading, showMessage } from "../../redux/loader/loaderSlice";
 import { useFormik } from "formik";
@@ -52,14 +52,9 @@ const Profile = () => {
 
 	const signInFormValidation = () =>
 		yup.object().shape({
-			first_name: yup.string().required("Please Enter First Name"),
-			last_name: yup.string().required("Please Enter Last Name"),
-			zip_code: yup
-				.string()
-				.required("Please Enter Zip Code")
-				.matches(/^[0-9]+$/, "Must be only digits")
-				.min(5, "Must be exactly 5 digits")
-				.max(5, "Must be exactly 5 digits"),
+			first_name: yup.string().required("Please Enter First Name").trim().matches(NAME_REGEX, "Please enter valid first name").max(30),
+			last_name: yup.string().required("Please Enter Last Name").trim().matches(NAME_REGEX, "Please enter valid last name").max(30),
+			zip_code: yup.string().required("Please Enter Zip Code").matches(DIGIT_REGEX, "Must be only digits").min(5, "Must be exactly 5 digits").max(5, "Must be exactly 5 digits"),
 		});
 
 	const { handleChange, handleSubmit, handleBlur, setFieldValue, values, touched, errors, resetForm } = useFormik({

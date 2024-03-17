@@ -6,7 +6,7 @@ import { useSelector } from "react-redux";
 import { handleCloseAllModal, handleOpenLoginModal, modalSelector } from "../../../redux/modal/modalSlice";
 import { useAppDispatch } from "../../../redux/store";
 import InputMask from "react-input-mask";
-import { PASSWORD_REGEX, config, encryptStr, defaultMessageObj, PASSWORD_ERROR_MSG, setLocalStorage, decryptStr } from "../../../utils/config";
+import { PASSWORD_REGEX, config, encryptStr, defaultMessageObj, PASSWORD_ERROR_MSG, setLocalStorage, decryptStr, NAME_REGEX, DIGIT_REGEX } from "../../../utils/config";
 import { emailStoreSelectore, handleStoreToken, handleStoreUserName } from "../../../redux/emailStore/emailStoreSlice";
 
 import * as yup from "yup";
@@ -46,15 +46,10 @@ const SignUpFormModal = () => {
 
 	const signInFormValidation = () =>
 		yup.object().shape({
-			first_name: yup.string().required("Please Enter First Name"),
-			last_name: yup.string().required("Please Enter Last Name"),
+			first_name: yup.string().required("Please Enter First Name").trim().matches(NAME_REGEX, "please enter valid first name").max(30),
+			last_name: yup.string().required("Please Enter Last Name").trim().matches(NAME_REGEX, "please enter valid last name").max(30),
 			password: yup.string().required("Please Enter Password").matches(PASSWORD_REGEX, PASSWORD_ERROR_MSG),
-			zip_code: yup
-				.string()
-				.required("Please Enter Zip Code")
-				.matches(/^[0-9]+$/, "Must be only digits")
-				.min(5, "Must be exactly 5 digits")
-				.max(5, "Must be exactly 5 digits"),
+			zip_code: yup.string().required("Please Enter Zip Code").matches(DIGIT_REGEX, "Must be only digits").min(5, "Must be exactly 5 digits").max(5, "Must be exactly 5 digits"),
 		});
 
 	const { handleChange, handleSubmit, handleBlur, values, touched, errors, resetForm } = useFormik({
@@ -174,7 +169,7 @@ const SignUpFormModal = () => {
 											/>
 										</div>
 										<div className="col-12">
-											<TextInput controlId="address" value={values?.address} onChange={handleChange} onBlur={handleBlur} touched={touched?.address} errors={errors?.address} inputType="textarea" placeholder={"Address"} type="text" name="address" maxLength={200} restProps={{ "aria-describedby": "address" }} />
+											<TextInput controlId="address" value={values?.address} onChange={handleChange} onBlur={handleBlur} touched={touched?.address} errors={errors?.address} inputType="textarea" placeholder={"Address"} type="text" name="address" maxLength={250} restProps={{ "aria-describedby": "address" }} />
 										</div>
 										<div className="col-12">
 											<FloatingLabel controlId="floatingPhoneNumber" label="Phone Number">

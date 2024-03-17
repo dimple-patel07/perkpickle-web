@@ -11,6 +11,10 @@ export const PHONE_NUMBER_REGEX = /^\(\d{3}\) \d{3}-\d{4}$/;
 
 export const EMAIL_REGEX = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
 
+export const NAME_REGEX = /^[A-Za-z ]*$/;
+
+export const DIGIT_REGEX = /^[0-9]+$/;
+
 export const defaultMessageObj = {
 	type: "info",
 	messageText: "",
@@ -33,6 +37,10 @@ export const decryptStr = (encryptedStr) => {
 
 export const getLoggedEmail = () => {
 	return getLocalStorage("loggedEmail");
+};
+
+export const getLoggedUserName = () => {
+	return getLocalStorage("userName");
 };
 
 export const getCardImage = (card) => {
