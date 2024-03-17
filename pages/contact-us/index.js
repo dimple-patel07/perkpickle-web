@@ -6,7 +6,7 @@ import * as yup from "yup";
 import TextInput from "../../component/TextInput";
 import { Form } from "react-bootstrap";
 import PageBanner from "../../component/pageBanner";
-import { config, getLoggedEmail } from "../../utils/config";
+import { EMAIL_REGEX, config, getLoggedEmail } from "../../utils/config";
 import axios from "axios";
 import { useAppDispatch } from "../../redux/store";
 import { handleStartLoading, showMessage } from "../../redux/loader/loaderSlice";
@@ -35,7 +35,7 @@ const ContactUs = () => {
 		message: "",
 	};
 
-	const signInFormValidation = () =>
+	const contactUsFormValidation = () =>
 		yup.object().shape({
 			name: yup
 				.string()
@@ -43,13 +43,13 @@ const ContactUs = () => {
 				.trim()
 				.matches(/^[A-Za-z ]*$/, "please enter valid name")
 				.max(30),
-			email: yup.string().required("please enter email").trim().email("please enter valid email").max(30),
+			email: yup.string().required("Please enter email").matches(EMAIL_REGEX, "Please enter valid email").max(30),
 			subject: yup.string().required("please enter subject").trim().max(30),
 		});
 
 	const { handleChange, handleSubmit, handleBlur, values, touched, errors, resetForm } = useFormik({
 		initialValues: initialFormData,
-		validationSchema: signInFormValidation,
+		validationSchema: contactUsFormValidation,
 		onSubmit: async (data) => {
 			try {
 				dispatch(handleStartLoading());
@@ -166,6 +166,7 @@ const ContactUs = () => {
 												restProps={{ "aria-describedby": "subject" }}
 											/>
 										</div>
+										{/* description */}
 										<div className="col-12 col-sm-12 col-md-12 col-lg-12 mb-3">
 											<textarea type="text" placeholder="Description" className="form-control" value={values?.message} onChange={handleChange} onBlur={handleBlur} name="message" />
 										</div>

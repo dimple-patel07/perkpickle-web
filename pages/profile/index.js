@@ -54,7 +54,12 @@ const Profile = () => {
 		yup.object().shape({
 			first_name: yup.string().required("Please Enter First Name"),
 			last_name: yup.string().required("Please Enter Last Name"),
-			zip_code: yup.string().required("Please Enter Zip Code"),
+			zip_code: yup
+				.string()
+				.required("Please Enter Zip Code")
+				.matches(/^[0-9]+$/, "Must be only digits")
+				.min(5, "Must be exactly 5 digits")
+				.max(5, "Must be exactly 5 digits"),
 		});
 
 	const { handleChange, handleSubmit, handleBlur, setFieldValue, values, touched, errors, resetForm } = useFormik({

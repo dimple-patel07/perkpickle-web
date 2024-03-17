@@ -8,7 +8,7 @@ import { handleCloseAllModal, handleOpenForgotPasswordOtpModal, modalSelector } 
 import { useSelector } from "react-redux";
 
 import axios from "axios";
-import { PASSWORD_REGEX, config, encryptStr, defaultMessageObj } from "../../../utils/config";
+import { PASSWORD_REGEX, config, encryptStr, defaultMessageObj, PASSWORD_ERROR_MSG } from "../../../utils/config";
 import { emailStoreSelectore } from "../../../redux/emailStore/emailStoreSlice";
 import { handleStartLoading, showMessage } from "../../../redux/loader/loaderSlice";
 import { useFormik } from "formik";
@@ -41,7 +41,7 @@ const ResetPasswordOtpModal = () => {
 	const changePasswordValidation = useMemo(
 		() =>
 			yup.object().shape({
-				newPassword: yup.string().required("Please Enter New Password").matches(PASSWORD_REGEX, "Password must contain more than 8 characters, 1 upper case letter, and 1 special character"),
+				newPassword: yup.string().required("Please Enter New Password").matches(PASSWORD_REGEX, PASSWORD_ERROR_MSG),
 				repeatPassword: yup
 					.string()
 					.required("Please Corfirm New Password")

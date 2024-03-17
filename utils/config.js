@@ -4,7 +4,8 @@ export const config = {
 	apiURL: process.env.REACT_APP_API_URL,
 };
 
-export const PASSWORD_REGEX = /^(?=.*\d)(?=.*[!@#$%^&*])(?=.*[a-z])(?=.*[A-Z]).{8,}$/;
+export const PASSWORD_REGEX = /^(?=.*\d)(?=.*[!@#$%^&*])(?=.*[a-z])(?=.*[A-Z]).{8,16}$/;
+export const PASSWORD_ERROR_MSG = "Password must be between 8 to 16 characters with 1 upper case letter and 1 special character";
 
 export const PHONE_NUMBER_REGEX = /^\(\d{3}\) \d{3}-\d{4}$/;
 

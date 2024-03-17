@@ -6,8 +6,8 @@ import { useSelector } from "react-redux";
 import { handleCloseAllModal, handleOpenLoginModal, modalSelector } from "../../../redux/modal/modalSlice";
 import { useAppDispatch } from "../../../redux/store";
 import InputMask from "react-input-mask";
-import { PASSWORD_REGEX, config, encryptStr, defaultMessageObj } from "../../../utils/config";
-import { emailStoreSelectore } from "../../../redux/emailStore/emailStoreSlice";
+import { PASSWORD_REGEX, config, encryptStr, defaultMessageObj, PASSWORD_ERROR_MSG, setLocalStorage, decryptStr } from "../../../utils/config";
+import { emailStoreSelectore, handleStoreToken, handleStoreUserName } from "../../../redux/emailStore/emailStoreSlice";
 
 import * as yup from "yup";
 import { handleStartLoading, showMessage } from "../../../redux/loader/loaderSlice";
@@ -16,6 +16,7 @@ import TextInput from "../../TextInput";
 import { FloatingLabel, Form } from "react-bootstrap";
 import { FaEye, FaEyeSlash } from "react-icons/fa";
 import { postCall } from "../../../services/apiCall";
+import { useRouter } from "next/router";
 
 const SignUpFormModal = () => {
 	const ModalState = useSelector(modalSelector);
@@ -25,8 +26,8 @@ const SignUpFormModal = () => {
 	const dispatch = useAppDispatch();
 	const closeModal = () => dispatch(handleCloseAllModal());
 	const [passwordToggle, setPasswordToggle] = useState(false);
-
 	const firstInputRef = useRef(null);
+	const router = useRouter();
 
 	useEffect(() => {
 		setTimeout(() => {
@@ -47,8 +48,13 @@ const SignUpFormModal = () => {
 		yup.object().shape({
 			first_name: yup.string().required("Please Enter First Name"),
 			last_name: yup.string().required("Please Enter Last Name"),
-			zip_code: yup.string().required("Please Enter Zip Code"),
-			password: yup.string().required("Please Enter Password").matches(PASSWORD_REGEX, "Password must contain more than 8 characters, 1 upper case letter, and 1 special character"),
+			password: yup.string().required("Please Enter Password").matches(PASSWORD_REGEX, PASSWORD_ERROR_MSG),
+			zip_code: yup
+				.string()
+				.required("Please Enter Zip Code")
+				.matches(/^[0-9]+$/, "Must be only digits")
+				.min(5, "Must be exactly 5 digits")
+				.max(5, "Must be exactly 5 digits"),
 		});
 
 	const { handleChange, handleSubmit, handleBlur, values, touched, errors, resetForm } = useFormik({
@@ -69,14 +75,29 @@ const SignUpFormModal = () => {
 				dispatch(handleStartLoading());
 				const response = await postCall("completeUserSignup", userData, dispatch);
 				if (response?.email) {
+					// after successful signup implicitly proceed the login process
+					const loginCred = {
+						email: userData?.email,
+						password: decryptStr(userData?.secret_key),
+					};
+					const encryptedKey = encryptStr(JSON.stringify(loginCred));
+					const response = await postCall("login", { key: encryptedKey }, dispatch, router);
+					if (response?.token) {
+						dispatch(handleStoreUserName(response?.userName));
+						setLocalStorage("authorizationToken", response?.token);
+						setLocalStorage("userName", response?.userName);
+						setLocalStorage("loggedEmail", response?.email);
+						dispatch(handleStoreToken(response?.token));
+						dispatch(
+							showMessage({
+								...defaultMessageObj,
+								type: "success",
+								messageText: "signup process successfully completed",
+							})
+						);
+						router.replace("/dashboard");
+					}
 					closeModal();
-					dispatch(
-						showMessage({
-							...defaultMessageObj,
-							type: "success",
-							messageText: "signup process successfully completed",
-						})
-					);
 				}
 			} catch (error) {
 				console.error(error);
@@ -148,7 +169,6 @@ const SignUpFormModal = () => {
 												// formGroupClassName="mb-4 pt-3 pb-3"
 												placeholder={"Zip Code*"}
 												type="text"
-												maxLength={5}
 												name="zip_code"
 												restProps={{ "aria-describedby": "zip code" }}
 											/>

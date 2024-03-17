@@ -8,7 +8,7 @@ import { useAppDispatch } from "../../../redux/store";
 import { useSelector } from "react-redux";
 import * as yup from "yup";
 import axios from "axios";
-import { config, defaultMessageObj } from "../../../utils/config";
+import { EMAIL_REGEX, config, defaultMessageObj } from "../../../utils/config";
 
 import { handleStoreSignUpEmail } from "../../../redux/emailStore/emailStoreSlice";
 import { handleStartLoading, showMessage } from "../../../redux/loader/loaderSlice";
@@ -37,7 +37,7 @@ const SignUpModal = () => {
 
 	const loginEmailValidation = () =>
 		yup.object().shape({
-			email: yup.string().required("Please Enter Email").email("Please Enter Valid Email"),
+			email: yup.string().required("Please Enter Email").matches(EMAIL_REGEX, "Please Enter Valid Email"),
 		});
 
 	const { handleChange, handleSubmit, handleBlur, values, touched, errors, resetForm } = useFormik({
@@ -91,7 +91,7 @@ const SignUpModal = () => {
 							<div className="login-left">
 								<h2>Sign Up</h2>
 								<p>
-								Join us to save more on <br />  your spending
+									Join us to save more on <br /> your spending
 									{/* JOIN WITH US TO UNLOCK <br /> MORE OFFERS */}
 								</p>
 								<Image src={images.ModalBannerImg} className="img-fluid" alt="banner-img" />
