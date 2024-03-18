@@ -32,23 +32,8 @@ const Login = () => {
 					</div>
 				</div>
 			</section>
-			{/* <div className="container">
-				<div className="row mt-5">
-					<div className="col-md-12 mt-5 text-center">
-						<span className="header-title-1">Travel Light</span>
-					</div>
-				</div>
-				<div className="row text-center">
-					<div className="col-md-12 mt-3">
-						<span className="normal-txt">
-							{" "}
-							The world has advanced to a technological age; you no longer need to move around with all your credit cards.
-							<br /> All you have to do is select the credit card with more rewards to offer and make your purchases.
-						</span>
-					</div>
-				</div>
-			</div> */}
-			<section className="mt-5">
+
+			<section className="mt-5 section-home">
 				<div className="container">
 					<div className="row">
 						<div className="col-md-12 mt-5  text-center">
@@ -84,7 +69,6 @@ const Login = () => {
 										</ul>
 									</div>
 									<div className="w-100 mt-4">
-										{/* <p className="normal-txt">We use high-tech encryption to ensure that all imputed data maintains a high level of privacy. </p> */}
 										<p className="normal-txt mt-4">At PerkPickle, we pride ourselves on maintaining your financial privacy. All your private bank information and credentials are solely for you. We will never ask for it. </p>
 									</div>
 								</div>
@@ -93,7 +77,7 @@ const Login = () => {
 					</div>
 				</div>
 			</section>
-			<div className="container">
+			<div className="container services-bg">
 				<div className="row">
 					<div className="col-md-12 mt-5 mb-5 text-center">
 						<span className="header-title-1">Our Services</span>
@@ -103,13 +87,19 @@ const Login = () => {
 					<div className="col-md-12 mt-3 list-type5">
 						<ol>
 							<li>
-								<a>Organize your credit cards based on their rewards. We will help you organize your credit cards according to their available cash back, from the highest points to the lowest points.</a>
+								<a>
+									<b>Organize your credit cards based on their rewards.</b> We will help you organize your credit cards according to their available cash back, from the highest points to the lowest points.
+								</a>
 							</li>
 							<li>
-								<a> Point out the cards with the highest rewards Take advantage of earning while spending. You no longer need to guess the card with the highest payback or the card with the best reward for a particular product or service. We will help you point out the right card for the right purpose.</a>
+								<a>
+									<b> Point out the cards with the highest rewards</b> Take advantage of earning while spending. You no longer need to guess the card with the highest payback or the card with the best reward for a particular product or service. We will help you point out the right card for the right purpose.
+								</a>
 							</li>
 							<li>
-								<a>Provide you with the best credit card options.  If there are other cards better than the ones you have, trust us to provide you with the best alternatives with higher rewards.</a>
+								<a>
+									<b>Provide you with the best credit card options. </b> If there are other cards better than the ones you have, trust us to provide you with the best alternatives with higher rewards.
+								</a>
 							</li>
 						</ol>
 					</div>

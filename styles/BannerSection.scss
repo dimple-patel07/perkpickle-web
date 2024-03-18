@@ -42,11 +42,12 @@
         .register {
             background-color: $white;
             border-radius: 20px;
-            font-size: 30px;
+            font-size: 30px !important;
             font-weight: 500;
             color: $bg-primary;
             border: none;
             padding: 15px 50px;
+            margin-top: 20px;
         }
     }
 }
@@ -91,11 +92,11 @@
                     font-size: 35px;
                 }
                 p {
-                    font-size: 25px !important;
+                    font-size: 20px !important;
                     padding: 15px 0;
                 }
                 button {
-                    font-size: 20px;
+                    font-size: 20px !important;
                     margin-bottom: 50px;
                 }
             }
@@ -156,9 +157,9 @@ font-weight: 700;
 }
 .normal-txt{
     color: #2E2E2E;
-    font-size: 20px;
+    font-size: 22px;
     font-weight: normal;
-    line-height: 26px;
+    line-height: 40px;
 }
 .ul-txt li{
     list-style-type: square;
@@ -232,6 +233,7 @@ font-weight: 700;
       }
       .section-home{
         background-color: #fff;
+        margin-top: 1px !important
       }
       .list-group-item
       {
