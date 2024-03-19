@@ -13,9 +13,9 @@ const Login = () => {
 				<div className="container">
 					<div className="banner-main">
 						<div className="row align-items-center">
-							<div className="col-12 col-sm-12 col-md-12 col-lg-6 order-md-1 order-lg-0">
+							<div className="col-12 col-sm-12 col-md-12 col-lg-6 order-1 order-sm-1 order-md-1 order-lg-0">
 								<div className="banner-text">
-									<h2>Gain Easy Access To All Your Credit Cards Rewards</h2>
+									<h2>Gain Easy Access To All Your Credit Card Rewards</h2>
 									<p>With PerkPickle, you will no longer miss out on a single reward again. Access all your credit cards from any location with ease. With over 3,800 credit card databases, finding your card is a breeze on our platform.</p>
 
 									<div>
@@ -93,12 +93,12 @@ const Login = () => {
 							</li>
 							<li>
 								<a>
-									<b> Point out the cards with the highest rewards</b> Take advantage of earning while spending. You no longer need to guess the card with the highest payback or the card with the best reward for a particular product or service. We will help you point out the right card for the right purpose.
+									<b> Point out the cards with the highest rewards.</b> Take advantage of earning while spending. You no longer need to guess the card with the highest payback or the card with the best reward for a particular product or service. We will help you point out the right card for the right purpose.
 								</a>
 							</li>
 							<li>
 								<a>
-									<b>Provide you with the best credit card options. </b> If there are other cards better than the ones you have, trust us to provide you with the best alternatives with higher rewards.
+									<b>Provide you with the best credit card options.</b> If there are other cards better than the ones you have, trust us to provide you with the best alternatives with higher rewards.
 								</a>
 							</li>
 						</ol>
