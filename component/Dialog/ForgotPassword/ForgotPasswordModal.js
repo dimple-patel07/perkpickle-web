@@ -7,9 +7,7 @@ import { FaArrowLeft } from "react-icons/fa6";
 import { useSelector } from "react-redux";
 import { handleCloseAllModal, handleOpenForgotPasswordOtpModal, handleOpenLoginModal, modalSelector } from "../../../redux/modal/modalSlice";
 import { useAppDispatch } from "../../../redux/store";
-
-import axios from "axios";
-import { config, defaultMessageObj } from "../../../utils/config";
+import { EMAIL_REGEX, defaultMessageObj } from "../../../utils/config";
 import { handleStoreForgotPasswordEmail } from "../../../redux/emailStore/emailStoreSlice";
 import { handleStartLoading, showMessage } from "../../../redux/loader/loaderSlice";
 import { useFormik } from "formik";
@@ -39,7 +37,7 @@ const ForgotPasswordModal = () => {
 
 	const loginEmailValidation = () =>
 		yup.object().shape({
-			email: yup.string().required("Please Enter Email").email("Please Enter Valid Email"),
+			email: yup.string().required("Please Enter Email").matches(EMAIL_REGEX, "Please Enter Valid Email"),
 		});
 
 	const { handleChange, handleSubmit, handleBlur, values, touched, errors, resetForm } = useFormik({

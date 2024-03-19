@@ -5,7 +5,7 @@ import Image from "next/image";
 import { useSelector } from "react-redux";
 import { handleCloseAllModal, handleOpenForgotPasswordModal, handleOpenSignUpModal, modalSelector } from "../../../redux/modal/modalSlice";
 import { useAppDispatch } from "../../../redux/store";
-import { encryptStr, setLocalStorage } from "../../../utils/config";
+import { EMAIL_REGEX, encryptStr, setLocalStorage } from "../../../utils/config";
 import { useRouter } from "next/router";
 import { handleStartLoading } from "../../../redux/loader/loaderSlice";
 
@@ -39,7 +39,7 @@ const LoginModal = () => {
 
 	const loginEmailValidation = () =>
 		yup.object().shape({
-			email: yup.string().required("Please Enter Email").email("Please Enter Valid Email"),
+			email: yup.string().required("Please Enter Email").matches(EMAIL_REGEX, "Please Enter Valid Email"),
 			password: yup.string().required("Please Enter Password"),
 		});
 

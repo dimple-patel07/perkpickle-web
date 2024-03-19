@@ -6,7 +6,7 @@ import * as yup from "yup";
 import TextInput from "../../component/TextInput";
 import { Form } from "react-bootstrap";
 import PageBanner from "../../component/pageBanner";
-import { EMAIL_REGEX, NAME_REGEX, config, getLoggedEmail, getLoggedUserName } from "../../utils/config";
+import { EMAIL_REGEX, MAX_LENGTH_VALUE, NAME_REGEX, config, getLoggedEmail, getLoggedUserName } from "../../utils/config";
 import axios from "axios";
 import { useAppDispatch } from "../../redux/store";
 import { handleStartLoading, showMessage } from "../../redux/loader/loaderSlice";
@@ -165,7 +165,10 @@ const ContactUs = () => {
 										</div>
 										{/* message */}
 										<div className="col-12 col-sm-12 col-md-12 col-lg-12 mb-3">
-											<TextInput controlId="message" value={values?.message} onChange={handleChange} onBlur={handleBlur} touched={touched?.message} errors={errors?.message} inputType="textarea" placeholder="Message*" type="text" name="message" maxLength={250} restProps={{ "aria-describedby": "message" }} />
+											<TextInput controlId="message" value={values?.message} onChange={handleChange} onBlur={handleBlur} touched={touched?.message} errors={errors?.message} inputType="textarea" placeholder="Message*" type="text" name="message" maxLength={MAX_LENGTH_VALUE} restProps={{ "aria-describedby": "message" }} />
+											<p>
+												{values?.message?.length}/{MAX_LENGTH_VALUE} characters
+											</p>
 										</div>
 
 										<div className="col-12 col-sm-12 col-md-12 col-lg-12 text-center">

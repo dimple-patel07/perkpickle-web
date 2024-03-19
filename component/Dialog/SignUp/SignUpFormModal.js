@@ -6,7 +6,7 @@ import { useSelector } from "react-redux";
 import { handleCloseAllModal, handleOpenLoginModal, modalSelector } from "../../../redux/modal/modalSlice";
 import { useAppDispatch } from "../../../redux/store";
 import InputMask from "react-input-mask";
-import { PASSWORD_REGEX, config, encryptStr, defaultMessageObj, PASSWORD_ERROR_MSG, setLocalStorage, decryptStr, NAME_REGEX, DIGIT_REGEX } from "../../../utils/config";
+import { PASSWORD_REGEX, config, encryptStr, defaultMessageObj, PASSWORD_ERROR_MSG, setLocalStorage, decryptStr, NAME_REGEX, DIGIT_REGEX, MAX_LENGTH_VALUE, PHONE_NUMBER_REGEX } from "../../../utils/config";
 import { emailStoreSelectore, handleStoreToken, handleStoreUserName } from "../../../redux/emailStore/emailStoreSlice";
 
 import * as yup from "yup";
@@ -28,6 +28,7 @@ const SignUpFormModal = () => {
 	const [passwordToggle, setPasswordToggle] = useState(false);
 	const firstInputRef = useRef(null);
 	const router = useRouter();
+	const phoneNumberInputMask = useRef();
 
 	useEffect(() => {
 		setTimeout(() => {
@@ -56,46 +57,49 @@ const SignUpFormModal = () => {
 		initialValues: initialFormData,
 		validationSchema: signInFormValidation,
 		onSubmit: async (data) => {
-			const userData = {
-				email: emailStore.signUpEmail,
-				first_name: data.first_name,
-				last_name: data.last_name,
-				secret_key: encryptStr(data.password),
-				zip_code: data.zip_code,
-				address: data?.address,
-				phone_number: data?.phone_number,
-				is_signup_completed: true, // only update once on signup form completion
-			};
-			try {
-				dispatch(handleStartLoading());
-				const response = await postCall("completeUserSignup", userData, dispatch);
-				if (response?.email) {
-					// after successful signup implicitly proceed the login process
-					const loginCred = {
-						email: userData?.email,
-						password: decryptStr(userData?.secret_key),
-					};
-					const encryptedKey = encryptStr(JSON.stringify(loginCred));
-					const response = await postCall("login", { key: encryptedKey }, dispatch, router);
-					if (response?.token) {
-						dispatch(handleStoreUserName(response?.userName));
-						setLocalStorage("authorizationToken", response?.token);
-						setLocalStorage("userName", response?.userName);
-						setLocalStorage("loggedEmail", response?.email);
-						dispatch(handleStoreToken(response?.token));
-						dispatch(
-							showMessage({
-								...defaultMessageObj,
-								type: "success",
-								messageText: "signup process successfully completed",
-							})
-						);
-						router.replace("/dashboard");
+			if (!data.phone_number || (data.phone_number && PHONE_NUMBER_REGEX.test(phoneNumberInputMask?.current?.props?.value) === true)) {
+				// explicitly check phone number validation
+				const userData = {
+					email: emailStore.signUpEmail,
+					first_name: data.first_name,
+					last_name: data.last_name,
+					secret_key: encryptStr(data.password),
+					zip_code: data.zip_code,
+					address: data?.address,
+					phone_number: data?.phone_number,
+					is_signup_completed: true, // only update once on signup form completion
+				};
+				try {
+					dispatch(handleStartLoading());
+					const response = await postCall("completeUserSignup", userData, dispatch);
+					if (response?.email) {
+						// after successful signup implicitly proceed the login process
+						const loginCred = {
+							email: userData?.email,
+							password: decryptStr(userData?.secret_key),
+						};
+						const encryptedKey = encryptStr(JSON.stringify(loginCred));
+						const response = await postCall("login", { key: encryptedKey }, dispatch, router);
+						if (response?.token) {
+							dispatch(handleStoreUserName(response?.userName));
+							setLocalStorage("authorizationToken", response?.token);
+							setLocalStorage("userName", response?.userName);
+							setLocalStorage("loggedEmail", response?.email);
+							dispatch(handleStoreToken(response?.token));
+							dispatch(
+								showMessage({
+									...defaultMessageObj,
+									type: "success",
+									messageText: "signup process successfully completed",
+								})
+							);
+							router.replace("/dashboard");
+						}
+						closeModal();
 					}
-					closeModal();
+				} catch (error) {
+					console.error(error);
 				}
-			} catch (error) {
-				console.error(error);
 			}
 		},
 	});
@@ -169,11 +173,15 @@ const SignUpFormModal = () => {
 											/>
 										</div>
 										<div className="col-12">
-											<TextInput controlId="address" value={values?.address} onChange={handleChange} onBlur={handleBlur} touched={touched?.address} errors={errors?.address} inputType="textarea" placeholder={"Address"} type="text" name="address" maxLength={250} restProps={{ "aria-describedby": "address" }} />
+											<TextInput controlId="address" value={values?.address} onChange={handleChange} onBlur={handleBlur} touched={touched?.address} errors={errors?.address} inputType="textarea" placeholder={"Address"} type="text" name="address" maxLength={MAX_LENGTH_VALUE} restProps={{ "aria-describedby": "address" }} />
+											{/* <p>
+												{values?.address?.length}/{MAX_LENGTH_VALUE} characters{" "}
+											</p> */}
 										</div>
 										<div className="col-12">
 											<FloatingLabel controlId="floatingPhoneNumber" label="Phone Number">
-												<InputMask className="form-control" mask="(999) 999-9999" placeholder="" value={values?.phone_number} onChange={handleChange} onBlur={handleBlur} name="phone_number" />
+												<InputMask className={`form-control ${phoneNumberInputMask?.current?.props?.value && !PHONE_NUMBER_REGEX.test(phoneNumberInputMask?.current?.props?.value) ? "is-invalid" : "is-valid"}`} mask="(999) 999-9999" placeholder="" value={values?.phone_number} onChange={handleChange} onBlur={handleBlur} name="phone_number" ref={phoneNumberInputMask} />
+												{phoneNumberInputMask?.current?.props?.value && !PHONE_NUMBER_REGEX.test(phoneNumberInputMask?.current?.props?.value) && <div className="invalid-feedback">Phone number should be valid</div>}
 											</FloatingLabel>
 										</div>
 										<div className="account d-flex justify-content-between align-items-center">

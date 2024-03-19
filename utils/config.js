@@ -15,6 +15,8 @@ export const NAME_REGEX = /^[A-Za-z ]*$/;
 
 export const DIGIT_REGEX = /^[0-9]+$/;
 
+export const MAX_LENGTH_VALUE = 250;
+
 export const defaultMessageObj = {
 	type: "info",
 	messageText: "",
