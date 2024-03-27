@@ -32,7 +32,20 @@
 {
     background-color: transparent !important;
     tr td {
-        padding: 10px;
+         padding: 10px;
         vertical-align: top;
     }
 }
+
+@media (max-width: 767px) {
+    .table-blue
+{
+    background-color: transparent !important;
+    tr td {
+        padding: 2px;
+        vertical-align: top;
+        border: 1px ridge rgba(0, 0, 0, .24);
+    }
+}
+}
+
