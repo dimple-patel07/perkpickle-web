@@ -5,6 +5,9 @@ import { useSelector } from "react-redux";
 import { emailStoreSelectore } from "../../redux/emailStore/emailStoreSlice";
 import { handleOpenLoginModal, handleOpenSignUpModal } from "../../redux/modal/modalSlice";
 import { useAppDispatch } from "../../redux/store";
+import Image from "next/image";
+import { images } from "../../component/Images";
+
 const AboutUs = () => {
 	const token = useSelector(emailStoreSelectore).token;
 	const dispatch = useAppDispatch();
@@ -30,7 +33,13 @@ const AboutUs = () => {
 						<h3>Who we are</h3>
 						<p> PerkPickle is a fintech company dedicated to revolutionizing the financial landscape. We are a product of passion, hard work, and commitment. PerkPickle is made up of a team of experts working tirelessly to ensure that our clients gain access to the different available opportunities to maximize their earnings while making expenses. </p>
 						<h3>Meet our CEO</h3>
-						<p>(Add a photo of the CEO) Mr Krunal Patel, CEO of Perkpickle</p>
+						<p>
+							<div>
+								<Image src={images.ceoProfile} alt="N/A" width="250" height="auto" />
+							</div>
+							<br />
+							Mr Krunal Patel, CEO of Perkpickle
+						</p>
 						<p>Krunal Patel is an experienced software developer. He has previously handled several tech-related projects, but his dream has always been to own his own fintech company.  Aside from being a software developer for seven years and still counting, Krunal has great experience in the financial industry. The foundation of Perkpickle was built based on passion, experience, determination, and commitment to have positive financial impacts on the lives of others through technology. </p>
 						<h3>What we do</h3>
 						<p>Keeping track of all points in your different cards can be overwhelming, and sometimes, you may even end up mixing them up. This is where we come in.</p>
