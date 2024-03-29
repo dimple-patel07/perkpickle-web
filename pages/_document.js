@@ -5,6 +5,7 @@ export default function Document() {
 		<Html lang="en">
 			<Head>
 				<title>Perk Pickle</title>
+				<link rel="shortcut icon" href="/favicon.ico" />
 			</Head>
 			<body>
 				<Main />
