@@ -135,7 +135,7 @@ const ForgotPasswordOtpModal = () => {
 									</div>
 									<div className="otp-field">
 										{otp.map((digit, index) => (
-											<input key={index} type="text" placeholder="#" value={digit} maxLength="1" onChange={(event) => handleInputChange(index, event)} ref={inputRefs[index]} autoFocus={index === 0} />
+											<input key={index} type="number" placeholder="#" value={digit} maxLength="1" onChange={(event) => handleInputChange(index, event)} ref={inputRefs[index]} autoFocus={index === 0} />
 										))}
 									</div>
 									<div className="text-end">
