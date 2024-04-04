@@ -56,6 +56,10 @@ const LoginModal = () => {
 				const encryptedKey = encryptStr(JSON.stringify(loginCred));
 				const response = await postCall("login", { key: encryptedKey }, dispatch, router);
 				if (response?.token) {
+					// GA - raise login event
+					window.gtag("event", "login_event", {
+						email: val.email,
+					});
 					dispatch(handleStoreToken(response?.token));
 					dispatch(handleStoreUserName(response?.userName));
 					setLocalStorage("authorizationToken", response?.token);
