@@ -81,6 +81,10 @@ const SignUpFormModal = () => {
 						const encryptedKey = encryptStr(JSON.stringify(loginCred));
 						const response = await postCall("login", { key: encryptedKey }, dispatch, router);
 						if (response?.token) {
+							// GA - raise Signup event
+							window.gtag("event", "signup_event", {
+								email: response?.email,
+							});
 							dispatch(handleStoreUserName(response?.userName));
 							setLocalStorage("authorizationToken", response?.token);
 							setLocalStorage("userName", response?.userName);
