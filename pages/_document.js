@@ -6,7 +6,7 @@ export default function Document() {
 		<Html lang="en">
 			<Head>
 				{/* <!-- Google tag (gtag.js) --> */}
-				<script async src="https://www.googletagmanager.com/gtag/js?id=G-SYQJTLYZKP" />
+				<script async src="https://www.googletagmanager.com/gtag/js?id=${process.env.NEXT_PUBLIC_GOOGLE_ANALYTICS}`}" />
 
 				<title>Perk Pickle</title>
 				<link rel="shortcut icon" href="/favicon.ico" />

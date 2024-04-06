@@ -18,7 +18,7 @@ export default function App({ Component, pageProps }) {
 			dataLayer.push(arguments);
 		};
 		window.gtag("js", new Date());
-		window.gtag("config", "G-SYQJTLYZKP");
+		window.gtag("config", "${process.env.NEXT_PUBLIC_GOOGLE_ANALYTICS}`}");
 	}, []);
 	return (
 		<Providers>
