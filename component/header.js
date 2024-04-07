@@ -15,11 +15,11 @@ import { handleOpenChangePasswordModal, handleOpenLoginModal, handleOpenResetPas
 import { useRouter } from "next/router";
 import { useSelector } from "react-redux";
 import { emailStoreSelectore, handleStoreToken } from "../redux/emailStore/emailStoreSlice";
-import { clearLocalStorage, getLocalStorage } from "../utils/config";
+import { clearSessionStorage, getSessionStorage } from "../utils/config";
 
 const Header = () => {
 	const dispatch = useAppDispatch();
-	const userName = getLocalStorage("userName");
+	const userName = getSessionStorage("userName");
 	const token = useSelector(emailStoreSelectore).token;
 	const router = useRouter();
 	const [toggleDropdown, SetToggleDropdown] = useState(false);
@@ -33,7 +33,7 @@ const Header = () => {
 	};
 	// logout
 	const logoutProcess = () => {
-		clearLocalStorage();
+		clearSessionStorage();
 		dispatch(handleStoreToken(""));
 	};
 

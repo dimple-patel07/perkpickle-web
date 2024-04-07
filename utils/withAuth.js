@@ -4,7 +4,7 @@ import { store, useAppDispatch } from "../redux/store";
 import Header from "../component/header";
 import Footer from "../component/footer";
 import { tokenExpired } from "../services/token";
-import { getLocalStorage, setLocalStorage } from "./config";
+import { getSessionStorage, getLoggedUserName, setSessionStorage } from "./config";
 
 const withAuth = (WrappedComponent, requireAuth = true) => {
 	const AuthComponent = (props) => {
@@ -14,19 +14,22 @@ const withAuth = (WrappedComponent, requireAuth = true) => {
 		useEffect(() => {
 			if (requireAuth && token && typeof window !== "undefined") {
 				window.addEventListener("visibilitychange", () => {
-					if (document.hidden) {
-						setLocalStorage("loggedTime", Date.now()); // set time to check idle time
-					} else {
-						let minutes = 0;
-						const IDLE_SESSION_TIME = 15; // MINUTES
-						if (getLocalStorage("loggedTime")) {
-							const diff = Date.now() - getLocalStorage("loggedTime");
-							minutes = Math.floor(diff / 1000 / 60) % 60;
+					if (getLoggedUserName()) {
+						// applicable for logged in user only
+						if (document.hidden) {
+							setSessionStorage("loggedTime", Date.now()); // set time to check idle time
+						} else {
+							let minutes = 0;
+							const IDLE_SESSION_TIME = 15; // MINUTES
+							if (getSessionStorage("loggedTime")) {
+								const diff = Date.now() - getSessionStorage("loggedTime");
+								minutes = Math.floor(diff / 1000 / 60) % 60;
 
-							if (minutes > IDLE_SESSION_TIME) {
-								tokenExpired(dispatch, router);
-							} else {
-								setLocalStorage("loggedTime", Date.now()); // set time to check idle time
+								if (minutes > IDLE_SESSION_TIME) {
+									tokenExpired(dispatch, router);
+								} else {
+									setSessionStorage("loggedTime", Date.now()); // set time to check idle time
+								}
 							}
 						}
 					}

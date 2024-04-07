@@ -38,11 +38,11 @@ export const decryptStr = (encryptedStr) => {
 };
 
 export const getLoggedEmail = () => {
-	return getLocalStorage("loggedEmail");
+	return getSessionStorage("loggedEmail");
 };
 
 export const getLoggedUserName = () => {
-	return getLocalStorage("userName");
+	return getSessionStorage("userName");
 };
 
 export const getCardImage = (card) => {
@@ -64,18 +64,18 @@ export const formatCardCurrency = (amount, currency) => {
 	return result;
 };
 // set key-value in local storage
-export const setLocalStorage = (key, val, isStr = true) => {
-	localStorage.setItem(key, val);
+export const setSessionStorage = (key, val, isStr = true) => {
+	sessionStorage.setItem(key, val);
 };
 // get key from the local storage
-export const getLocalStorage = (key, isStr = true) => {
-	return localStorage.getItem(key);
+export const getSessionStorage = (key, isStr = true) => {
+	return sessionStorage.getItem(key);
 };
 // remove key from the local storage
-export const removeLocalStorage = (key) => {
-	return localStorage.removeItem(key);
+export const removeSessionStorage = (key) => {
+	return sessionStorage.removeItem(key);
 };
 // clear local storage
-export const clearLocalStorage = () => {
-	return localStorage.clear();
+export const clearSessionStorage = () => {
+	return sessionStorage.clear();
 };

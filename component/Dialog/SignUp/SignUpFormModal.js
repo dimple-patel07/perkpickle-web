@@ -6,7 +6,7 @@ import { useSelector } from "react-redux";
 import { handleCloseAllModal, handleOpenLoginModal, modalSelector } from "../../../redux/modal/modalSlice";
 import { useAppDispatch } from "../../../redux/store";
 import InputMask from "react-input-mask";
-import { PASSWORD_REGEX, config, encryptStr, defaultMessageObj, PASSWORD_ERROR_MSG, setLocalStorage, decryptStr, NAME_REGEX, DIGIT_REGEX, MAX_LENGTH_VALUE, PHONE_NUMBER_REGEX } from "../../../utils/config";
+import { PASSWORD_REGEX, config, encryptStr, defaultMessageObj, PASSWORD_ERROR_MSG, setSessionStorage, decryptStr, NAME_REGEX, DIGIT_REGEX, MAX_LENGTH_VALUE, PHONE_NUMBER_REGEX } from "../../../utils/config";
 import { emailStoreSelectore, handleStoreToken, handleStoreUserName } from "../../../redux/emailStore/emailStoreSlice";
 
 import * as yup from "yup";
@@ -86,9 +86,9 @@ const SignUpFormModal = () => {
 								email: response?.email,
 							});
 							dispatch(handleStoreUserName(response?.userName));
-							setLocalStorage("authorizationToken", response?.token);
-							setLocalStorage("userName", response?.userName);
-							setLocalStorage("loggedEmail", response?.email);
+							setSessionStorage("authorizationToken", response?.token);
+							setSessionStorage("userName", response?.userName);
+							setSessionStorage("loggedEmail", response?.email);
 							dispatch(handleStoreToken(response?.token));
 							dispatch(
 								showMessage({

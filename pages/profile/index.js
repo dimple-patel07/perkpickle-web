@@ -2,7 +2,7 @@ import React, { useEffect, useRef, useState } from "react";
 import InputMask from "react-input-mask";
 import { images } from "../../component/Images";
 import Image from "next/image";
-import { getLoggedEmail, defaultMessageObj, setLocalStorage, NAME_REGEX, DIGIT_REGEX, MAX_LENGTH_VALUE, PHONE_NUMBER_REGEX } from "../../utils/config";
+import { getLoggedEmail, defaultMessageObj, setSessionStorage, NAME_REGEX, DIGIT_REGEX, MAX_LENGTH_VALUE, PHONE_NUMBER_REGEX } from "../../utils/config";
 import { useAppDispatch } from "../../redux/store";
 import { handleStartLoading, showMessage } from "../../redux/loader/loaderSlice";
 import { useFormik } from "formik";
@@ -84,7 +84,7 @@ const Profile = () => {
 					if (response?.email) {
 						getUserByEmail();
 						dispatch(handleStoreUserName(userName));
-						setLocalStorage("userName", userName);
+						setSessionStorage("userName", userName);
 						dispatch(
 							showMessage({
 								...defaultMessageObj,

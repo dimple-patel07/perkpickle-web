@@ -5,7 +5,7 @@ import Image from "next/image";
 import { useSelector } from "react-redux";
 import { handleCloseAllModal, handleOpenForgotPasswordModal, handleOpenSignUpModal, modalSelector } from "../../../redux/modal/modalSlice";
 import { useAppDispatch } from "../../../redux/store";
-import { EMAIL_REGEX, encryptStr, setLocalStorage } from "../../../utils/config";
+import { EMAIL_REGEX, encryptStr, setSessionStorage } from "../../../utils/config";
 import { useRouter } from "next/router";
 import { handleStartLoading } from "../../../redux/loader/loaderSlice";
 
@@ -62,9 +62,9 @@ const LoginModal = () => {
 					});
 					dispatch(handleStoreToken(response?.token));
 					dispatch(handleStoreUserName(response?.userName));
-					setLocalStorage("authorizationToken", response?.token);
-					setLocalStorage("userName", response?.userName);
-					setLocalStorage("loggedEmail", response?.email);
+					setSessionStorage("authorizationToken", response?.token);
+					setSessionStorage("userName", response?.userName);
+					setSessionStorage("loggedEmail", response?.email);
 					router.replace("/dashboard");
 					dispatch(handleCloseAllModal());
 				}
