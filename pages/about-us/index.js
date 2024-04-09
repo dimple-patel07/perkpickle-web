@@ -27,7 +27,7 @@ const AboutUs = () => {
 	// GA - raise About us pages
 	window.gtag("event", "About_us", {
 		event_category: "Static Pages",
-		event_label: "About_us",
+		event_label: "About us",
 	});
 	return (
 		<>
