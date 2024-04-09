@@ -24,6 +24,11 @@ const AboutUs = () => {
 			dispatch(handleOpenSignUpModal(true));
 		}
 	};
+	// GA - raise About us pages
+	window.gtag("event", "About_us", {
+		event_category: "Static Pages",
+		event_label: "About_us",
+	});
 	return (
 		<>
 			<PageBanner title={"About Us"} description={"PerkPickle provides cutting-edge solutions to individuals looking to maximize their earnings while spending. Each credit card comes with its reward, and we aim to ensure that you earn as many points as possible."} />
