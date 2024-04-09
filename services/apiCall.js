@@ -1,4 +1,4 @@
-import { config, defaultMessageObj, getLocalStorage } from "../utils/config";
+import { config, defaultMessageObj, getSessionStorage } from "../utils/config";
 import axios from "axios";
 import { handleStopLoading, showMessage } from "../redux/loader/loaderSlice";
 import { tokenExpired } from "./token";
@@ -52,7 +52,7 @@ const handleAxiosError = (err, dispatch, router) => {
 
 const getHeaders = () => {
 	const headers = {
-		Authorization: getLocalStorage("authorizationToken"),
+		Authorization: getSessionStorage("authorizationToken"),
 	};
 	return headers;
 };
