@@ -6,6 +6,7 @@ import { BrowserView, MobileView, isBrowser, isMobile } from "react-device-detec
 const PrivacyPolicy = () => {
 	// GA - raise Cookies Policy
 	window.gtag("event", "Cookies Policy", {
+		event_category: "Static Pages",
 		event_label: "Cookies Policy",
 	});
 	return (
