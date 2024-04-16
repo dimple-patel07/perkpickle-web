@@ -3,6 +3,11 @@ import PageBanner from "../../component/pageBanner";
 import commonRoute from "../../utils/commonRoute";
 
 const PrivacyPolicy = () => {
+	// GA - raise About us pages
+	window.gtag("event", "Terms & Conditions", {
+		event_category: "Static Pages",
+		event_label: "Terms & Condition",
+	});
 	return (
 		<>
 			<PageBanner title={"Terms & Conditions"} description={"Before proceeding, we recommend reviewing our Terms & Conditions to understand the rules and guidelines governing your use of our services."} />
