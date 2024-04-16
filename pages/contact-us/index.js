@@ -51,6 +51,10 @@ const ContactUs = () => {
 				dispatch(handleStartLoading());
 				const response = await postCall("contactMail", data, dispatch, router);
 				if (response?.message) {
+					// GA - raise Contact us pages
+					window.gtag("event", "Contact us", {
+						event_label: "Contact Us Email send",
+					});
 					dispatch(
 						showMessage({
 							...defaultMessageObj,

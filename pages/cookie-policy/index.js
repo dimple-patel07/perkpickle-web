@@ -4,6 +4,10 @@ import commonRoute from "../../utils/commonRoute";
 import { BrowserView, MobileView, isBrowser, isMobile } from "react-device-detect";
 
 const PrivacyPolicy = () => {
+	// GA - raise Cookies Policy
+	window.gtag("event", "Cookies Policy", {
+		event_label: "Cookies Policy",
+	});
 	return (
 		<>
 			<PageBanner title={"Cookie Policy"} description={"Learn more about how we use cookies to enhance your browsing experience by reviewing our Cookie Policy. Please take a moment to read our Cookie Policy to understand how we utilize cookies to improve site functionality and provide you with a more personalized online experience."} />
