@@ -2,10 +2,11 @@ import React from "react";
 import PageBanner from "../../component/pageBanner";
 import commonRoute from "../../utils/commonRoute";
 import { BrowserView, MobileView, isBrowser, isMobile } from "react-device-detect";
+import { sendGoogleAnalytics } from "../../services/commonUtils";
 
 const PrivacyPolicy = () => {
 	// GA - raise Cookies Policy
-	window.gtag("event", "Cookies Policy", {
+	sendGoogleAnalytics("event", "Cookies Policy", {
 		event_category: "Static Pages",
 		event_label: "Cookies Policy",
 	});

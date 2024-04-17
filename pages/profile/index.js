@@ -13,6 +13,7 @@ import { postCall } from "../../services/apiCall";
 import { useRouter } from "next/router";
 import { handleStoreUserName } from "../../redux/emailStore/emailStoreSlice";
 import withAuth from "../../utils/withAuth";
+import { sendGoogleAnalytics } from "../../services/commonUtils";
 
 const Profile = () => {
 	const dispatch = useAppDispatch();
@@ -39,6 +40,9 @@ const Profile = () => {
 					response.phone_number = "";
 				}
 				setUserData(response);
+				sendGoogleAnalytics("event", "get_profile_event", {
+					email: response.email,
+				});
 			}
 		} catch (error) {
 			console.error(error);
@@ -82,6 +86,9 @@ const Profile = () => {
 					dispatch(handleStartLoading());
 					const response = await postCall("updateUser", params, dispatch, router);
 					if (response?.email) {
+						sendGoogleAnalytics("event", "update_profile_event", {
+							email: response.email,
+						});
 						getUserByEmail();
 						dispatch(handleStoreUserName(userName));
 						setSessionStorage("userName", userName);

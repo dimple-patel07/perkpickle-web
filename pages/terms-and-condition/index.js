@@ -1,10 +1,11 @@
 import React from "react";
 import PageBanner from "../../component/pageBanner";
 import commonRoute from "../../utils/commonRoute";
+import { sendGoogleAnalytics } from "../../services/commonUtils";
 
 const PrivacyPolicy = () => {
 	// GA - raise About us pages
-	window.gtag("event", "Terms & Conditions", {
+	sendGoogleAnalytics("event", "Terms & Conditions", {
 		event_category: "Static Pages",
 		event_label: "Terms & Condition",
 	});

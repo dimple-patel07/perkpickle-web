@@ -4,6 +4,7 @@ import { postCall } from "../../services/apiCall";
 import { useAppDispatch } from "../../redux/store";
 import { useRouter } from "next/router";
 import { handleStartLoading, handleStopLoading } from "../../redux/loader/loaderSlice";
+import { sendGoogleAnalytics } from "../../services/commonUtils";
 // conditional view
 
 const ExploreOffer = ({ spendBonusCategoryList, savedCardList, onAvailableOffers, onBestOffers, onOffersChecked, allCards }) => {
@@ -65,6 +66,10 @@ const ExploreOffer = ({ spendBonusCategoryList, savedCardList, onAvailableOffers
 		}
 		// club result - saved & category associated cards
 		if (savedCardList.length > 0 && foundCards.length !== savedCardList.length) {
+			// check offers event
+			sendGoogleAnalytics("event", "check_offers_event", {
+				sel_card_keys: savedCardList.map((card) => card.value),
+			});
 			const foundCardKeys = foundCards.map((fcard) => fcard.card_key);
 
 			let filterSavedCards = savedCardList.filter((scard) => !foundCardKeys.includes(scard.card_key));

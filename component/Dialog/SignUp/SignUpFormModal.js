@@ -17,6 +17,7 @@ import { FloatingLabel, Form } from "react-bootstrap";
 import { FaEye, FaEyeSlash } from "react-icons/fa";
 import { postCall } from "../../../services/apiCall";
 import { useRouter } from "next/router";
+import { sendGoogleAnalytics } from "../../../services/commonUtils";
 
 const SignUpFormModal = () => {
 	const ModalState = useSelector(modalSelector);
@@ -71,25 +72,25 @@ const SignUpFormModal = () => {
 				};
 				try {
 					dispatch(handleStartLoading());
-					const response = await postCall("completeUserSignup", userData, dispatch);
-					if (response?.email) {
+					const signupResponse = await postCall("completeUserSignup", userData, dispatch);
+					if (signupResponse?.email) {
+						// GA - raise Signup event
+						sendGoogleAnalytics("event", "signup_event", {
+							email: signupResponse?.email,
+						});
 						// after successful signup implicitly proceed the login process
 						const loginCred = {
 							email: userData?.email,
 							password: decryptStr(userData?.secret_key),
 						};
 						const encryptedKey = encryptStr(JSON.stringify(loginCred));
-						const response = await postCall("login", { key: encryptedKey }, dispatch, router);
-						if (response?.token) {
-							// GA - raise Signup event
-							window.gtag("event", "signup_event", {
-								email: response?.email,
-							});
-							dispatch(handleStoreUserName(response?.userName));
-							setSessionStorage("authorizationToken", response?.token);
-							setSessionStorage("userName", response?.userName);
-							setSessionStorage("loggedEmail", response?.email);
-							dispatch(handleStoreToken(response?.token));
+						const loginResponse = await postCall("login", { key: encryptedKey }, dispatch, router);
+						if (loginResponse?.token) {
+							dispatch(handleStoreUserName(loginResponse?.userName));
+							setSessionStorage("authorizationToken", loginResponse?.token);
+							setSessionStorage("userName", loginResponse?.userName);
+							setSessionStorage("loggedEmail", loginResponse?.email);
+							dispatch(handleStoreToken(loginResponse?.token));
 							dispatch(
 								showMessage({
 									...defaultMessageObj,

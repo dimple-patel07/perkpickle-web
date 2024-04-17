@@ -16,6 +16,7 @@ import { useRouter } from "next/router";
 import commonRoute from "../../utils/commonRoute";
 import { useSelector } from "react-redux";
 import { emailStoreSelectore } from "../../redux/emailStore/emailStoreSlice";
+import { sendGoogleAnalytics } from "../../services/commonUtils";
 
 const ContactUs = () => {
 	const firstInputRef = useRef(null);
@@ -52,7 +53,7 @@ const ContactUs = () => {
 				const response = await postCall("contactMail", data, dispatch, router);
 				if (response?.message) {
 					// GA - raise Contact us pages
-					window.gtag("event", "Contact us", {
+					sendGoogleAnalytics("event", "Contact us", {
 						event_label: "Contact Us Email send",
 					});
 					dispatch(

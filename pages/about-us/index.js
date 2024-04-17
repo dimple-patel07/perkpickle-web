@@ -7,6 +7,7 @@ import { handleOpenLoginModal, handleOpenSignUpModal } from "../../redux/modal/m
 import { useAppDispatch } from "../../redux/store";
 import Image from "next/image";
 import { images } from "../../component/Images";
+import { sendGoogleAnalytics } from "../../services/commonUtils";
 
 const AboutUs = () => {
 	const token = useSelector(emailStoreSelectore).token;
@@ -25,7 +26,7 @@ const AboutUs = () => {
 		}
 	};
 	// GA - raise About us pages
-	window.gtag("event", "About_us", {
+	sendGoogleAnalytics("event", "About_us", {
 		event_category: "Static Pages",
 		event_label: "About us",
 	});
