@@ -68,6 +68,8 @@ const ExploreOffer = ({ spendBonusCategoryList, savedCardList, onAvailableOffers
 		if (savedCardList.length > 0 && foundCards.length !== savedCardList.length) {
 			// check offers event
 			sendGoogleAnalytics("event", "check_offers_event", {
+				sel_category_value: selCategory.label,
+				sel_category_id: selCategory.value,
 				sel_card_keys: savedCardList.map((card) => card.value),
 			});
 			const foundCardKeys = foundCards.map((fcard) => fcard.card_key);
