@@ -7,11 +7,11 @@ export default function Document() {
 			<Head>
 				{/* <!-- Google tag (gtag.js) --> */}
 				{/* <script async src="https://www.googletagmanager.com/gtag/js?id=${process.env.NEXT_PUBLIC_GOOGLE_ANALYTICS}`}" /> */}
-				<script async src="https://www.googletagmanager.com/gtag/js?id=G-RQY2Y6S4XJ" />
+				<script async src="https://www.googletagmanager.com/gtag/js?id=G-9C3PSBN4Z1" />
 
-				{/* <title>perkpickle | https://www.perkpickle.com/ </title>
+				<title>perkpickle | https://www.perkpickle.com/ </title>
 				<meta name="description" content="Gain Easy Access To All Your Credit Card Rewards, With PerkPickle, you will no longer miss out on a single reward again" key="desc" />
-				<meta name="keywords" content="Perkpickle, Credit Card Rewards, credit card points, bank credit card credit card options for beginners" /> */}
+				<meta name="keywords" content="Perkpickle, Credit Card Rewards, credit card points, bank credit card credit card options for beginners" />
 
 				<link rel="shortcut icon" href="/favicon.ico" />
 			</Head>
