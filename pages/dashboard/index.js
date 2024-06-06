@@ -66,8 +66,8 @@ const Home = () => {
 	// get spend bonus category list
 	const getSpendBonusCategoryList = async () => {
 		try {
-			const isLatest = false; // set true for latest rapid api data
-			const categoryGroupList = await postCall("spendBonusCategoryList", { isLatest: isLatest }, dispatch, router, false);
+			// const isLatest = false; // set true for latest rapid api data
+			const categoryGroupList = await postCall("spendBonusCategoryList", dispatch, router, false);
 			if (categoryGroupList?.length > 0) {
 				const result = categoryGroupList
 					?.map(({ spendBonusCategoryGroup, spendBonusSubcategoryGroup }) => {
