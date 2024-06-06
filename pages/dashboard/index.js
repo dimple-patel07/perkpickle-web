@@ -13,7 +13,7 @@ import { handleStartLoading } from "../../redux/loader/loaderSlice";
 import withAuth from "../../utils/withAuth";
 import { useSelector } from "react-redux";
 import { emailStoreSelectore } from "../../redux/emailStore/emailStoreSlice";
-import Carousel from 'react-bootstrap/Carousel';
+import Carousel from "react-bootstrap/Carousel";
 
 const Home = () => {
 	const dispatch = useAppDispatch();
@@ -109,29 +109,22 @@ const Home = () => {
 			{/* <BannerSection /> */}
 			{/* <BannerBottom /> */}
 			{/* saved cards */}
-<Carousel interval={5000}>
+			<Carousel interval={5000}>
+				<Carousel.Item>
+					<BannerSection />
+					<Carousel.Caption></Carousel.Caption>
+				</Carousel.Item>
 
-<Carousel.Item>
-   <BannerSection />
-	<Carousel.Caption>		
-	</Carousel.Caption>
-</Carousel.Item>
+				<Carousel.Item>
+					<BannerSection2 />
+					<Carousel.Caption></Carousel.Caption>
+				</Carousel.Item>
 
-<Carousel.Item>	
-<BannerSection2 />
-	<Carousel.Caption>
-
-	</Carousel.Caption>
-</Carousel.Item>
-
-<Carousel.Item>
-	<BannerSection3 />
-	<Carousel.Caption>
-		
-	</Carousel.Caption>
-</Carousel.Item>
-
-</Carousel>
+				<Carousel.Item>
+					<BannerSection3 />
+					<Carousel.Caption></Carousel.Caption>
+				</Carousel.Item>
+			</Carousel>
 
 			{token && <Savecard cardDataList={cardDataList} onSavedCards={async (val) => await handleSavedCards(val)} />}
 
